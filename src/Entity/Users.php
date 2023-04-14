@@ -3,7 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -13,13 +12,13 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column ]
+    #[ORM\Column]
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type:'json')]
     private array $roles = [];
 
     /**
@@ -28,20 +27,20 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $lastname = null;
+    #[ORM\Column(length: 255)]
+    private ?string $firstName = null;
 
-    #[ORM\Column(length: 100)]
-    private ?string $firstname = null;
+    #[ORM\Column(length: 255)]
+    private ?string $lastName = null;
 
-    #[ORM\Column]
-    private ?bool $abonnealanews = null;
-
-    #[ORM\Column (options:['delfaut'=>'CURRENT_TIMESTAMP'])]
-    private ?\DateTimeImmutable $created_at = null;
+    #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $created_At = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $birthdate = null;
+    private ?bool $is_abonneNewsLetter = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $birthdate = null;
 
     #[ORM\Column(length: 255)]
     private ?string $gender = null;
@@ -116,60 +115,60 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getLastname(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->lastname;
+        return $this->firstName;
     }
 
-    public function setLastname(string $lastname): self
+    public function setFirstName(string $firstName): self
     {
-        $this->lastname = $lastname;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getFirstname(): ?string
+    public function getLastName(): ?string
     {
-        return $this->firstname;
+        return $this->lastName;
     }
 
-    public function setFirstname(string $firstname): self
+    public function setLastName(string $lastName): self
     {
-        $this->firstname = $firstname;
-
-        return $this;
-    }
-
-    public function isAbonnealanews(): ?bool
-    {
-        return $this->abonnealanews;
-    }
-
-    public function setAbonnealanews(bool $abonnealanews): self
-    {
-        $this->abonnealanews = $abonnealanews;
+        $this->lastName = $lastName;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->created_At;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    public function setCreatedAt(\DateTimeImmutable $created_At): self
     {
-        $this->created_at = $created_at;
+        $this->created_At = $created_At;
 
         return $this;
     }
 
-    public function getBirthdate(): ?\DateTimeInterface
+    public function isIsAbonneNewsLetter(): ?bool
+    {
+        return $this->is_abonneNewsLetter;
+    }
+
+    public function setIsAbonneNewsLetter(bool $is_abonneNewsLetter): self
+    {
+        $this->is_abonneNewsLetter = $is_abonneNewsLetter;
+
+        return $this;
+    }
+
+    public function getBirthdate(): ?string
     {
         return $this->birthdate;
     }
 
-    public function setBirthdate(\DateTimeInterface $birthdate): self
+    public function setBirthdate(string $birthdate): self
     {
         $this->birthdate = $birthdate;
 
