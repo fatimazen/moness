@@ -14,7 +14,7 @@ class Ess
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -106,6 +106,10 @@ class Ess
 
     #[ORM\Column(length: 14)]
     private ?string $siretNumber = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ess')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Users $users = null;
 
     public function getId(): ?int
     {
@@ -480,6 +484,18 @@ class Ess
     public function setSiretNumber(string $siretNumber): self
     {
         $this->siretNumber = $siretNumber;
+
+        return $this;
+    }
+
+    public function getUsers(): ?Users
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?Users $users): self
+    {
+        $this->users = $users;
 
         return $this;
     }

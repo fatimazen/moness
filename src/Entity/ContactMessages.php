@@ -17,14 +17,18 @@ class ContactMessages
     #[ORM\Column(length: 255)]
     private ?string $firstName = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $creates_At = null;
+
+    #[ORM\ManyToOne(inversedBy: 'contactMessage')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Users $users = null;
 
     public function getId(): ?int
     {
@@ -75,6 +79,18 @@ class ContactMessages
     public function setCreatesAt(\DateTimeImmutable $creates_At): self
     {
         $this->creates_At = $creates_At;
+
+        return $this;
+    }
+
+    public function getUsers(): ?Users
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?Users $users): self
+    {
+        $this->users = $users;
 
         return $this;
     }

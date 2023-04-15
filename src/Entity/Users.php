@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -44,6 +46,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $gender = null;
+
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Ess::class)]
+    private Collection $ess;
+
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: ContactMessages::class)]
+    private Collection $contactMessage;
+
+    public function __construct()
+    {
+        $this->ess = new ArrayCollection();
+        $this->contactMessage = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -183,6 +197,66 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGender(string $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ess>
+     */
+    public function getEss(): Collection
+    {
+        return $this->ess;
+    }
+
+    public function addEss(Ess $ess): self
+    {
+        if (!$this->ess->contains($ess)) {
+            $this->ess->add($ess);
+            $ess->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEss(Ess $ess): self
+    {
+        if ($this->ess->removeElement($ess)) {
+            // set the owning side to null (unless already changed)
+            if ($ess->getUsers() === $this) {
+                $ess->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ContactMessages>
+     */
+    public function getContactMessage(): Collection
+    {
+        return $this->contactMessage;
+    }
+
+    public function addContactMessage(ContactMessages $contactMessage): self
+    {
+        if (!$this->contactMessage->contains($contactMessage)) {
+            $this->contactMessage->add($contactMessage);
+            $contactMessage->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContactMessage(ContactMessages $contactMessage): self
+    {
+        if ($this->contactMessage->removeElement($contactMessage)) {
+            // set the owning side to null (unless already changed)
+            if ($contactMessage->getUsers() === $this) {
+                $contactMessage->setUsers(null);
+            }
+        }
 
         return $this;
     }

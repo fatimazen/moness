@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\NewslettersRepository;
+use App\Repository\NewsLettersRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: NewslettersRepository::class)]
-class Newsletters
+#[ORM\Entity(repositoryClass: NewsLettersRepository::class)]
+class NewsLetters
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -15,7 +15,7 @@ class Newsletters
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    private ?string $tile = null;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $created_At = null;
@@ -34,14 +34,14 @@ class Newsletters
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getTile(): ?string
     {
-        return $this->title;
+        return $this->tile;
     }
 
-    public function setTitle(string $title): self
+    public function setTile(string $tile): self
     {
-        $this->title = $title;
+        $this->tile = $tile;
 
         return $this;
     }

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\CommentsRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -17,8 +19,16 @@ class Comments
     #[ORM\Column(type: Types::TEXT)]
     private ?string $comment = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_At = null;
+
+    #[ORM\ManyToMany(targetEntity: Articlespress::class, mappedBy: 'comments')]
+    private Collection $articlespresses;
+
+    public function __construct()
+    {
+        $this->articlespresses = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -45,6 +55,33 @@ class Comments
     public function setCreatedAt(\DateTimeImmutable $created_At): self
     {
         $this->created_At = $created_At;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Articlespress>
+     */
+    public function getArticlespresses(): Collection
+    {
+        return $this->articlespresses;
+    }
+
+    public function addArticlespress(Articlespress $articlespress): self
+    {
+        if (!$this->articlespresses->contains($articlespress)) {
+            $this->articlespresses->add($articlespress);
+            $articlespress->addComment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticlespress(Articlespress $articlespress): self
+    {
+        if ($this->articlespresses->removeElement($articlespress)) {
+            $articlespress->removeComment($this);
+        }
 
         return $this;
     }

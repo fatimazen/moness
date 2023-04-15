@@ -26,7 +26,7 @@ class Blog
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\Column]
+    #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_At = null;
 
     public function getId(): ?int
