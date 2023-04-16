@@ -20,6 +20,10 @@ class GeoLocalisationEss
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: '0')]
     private ?string $longitude = null;
 
+    #[ORM\OneToOne(inversedBy: 'geoLocalisationEss', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Ess $ess = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +49,18 @@ class GeoLocalisationEss
     public function setLongitude(string $longitude): self
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getEss(): ?Ess
+    {
+        return $this->ess;
+    }
+
+    public function setEss(Ess $ess): self
+    {
+        $this->ess = $ess;
 
         return $this;
     }

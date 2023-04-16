@@ -119,6 +119,9 @@ class Ess
     #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Articlespress::class)]
     private Collection $articlespresses;
 
+    #[ORM\OneToOne(mappedBy: 'ess', cascade: ['persist', 'remove'])]
+    private ?GeoLocalisationEss $geoLocalisationEss = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -570,6 +573,23 @@ class Ess
                 $articlespress->setEss(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGeoLocalisationEss(): ?GeoLocalisationEss
+    {
+        return $this->geoLocalisationEss;
+    }
+
+    public function setGeoLocalisationEss(GeoLocalisationEss $geoLocalisationEss): self
+    {
+        // set the owning side of the relation if necessary
+        if ($geoLocalisationEss->getEss() !== $this) {
+            $geoLocalisationEss->setEss($this);
+        }
+
+        $this->geoLocalisationEss = $geoLocalisationEss;
 
         return $this;
     }
