@@ -34,9 +34,13 @@ class Blog
     #[ORM\OneToMany(mappedBy: 'blog', targetEntity: Comments::class)]
     private Collection $comments;
 
+    #[ORM\OneToMany(mappedBy: 'blog', targetEntity: Users::class)]
+    private Collection $users;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -128,6 +132,36 @@ class Blog
             // set the owning side to null (unless already changed)
             if ($comment->getBlog() === $this) {
                 $comment->setBlog(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Users>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(Users $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setBlog($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(Users $user): self
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getBlog() === $this) {
+                $user->setBlog(null);
             }
         }
 

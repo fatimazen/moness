@@ -56,6 +56,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Comments::class)]
     private Collection $comments;
 
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Blog $blog = null;
+
     public function __construct()
     {
         $this->ess = new ArrayCollection();
@@ -291,6 +295,18 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
                 $comment->setUsers(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBlog(): ?Blog
+    {
+        return $this->blog;
+    }
+
+    public function setBlog(?Blog $blog): self
+    {
+        $this->blog = $blog;
 
         return $this;
     }
