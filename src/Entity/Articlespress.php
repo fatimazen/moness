@@ -31,6 +31,13 @@ class Articlespress
     #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $sent_At = null;
 
+    #[ORM\OneToMany(mappedBy: 'Articlepress', targetEntity: Comments::class)]
+    private Collection $comment;
+
+    public function __construct()
+    {
+        $this->comment = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -97,5 +104,34 @@ class Articlespress
         return $this;
     }
 
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComment(): Collection
+    {
+        return $this->comment;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comment->contains($comment)) {
+            $this->comment->add($comment);
+            $comment->setArticlepress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comment->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getArticlepress() === $this) {
+                $comment->setArticlepress(null);
+            }
+        }
+
+        return $this;
+    }
     
 }

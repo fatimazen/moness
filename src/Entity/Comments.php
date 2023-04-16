@@ -22,13 +22,21 @@ class Comments
     #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_At = null;
 
-    #[ORM\ManyToMany(targetEntity: Articlespress::class, mappedBy: 'comments')]
-    private Collection $articlespresses;
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Users $users = null;
 
-    public function __construct()
-    {
-        $this->articlespresses = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'comment')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Articlespress $Articlepress = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Ess $ess = null;
+
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Blog $blog = null;
 
     public function getId(): ?int
     {
@@ -59,30 +67,52 @@ class Comments
         return $this;
     }
 
-    /**
-     * @return Collection<int, Articlespress>
-     */
-    public function getArticlespresses(): Collection
+    public function getUsers(): ?Users
     {
-        return $this->articlespresses;
+        return $this->users;
     }
 
-    public function addArticlespress(Articlespress $articlespress): self
+    public function setUsers(?Users $users): self
     {
-        if (!$this->articlespresses->contains($articlespress)) {
-            $this->articlespresses->add($articlespress);
-            $articlespress->addComment($this);
-        }
+        $this->users = $users;
 
         return $this;
     }
 
-    public function removeArticlespress(Articlespress $articlespress): self
+    public function getArticlepress(): ?Articlespress
     {
-        if ($this->articlespresses->removeElement($articlespress)) {
-            $articlespress->removeComment($this);
-        }
+        return $this->Articlepress;
+    }
+
+    public function setArticlepress(?Articlespress $Articlepress): self
+    {
+        $this->Articlepress = $Articlepress;
 
         return $this;
     }
+
+    public function getEss(): ?Ess
+    {
+        return $this->ess;
+    }
+
+    public function setEss(?Ess $ess): self
+    {
+        $this->ess = $ess;
+
+        return $this;
+    }
+
+    public function getBlog(): ?Blog
+    {
+        return $this->blog;
+    }
+
+    public function setBlog(?Blog $blog): self
+    {
+        $this->blog = $blog;
+
+        return $this;
+    }
+
 }
