@@ -116,9 +116,13 @@ class Ess
     #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Comments::class)]
     private Collection $comments;
 
+    #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Articlespress::class)]
+    private Collection $articlespresses;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->articlespresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -534,6 +538,36 @@ class Ess
             // set the owning side to null (unless already changed)
             if ($comment->getEss() === $this) {
                 $comment->setEss(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Articlespress>
+     */
+    public function getArticlespresses(): Collection
+    {
+        return $this->articlespresses;
+    }
+
+    public function addArticlespress(Articlespress $articlespress): self
+    {
+        if (!$this->articlespresses->contains($articlespress)) {
+            $this->articlespresses->add($articlespress);
+            $articlespress->setEss($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticlespress(Articlespress $articlespress): self
+    {
+        if ($this->articlespresses->removeElement($articlespress)) {
+            // set the owning side to null (unless already changed)
+            if ($articlespress->getEss() === $this) {
+                $articlespress->setEss(null);
             }
         }
 

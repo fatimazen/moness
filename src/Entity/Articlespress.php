@@ -34,6 +34,10 @@ class Articlespress
     #[ORM\OneToMany(mappedBy: 'Articlepress', targetEntity: Comments::class)]
     private Collection $comment;
 
+    #[ORM\ManyToOne(inversedBy: 'articlespresses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Ess $ess = null;
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
@@ -130,6 +134,18 @@ class Articlespress
                 $comment->setArticlepress(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEss(): ?Ess
+    {
+        return $this->ess;
+    }
+
+    public function setEss(?Ess $ess): self
+    {
+        $this->ess = $ess;
 
         return $this;
     }
