@@ -29,9 +29,7 @@ class NewsLetters
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    #[ORM\ManyToOne(inversedBy: 'newsLetters')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Users $users = null;
+    
 
     public function getId(): ?int
     {
@@ -98,15 +96,5 @@ class NewsLetters
         return $this;
     }
 
-    public function getUsers(): ?Users
-    {
-        return $this->users;
-    }
-
-    public function setUsers(?Users $users): self
-    {
-        $this->users = $users;
-
-        return $this;
-    }
+  
 }

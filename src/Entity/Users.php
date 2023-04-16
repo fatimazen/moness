@@ -56,12 +56,11 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Comments::class)]
     private Collection $comments;
 
-    #[ORM\ManyToOne(inversedBy: 'users')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Blog $blog = null;
-
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: NewsLetters::class)]
     private Collection $newsLetters;
+
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Blog::class)]
+    private Collection $blog;
 
     public function __construct()
     {
@@ -69,6 +68,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->contactMessage = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->newsLetters = new ArrayCollection();
+        $this->blog = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -303,45 +303,37 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getBlog(): ?Blog
+    /**
+     * @return Collection<int, Blog>
+     */
+    public function getBlog(): Collection
     {
         return $this->blog;
     }
 
-    public function setBlog(?Blog $blog): self
+    public function addBlog(Blog $blog): self
     {
-        $this->blog = $blog;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, NewsLetters>
-     */
-    public function getNewsLetters(): Collection
-    {
-        return $this->newsLetters;
-    }
-
-    public function addNewsLetter(NewsLetters $newsLetter): self
-    {
-        if (!$this->newsLetters->contains($newsLetter)) {
-            $this->newsLetters->add($newsLetter);
-            $newsLetter->setUsers($this);
+        if (!$this->blog->contains($blog)) {
+            $this->blog->add($blog);
+            $blog->setUsers($this);
         }
 
         return $this;
     }
 
-    public function removeNewsLetter(NewsLetters $newsLetter): self
+    public function removeBlog(Blog $blog): self
     {
-        if ($this->newsLetters->removeElement($newsLetter)) {
+        if ($this->blog->removeElement($blog)) {
             // set the owning side to null (unless already changed)
-            if ($newsLetter->getUsers() === $this) {
-                $newsLetter->setUsers(null);
+            if ($blog->getUsers() === $this) {
+                $blog->setUsers(null);
             }
         }
 
         return $this;
     }
+
+
+  
+
 }
