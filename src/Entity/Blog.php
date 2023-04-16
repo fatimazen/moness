@@ -38,11 +38,18 @@ class Blog
     #[ORM\JoinColumn(nullable: false)]
     private ?Users $users = null;
 
+    #[ORM\OneToMany(mappedBy: 'blog', targetEntity: ArticleCategories::class)]
+    private Collection $articlesCategories;
+
+    
+
     
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->articlesCategories = new ArrayCollection();
+       
        
     }
 
@@ -153,5 +160,34 @@ class Blog
         return $this;
     }
 
-   
+    /**
+     * @return Collection<int, ArticleCategories>
+     */
+    public function getArticlesCategories(): Collection
+    {
+        return $this->articlesCategories;
+    }
+
+    public function addArticlesCategory(ArticleCategories $articlesCategory): self
+    {
+        if (!$this->articlesCategories->contains($articlesCategory)) {
+            $this->articlesCategories->add($articlesCategory);
+            $articlesCategory->setBlog($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticlesCategory(ArticleCategories $articlesCategory): self
+    {
+        if ($this->articlesCategories->removeElement($articlesCategory)) {
+            // set the owning side to null (unless already changed)
+            if ($articlesCategory->getBlog() === $this) {
+                $articlesCategory->setBlog(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

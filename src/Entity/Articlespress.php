@@ -38,9 +38,16 @@ class Articlespress
     #[ORM\JoinColumn(nullable: false)]
     private ?Ess $ess = null;
 
+    #[ORM\OneToMany(mappedBy: 'articlespress', targetEntity: ArticleCategories::class)]
+    private Collection $articlescategories;
+
+    
+
     public function __construct()
     {
         $this->comment = new ArrayCollection();
+        $this->articlescategories = new ArrayCollection();
+       
     }
 
 
@@ -150,5 +157,37 @@ class Articlespress
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, ArticleCategories>
+     */
+    public function getArticlescategories(): Collection
+    {
+        return $this->articlescategories;
+    }
+
+    public function addArticlescategory(ArticleCategories $articlescategory): self
+    {
+        if (!$this->articlescategories->contains($articlescategory)) {
+            $this->articlescategories->add($articlescategory);
+            $articlescategory->setArticlespress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticlescategory(ArticleCategories $articlescategory): self
+    {
+        if ($this->articlescategories->removeElement($articlescategory)) {
+            // set the owning side to null (unless already changed)
+            if ($articlescategory->getArticlespress() === $this) {
+                $articlescategory->setArticlespress(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
     
 }
