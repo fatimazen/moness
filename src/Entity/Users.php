@@ -217,6 +217,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+
     /**
      * @return Collection<int, Ess>
      */
@@ -371,3 +372,4 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
   
 
 }
+
