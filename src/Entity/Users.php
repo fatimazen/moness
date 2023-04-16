@@ -62,6 +62,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Blog::class)]
     private Collection $blog;
 
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: NewsLetters::class)]
+    private Collection $newsletters;
+
     public function __construct()
     {
         $this->ess = new ArrayCollection();
@@ -69,6 +72,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->comments = new ArrayCollection();
         $this->newsLetters = new ArrayCollection();
         $this->blog = new ArrayCollection();
+        $this->newsletters = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -327,6 +331,36 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($blog->getUsers() === $this) {
                 $blog->setUsers(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NewsLetters>
+     */
+    public function getNewsletters(): Collection
+    {
+        return $this->newsletters;
+    }
+
+    public function addNewsletter(NewsLetters $newsletter): self
+    {
+        if (!$this->newsletters->contains($newsletter)) {
+            $this->newsletters->add($newsletter);
+            $newsletter->setUsers($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNewsletter(NewsLetters $newsletter): self
+    {
+        if ($this->newsletters->removeElement($newsletter)) {
+            // set the owning side to null (unless already changed)
+            if ($newsletter->getUsers() === $this) {
+                $newsletter->setUsers(null);
             }
         }
 
