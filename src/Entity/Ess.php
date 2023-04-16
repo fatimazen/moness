@@ -116,16 +116,9 @@ class Ess
     #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Comments::class)]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Articlespress::class)]
-    private Collection $articlespresses;
-
-    #[ORM\OneToOne(mappedBy: 'ess', cascade: ['persist', 'remove'])]
-    private ?GeoLocalisationEss $geoLocalisationEss = null;
-
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->articlespresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -543,53 +536,6 @@ class Ess
                 $comment->setEss(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Articlespress>
-     */
-    public function getArticlespresses(): Collection
-    {
-        return $this->articlespresses;
-    }
-
-    public function addArticlespress(Articlespress $articlespress): self
-    {
-        if (!$this->articlespresses->contains($articlespress)) {
-            $this->articlespresses->add($articlespress);
-            $articlespress->setEss($this);
-        }
-
-        return $this;
-    }
-
-    public function removeArticlespress(Articlespress $articlespress): self
-    {
-        if ($this->articlespresses->removeElement($articlespress)) {
-            // set the owning side to null (unless already changed)
-            if ($articlespress->getEss() === $this) {
-                $articlespress->setEss(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getGeoLocalisationEss(): ?GeoLocalisationEss
-    {
-        return $this->geoLocalisationEss;
-    }
-
-    public function setGeoLocalisationEss(GeoLocalisationEss $geoLocalisationEss): self
-    {
-        // set the owning side of the relation if necessary
-        if ($geoLocalisationEss->getEss() !== $this) {
-            $geoLocalisationEss->setEss($this);
-        }
-
-        $this->geoLocalisationEss = $geoLocalisationEss;
 
         return $this;
     }
