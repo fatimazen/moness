@@ -1,9 +1,16 @@
 # moness
 
-##Command server
+## Commande pour lancer le serveur:
 
-### run symfony server
+### Lancer le serveur symfony:
     symfony server
 
-### build assets
+### commande pour build assets:
     yarn run dev --watch
+
+## Commande pour créer les entitées:
+
+### créer une entité ou la mettre a jour:
+    symfony console make:entity
+
+
