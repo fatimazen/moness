@@ -2,7 +2,7 @@
 
 ##Command server
 
-###run symfony server
+### run symfony server
     symfony server
 
 ### build assets
