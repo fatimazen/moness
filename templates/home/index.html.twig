@@ -23,15 +23,34 @@
 </html>
 <script type="text/javascript">
     function initialize() {
-        var carte = L.map('maCarte').setView([48.833, 2.333], 7); // LIGNE 18
+        var villes={
+            "Alès":{"lat":46.2276,"lon":4.0810},
+            "Paris":{"lat":48.852969,"lon": 2.349903},
+            "Brest":{"lat": 48.383, "lon": -4.500},
 
-        var osmLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', { // LIGNE 20
-            attribution: '© OpenStreetMap contributors',
-            minZoom:1,
-            maxZoom: 19
+
+
+        }
+        //le setView permet de mettre la latitude et la longitude (en initialise la carte)
+        var carte = L.map('maCarte').setView([46.2276, 2.2137], 6); 
+
+          //en appelle leafeat et ont lui demande la couche de tuiles ont lui donne une addresse vers un serveur, attribution et zoom mini zoom maxi
+        var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                // Il est toujours bien de laisser le lien vers la source des données
+                attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+                minZoom:6,
+                maxZoom:16
         });
 
         carte.addLayer(osmLayer);
+
+        for(ville in villes){
+
+            //on crée le marqueur et on lui attribue une popup
+                var marker = L.marker([villes[ville].lat, villes[ville].lon]).addTo(carte);
+                marker.bindPopup("<h1>"+ville+"</h1>");
+
+        }
     }
 </script>
 {% endblock %}
