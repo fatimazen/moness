@@ -50,9 +50,10 @@ var villes = {
    "Bayonne": {
 "lat": 43.500,
 "lon": -1.467 
-},
-
 }
+};
+ var tableauMarkers = [];
+
 // le setView permet de mettre la latitude et la longitude (en initialise la carte)
 var carte = L.map('maCarte').setView([
 46.2276, 2.2137
@@ -82,9 +83,15 @@ villes[ville].lon
 ]).addTo(carte);
 marker.bindPopup("<p>" + ville + "</p>");
 markers.addLayer(marker); //on ajoute le marqueur au groupe
+ // On ajoute le marqueur au tableau
+                tableauMarkers.push(marker);
 carte.addLayer(osmLayer);
 
 }
+// On regroupe les marqueurs dans un groupe Leaflet
+            var groupe = new L.featureGroup(tableauMarkers);
+            // On adapte le zoom au groupe
+            carte.fitBounds(groupe.getBounds().pad(0.5));
 carte.addLayer(markers);
 }
 	</script>
