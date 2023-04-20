@@ -1,0 +1,112 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello EssController!{% endblock %}
+
+
+{% block stylesheets %}
+	{{ parent() }}
+
+	<link href="{{ asset('./contact_css/contact.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts  %}
+	{{ parent() }}
+
+	<script src="{{ asset('js/password.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+	<div class="body_contact">
+		<section class="contact_section">
+			<div class="main">
+				<div class="left left_subsribed">
+					<div class="container_contact contain_sub">
+						<h2>Nos créations <br>Originales</h2>
+						<div class="container_link">
+							<a href="" class="container_link_a">
+								<br></a>
+							<a href="" class="container_link_a">
+								<br></a>
+							<a href="" class="container_link_a"></a>
+						</div>
+					</div>
+					<div class="logo_link">
+
+						<div class="main_reseau">
+							<li class="content_reseau">
+								<a href="#">
+									<i class="fab fa-facebook-f icon"></i>
+								</a>
+							</li>
+							<li class="content_reseau">
+								<a href="#">
+									<i class="fab fa-pinterest icon"></i>
+								</a>
+							</li>
+							<li class="content_reseau">
+								<a href="#">
+									<i class="fab fa-instagram icon"></i>
+								</a>
+							</li>
+							<li class="content_reseau">
+								<a href="#">
+									<i class="fab fa-tiktok icon"></i>
+								</a>
+							</li>
+						</div>
+					</div>
+				</div>
+				
+				{{ form_start(registrationForm, {
+					'attr': {
+						'class': "right flex-grow-1 d-flex align-items-center",
+					},
+				}) }}
+					<h2>Inscription</h2>
+					<div class="w-75">
+
+						{{ _self.field_with_placeholder(registrationForm.username)}}
+						{{ _self.field_with_placeholder(registrationForm.email)}}
+
+						<div class="form-outline mb-3">
+							{{ form_label(registrationForm.plainPassword.first, null, {
+								'label_attr': {'class': 'sr-only'}
+							}) }}
+							{{ form_widget(registrationForm.plainPassword.first, {
+								'attr': {
+									'placeholder': registrationForm.plainPassword.first.vars.label
+								}
+							})}}
+							<i class="bi bi-eye-slash show" onclick="myFunction()"></i>
+						</div>
+
+						{{ _self.field_with_placeholder(registrationForm.plainPassword.second) }}
+						
+						<button type="submit" class="btn btn-primary">Continue</button>
+					</div>
+					<div class="subBtn">
+						{% set checkboxOptions = {
+							'label_attr': {'class': 'checkbox-switch'}
+						} %}
+
+						{{ form_row(registrationForm.agreeTerms, checkboxOptions) }}
+
+						{{ form_row(registrationForm.isSubscribed, checkboxOptions) }}
+					</div>
+
+				{{ form_end(registrationForm) }}
+			</div>
+		</section>
+	</div>
+{% endblock %}
+
+{% macro field_with_placeholder(field) %}
+	{{ form_row(field, {
+		'attr': {
+			'placeholder': field.vars.label,
+		},
+		'label_attr': {
+			'class': 'sr-only',
+		},
+	}) }}
+{% endmacro %}
