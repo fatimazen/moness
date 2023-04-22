@@ -18,6 +18,8 @@
 ### création du dossier appfixture
     composer require --dev orm-fixtures
 
-### creation du faker factory
+### commande du faker factory
+     composer require fakerphp/faker
 
-    composer require fakerphp/faker
+### ajouter les datafixture en bdd
+    php bin/console doctrine:fixtures:load
