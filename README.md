@@ -13,4 +13,11 @@
 ### créer une entité ou la mettre a jour:
     symfony console make:entity
 
+## Commande pour créer les datafixtures
 
+### création du dossier appfixture
+    composer require --dev orm-fixtures
+
+### creation du faker factory
+
+    composer require fakerphp/faker
