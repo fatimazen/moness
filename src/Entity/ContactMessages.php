@@ -24,7 +24,7 @@ class ContactMessages
     private ?string $message = null;
 
     #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
-    private ?\DateTimeImmutable $creates_At = null;
+    private ?\DateTimeImmutable $created_At = null;
 
     #[ORM\ManyToOne(inversedBy: 'contactMessage')]
     #[ORM\JoinColumn(nullable: false)]
@@ -71,14 +71,14 @@ class ContactMessages
         return $this;
     }
 
-    public function getCreatesAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->creates_At;
+        return $this->created_At;
     }
 
-    public function setCreatesAt(\DateTimeImmutable $creates_At): self
+    public function setCreatedAt(\DateTimeImmutable $created_At): self
     {
-        $this->creates_At = $creates_At;
+        $this->created_At = $created_At;
 
         return $this;
     }

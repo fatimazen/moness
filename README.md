@@ -22,4 +22,4 @@
      composer require fakerphp/faker
 
 ### ajouter les datafixture en bdd
-    php bin/console doctrine:fixtures:load
+    php bin/console doctrine:fixtures:load --no-interaction

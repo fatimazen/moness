@@ -20,7 +20,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(type:'json')]
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     /**
@@ -35,7 +35,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_At = null;
 
     #[ORM\Column]
@@ -368,8 +368,4 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
-  
-
 }
-
