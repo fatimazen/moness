@@ -14,17 +14,9 @@ class NewsLetters
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $tile = null;
-
     #[ORM\Column]
     private ?\DateTimeImmutable $created_At = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $sent_At = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $image = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
@@ -40,17 +32,6 @@ class NewsLetters
         return $this->id;
     }
 
-    public function getTile(): ?string
-    {
-        return $this->tile;
-    }
-
-    public function setTile(string $tile): self
-    {
-        $this->tile = $tile;
-
-        return $this;
-    }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
@@ -63,30 +44,8 @@ class NewsLetters
 
         return $this;
     }
+    
 
-    public function getSentAt(): ?\DateTimeImmutable
-    {
-        return $this->sent_At;
-    }
-
-    public function setSentAt(\DateTimeImmutable $sent_At): self
-    {
-        $this->sent_At = $sent_At;
-
-        return $this;
-    }
-
-    public function getImage(): ?string
-    {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
 
     public function getContent(): ?string
     {

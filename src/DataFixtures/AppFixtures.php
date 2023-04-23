@@ -2,16 +2,17 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Blog;
-use App\Entity\ContactMessages;
-use App\Entity\Ess;
-use App\Entity\Users;
-use DateTime;
 use DateTimeImmutable;
+use Faker\Factory;
+use App\Entity\Users;
+use App\Entity\Ess;
+use App\Entity\Articlespress;
+use App\Entity\Blog;
+use App\Entity\Comments;
+use App\Entity\ContactMessages;
+use App\Entity\NewsLetters;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
-use Faker\Provider\Base;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
@@ -27,11 +28,12 @@ class AppFixtures extends Fixture
 
         $gender = $faker->randomElement(['male', 'female']);
 
+
         $users = [];
+
         for ($i = 0; $i < 10; $i++) {
 
-
-            $user = new Users;
+            $user = new Users();
             $user
                 ->setFirstName($faker->firstName($gender))
                 ->setLastName($faker->lastName())
@@ -44,10 +46,8 @@ class AppFixtures extends Fixture
                 ->setRoles(['ROLE_USER']);
 
 
-
             $users[] = $user;
             $manager->persist($user);
-            $users[] = $user;
         }
 
         $admin = new Users;
@@ -65,8 +65,8 @@ class AppFixtures extends Fixture
         $manager->persist($admin);
 
 
-        $esss = [];
-        for ($i = 0; $i < 10; $i++) {
+        $essS = [];
+        for ($i = 0; $i < 20; $i++) {
 
             $ess = new Ess;
             $ess
@@ -80,7 +80,7 @@ class AppFixtures extends Fixture
                 ->setSectorActivity($faker->jobTitle())
                 ->setLegalStatus($faker->randomElement(['SARL', 'SA', 'EURL', 'SASU', 'SAS']))
                 ->setDescription($faker->text(255))
-                ->setPhoneNumber(substr($faker->e164phoneNumber(), 0, 13))
+                ->setPhoneNumber(substr($faker->phoneNumber(), 0, 10))
                 ->setImage($faker->imageUrl(640, 480, 'company', true))
                 ->setWebSite($faker->url())
                 ->setSocialNetworks($faker->url())
@@ -103,45 +103,82 @@ class AppFixtures extends Fixture
                 ->setSiretNumber($faker->randomNumber())
                 ->setUsers($faker->randomElement($users));
 
-            $esss[] = $ess;
+            $essS[] = $ess;
             $manager->persist($ess);
-            $esss[] = $ess;
+        }
 
 
-            $contactMessages = [];
-            for ($i = 0; $i < 10; $i++) {
+        $contactsMessage = [];
+        for ($i = 0; $i < 10; $i++) {
 
-                $contactMessage = new ContactMessages;
-                $contactMessage
+            $contactMessage = new ContactMessages;
+            $contactMessage
                 ->setFirstName($faker->firstName())
                 ->setEmail($faker->safeEmail())
                 ->setMessage($faker->text(255))
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setUsers($faker->randomElement($users));
 
-                $contactMessages[] = $contactMessage;
-                $manager->persist($contactMessage);
-                $contactMessages[] = $contactMessage;
+            $contactsMessage[] = $contactMessage;
+            $manager->persist($contactMessage);
+        }
 
-
-            }
-            $blog = [];
-            for ($i = 0; $i < 10; $i++) {
-                $blog = new Blog;
-                $blog
+        $blogs = [];
+        for ($i = 0; $i < 10; $i++) {
+            $blog = new Blog;
+            $blog
                 ->setTitle($faker->sentence())
                 ->setAuthor($faker->name())
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setImage($faker->imageUrl(640, 480, 'company', true))
                 ->setContent($faker->text(255))
                 ->setUsers($faker->randomElement($users));
-                
-                $manager->persist($blog);
-            
-            }
-
-
-            $manager->flush();
+            $blogs[] = $blog;
+            $manager->persist($blog);
         }
+
+        $articlespress = [];
+        for ($i = 0; $i < 10; $i++) {
+            $articlePresse = new Articlespress;
+            $articlePresse
+                ->setTitle($faker->sentence())
+                ->setAuthor($faker->name())
+                ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
+                ->setImage($faker->imageUrl(640, 480, 'company', true))
+                ->setEss($faker->randomElement($essS));
+
+            $articlespress[] = $articlePresse;
+            $manager->persist($articlePresse);
+        }
+        $comments = [];
+        for ($i = 0; $i < 30; $i++) {
+            $comment = new Comments();
+            $comment
+                ->setComment($faker->text())
+                ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
+                ->setUsers($faker->randomElement($users))
+                ->setArticlepress($faker->randomElement($articlespress))
+                ->setEss($faker->randomElement($essS))
+                ->setBlog($faker->randomElement($blogs));
+
+
+            $manager->persist($comment);
+            $comments[] = $comment;
+        }
+        $newsletters = [];
+        for ($i = 0; $i < 10; $i++) {
+            $newsletter = new NewsLetters();
+            $newsletter
+                ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
+                ->setContent($faker->text(255))
+                ->setUsers($faker->randomElement($users));
+
+            $manager->persist($newsletter);
+            $newsletters[] = $newsletter;
+        }
+
+        
+
+        $manager->flush();
     }
 }
