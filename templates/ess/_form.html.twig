@@ -1,21 +1,29 @@
 {{ form_start(essForm) }}
 {{ form_row(essForm.nameStructure) }}
 {{ form_row(essForm.sectorActivity) }}
-{{ form_row(essForm.activiy) }}
+{{ form_row(essForm.activity) }}
 {{ form_row(essForm.description) }}
+{{ form_row(essForm.siretNumber) }}
 {{ form_row(essForm.label) }}
 {{ form_row(essForm.legalStatus) }}
 {{ form_row(essForm.adress) }}
-{{ form_row(essForm.siretNumber) }}
+<h3>catre</h3>
+    <button type="submit" class="btn btn-primary" > localiser </button>
+
+<h2>Coordonnées publique</h2>
+
 {{ form_row(essForm.email) }}
 {{ form_row(essForm.phoneNumber) }}
 {{ form_row(essForm.socialNetworks) }}
-{{ form_row(essForm.socialNetworks) }}
+{{ form_row(essForm.webSite) }}
+
+<h2>Contacte interne à la structure </h2>
+
 {{ form_row(essForm.lastName) }}
 {{ form_row(essForm.firstName) }}
-{{ form_row(essForm.webSite) }}
-{{ form_row(essForm.email) }}
-{{ form_row(essForm.phoneNumber) }}
+
+<h2>horaires d'ouverture(si ouvert au public) </h2>
+
 {{ form_row(essForm.openingHoursMonday) }}
 {{ form_row(essForm.closingHoursMonday) }}
 {{ form_row(essForm.openingHoursTuesday) }}
@@ -31,8 +39,8 @@
 {{ form_row(essForm.openingHoursSunday) }}
 {{ form_row(essForm.closingHoursSunday) }}
 
+<button type="submit" class="btn btn-primary" > ENVOYER </button>
 
 
-
-{{ form_end(essForm.) }}
+{{ form_end(essForm) }}
 

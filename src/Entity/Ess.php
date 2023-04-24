@@ -579,7 +579,7 @@ class Ess
 
     public function Activity(): ?string
     {
-        return $this->Activity();
+        return $this->activity;
     }
 
     public function setActivity(string $activity): self
