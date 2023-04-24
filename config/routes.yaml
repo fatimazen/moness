@@ -5,3 +5,7 @@ controllers:
 kernel:
     resource: ../src/Kernel.php
     type: annotation
+    
+ess_add:
+    path: /ess/add
+    controller: App\Controller\EssController::add

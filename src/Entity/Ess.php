@@ -119,6 +119,9 @@ class Ess
     #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Favoris::class)]
     private Collection $favoris;
 
+    #[ORM\Column(length: 255)]
+    private ?string $activity = null;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -570,6 +573,18 @@ class Ess
                 $favori->setEss(null);
             }
         }
+
+        return $this;
+    }
+
+    public function Activity(): ?string
+    {
+        return $this->Activity();
+    }
+
+    public function setActivity(string $activity): self
+    {
+        $this->activity = $activity;
 
         return $this;
     }
