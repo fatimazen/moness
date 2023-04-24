@@ -10,6 +10,7 @@ use App\Entity\Articlespress;
 use App\Entity\Blog;
 use App\Entity\Comments;
 use App\Entity\ContactMessages;
+use App\Entity\GeoLocalisationEss;
 use App\Entity\NewsLetters;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
@@ -68,7 +69,7 @@ class AppFixtures extends Fixture
         $essS = [];
         for ($i = 0; $i < 20; $i++) {
 
-            $ess = new Ess;
+            $ess = new Ess();
             $ess
                 ->setFirstName($faker->firstName())
                 ->setLastName($faker->lastName())
@@ -170,11 +171,23 @@ class AppFixtures extends Fixture
             $newsletter = new NewsLetters();
             $newsletter
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
-                ->setContent($faker->text(255))
+                ->setContent($faker->text(255))  array_keys(): Argument #1 ($array) must be of type array, App\Entity\Ess given  
                 ->setUsers($faker->randomElement($users));
 
             $manager->persist($newsletter);
             $newsletters[] = $newsletter;
+        }
+        $geolocalisations=[];
+        foreach ($essS as $ess) {
+        
+            $geolocalisation = new GeoLocalisationEss();
+            $geolocalisation
+                ->setLatitude($faker->latitude(-90, 90))
+                ->setLongitude($faker->longitude(-180, 180))
+                ->setEss($ess);
+
+            $manager->persist($geolocalisation);
+            $geolocalisations[] = $geolocalisation;
         }
 
         
