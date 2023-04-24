@@ -20,7 +20,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
-    #[ORM\Column(type:'json')]
+    #[ORM\Column(type: 'json')]
     private array $roles = [];
 
     /**
@@ -35,7 +35,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_At = null;
 
     #[ORM\Column]
@@ -65,6 +65,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: NewsLetters::class)]
     private Collection $newsletters;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favoris::class)]
+    private Collection $favoris;
+
     public function __construct()
     {
         $this->ess = new ArrayCollection();
@@ -73,6 +76,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->newsLetters = new ArrayCollection();
         $this->blog = new ArrayCollection();
         $this->newsletters = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -368,8 +372,34 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    /**
+     * @return Collection<int, Favoris>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
 
-  
+    public function addFavori(Favoris $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+            $favori->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): self
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getUser() === $this) {
+                $favori->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 
 }
-

@@ -28,8 +28,6 @@ class Articlespress
     #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_At = null;
 
-    #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
-    private ?\DateTimeImmutable $sent_At = null;
 
     #[ORM\OneToMany(mappedBy: 'Articlepress', targetEntity: Comments::class)]
     private Collection $comment;
@@ -104,17 +102,6 @@ class Articlespress
         return $this;
     }
 
-    public function getSentAt(): ?\DateTimeImmutable
-    {
-        return $this->sent_At;
-    }
-
-    public function setSentAt(\DateTimeImmutable $sent_At): self
-    {
-        $this->sent_At = $sent_At;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, Comments>
