@@ -116,9 +116,13 @@ class Ess
     #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Comments::class)]
     private Collection $comments;
 
+    #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Favoris::class)]
+    private Collection $favoris;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -534,6 +538,36 @@ class Ess
             // set the owning side to null (unless already changed)
             if ($comment->getEss() === $this) {
                 $comment->setEss(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Favoris>
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Favoris $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris->add($favori);
+            $favori->setEss($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Favoris $favori): self
+    {
+        if ($this->favoris->removeElement($favori)) {
+            // set the owning side to null (unless already changed)
+            if ($favori->getEss() === $this) {
+                $favori->setEss(null);
             }
         }
 

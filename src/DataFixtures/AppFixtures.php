@@ -171,7 +171,7 @@ class AppFixtures extends Fixture
             $newsletter = new NewsLetters();
             $newsletter
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
-                ->setContent($faker->text(255))  array_keys(): Argument #1 ($array) must be of type array, App\Entity\Ess given  
+                ->setContent($faker->text(255))
                 ->setUsers($faker->randomElement($users));
 
             $manager->persist($newsletter);
