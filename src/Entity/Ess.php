@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: EssRepository::class)]
 class Ess
@@ -16,7 +18,7 @@ class Ess
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255,unique: true)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -51,6 +53,9 @@ class Ess
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    #[Vich\UploadableField(mapping: "ess", fileNameProperty: "image")]
+    private ?File $imageFile = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $webSite = null;
@@ -119,13 +124,23 @@ class Ess
     #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Favoris::class)]
     private Collection $favoris;
 
+    #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Media::class, orphanRemoval: true, cascade: ['persist'])]
+    private Collection $images;
+
     #[ORM\Column(length: 255)]
     private ?string $activity = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $economieSocialeEtSolidaire = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $entrepriseAMission = null;
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -264,7 +279,6 @@ class Ess
 
         return $this;
     }
-
     public function getImage(): ?string
     {
         return $this->image;
@@ -276,6 +290,8 @@ class Ess
 
         return $this;
     }
+
+
 
     public function getWebSite(): ?string
     {
@@ -576,6 +592,28 @@ class Ess
 
         return $this;
     }
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * Set the value of imageFile
+     *
+     * @return  self
+     */ 
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updatedAt = new \DateTimeImmutable('now');
+        }
+    }
 
     public function Activity(): ?string
     {
@@ -585,6 +623,59 @@ class Ess
     public function setActivity(string $activity): self
     {
         $this->activity = $activity;
+
+        return $this;
+    }
+      /**
+     * @return Collection<int, Media>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Media $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setEss($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Media $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getEss() === $this) {
+                $image->setEss(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getEconomieSocialeEtSolidaire(): ?string
+    {
+        return $this->economieSocialeEtSolidaire;
+    }
+
+    public function setEconomieSocialeEtSolidaire(string $economieSocialeEtSolidaire): self
+    {
+        $this->economieSocialeEtSolidaire = $economieSocialeEtSolidaire;
+
+        return $this;
+    }
+
+    public function getEntrepriseAMission(): ?string
+    {
+        return $this->entrepriseAMission;
+    }
+
+    public function setEntrepriseAMission(string $entrepriseAMission): self
+    {
+        $this->entrepriseAMission = $entrepriseAMission;
 
         return $this;
     }

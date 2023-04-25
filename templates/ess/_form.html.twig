@@ -7,24 +7,17 @@
 {{ form_row(essForm.label) }}
 {{ form_row(essForm.legalStatus) }}
 {{ form_row(essForm.adress) }}
-<h3>carte</h3>
+<h3>catre</h3>
     <button type="submit" class="btn btn-primary" > localiser </button>
 
 <h2>Coordonnées publique</h2>
 
 {{ form_row(essForm.email) }}
 {{ form_row(essForm.phoneNumber) }}
-<h3>Réseaux sociaux</h3>
-    <ul class="social_networks" data-prototype="{{ form_widget(essForm.socialNetworks.vars.prototype)|e }}">
-        {% for socialNetwork in essForm.socialNetworks %}
-            <li>{{ form_widget(socialNetwork) }}</li>
-        {% endfor %}
-    </ul>
 {{ form_row(essForm.socialNetworks) }}
-
 {{ form_row(essForm.webSite) }}
 
-<h2>Contact interne à la structure </h2>
+<h2>Contacte interne à la structure </h2>
 
 {{ form_row(essForm.lastName) }}
 {{ form_row(essForm.firstName) }}

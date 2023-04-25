@@ -8,6 +8,8 @@ use Doctrine\DBAL\Types\TextType;
 use Doctrine\DBAL\Types\TimeType as TypesTimeType;
 use Faker\Core\Number;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -51,128 +53,188 @@ class EssFormType extends AbstractType
                     ' Activités extra-territoriales' => 'Activités extra-territoriales',
                 ]
             ])
-            ->add('activity',TypeTextType::class, [
+            ->add('activity', TypeTextType::class, [
                 'label' => 'Activité',
-                ])
-        
+            ])
+
             ->add('description')
-            ->add('siretNumber',NumberType::class, [
+            ->add('siretNumber', NumberType::class, [
                 'label' => 'Numéro de siret',
-                ])
-            ->add('label',ChoiceType::class,[
+            ])
+            ->add('label', ChoiceType::class, [
                 'label' => 'Label',
-                'choices' =>[
-                    'L\'agrément ESUS'=>'ESUS',
-                    'ISR'=> 'ISR',
-                    'FINANSOL'=>'FINANSOL',
-                    ' ISO 26000'=> 'ISO 26000',
-                    'LUCIE 26 000'=> 'LUCIE 26 000',
-                    'RSE'=> 'RSE',
-                    'Relations Fournisseurs et Achat Responsable (RFAR)'=> 'Relations Fournisseurs et Achat Responsable (RFAR)',
-                    'aucun'=> 'Aucun',
-                    ]
-                
-                ])
-            ->add('legalStatus',ChoiceType::class,[
+                'choices' => [
+                    'L\'agrément ESUS' => 'ESUS',
+                    'ISR' => 'ISR',
+                    'FINANSOL' => 'FINANSOL',
+                    ' ISO 26000' => 'ISO 26000',
+                    'LUCIE 26 000' => 'LUCIE 26 000',
+                    'RSE' => 'RSE',
+                    'Relations Fournisseurs et Achat Responsable (RFAR)' => 'Relations Fournisseurs et Achat Responsable (RFAR)',
+                    'aucun' => 'Aucun',
+                ],
+                'expanded' => true,
+                'multiple' => true,
+            ])
+            ->add('legalStatus', ChoiceType::class, [
                 'label' => 'Satut juridique',
-                'choices' =>[
-                    'Entreprise individuelle (EI)'=> 'Entreprise individuelle (EI)',
-                    'Entreprise unipersonnelle à responsabilité limitée (EURL)'=>'Entreprise unipersonnelle à responsabilité limitée (EURL)',
-                    'Société à responsabilité limitée (SARL)'=> 'Société à responsabilité limitée (SARL)',
-                    'Société anonyme (SA)'=>'Société anonyme (SA)',
-                    'Société par actions simplifiée (SAS) ou société par actions simplifiée unipersonnelle (SASU)'=>'Société par actions simplifiée (SAS) ou société par actions simplifiée unipersonnelle (SASU)',
-                    'Société en nom collectif (SNC)'=>'Société en nom collectif (SNC)',
-                    'Société coopérative de production (SCOP)'=>'Société coopérative de production (SCOP)',
-                    'Société en commandite par actions (SCA) et société en commandite simple (SCS)'=>'Société en commandite par actions (SCA) et société en commandite simple (SCS)',
-                    
-                    ]
+                'choices' => [
+                    'Entreprise individuelle (EI)' => 'Entreprise individuelle (EI)',
+                    'Entreprise unipersonnelle à responsabilité limitée (EURL)' => 'Entreprise unipersonnelle à responsabilité limitée (EURL)',
+                    'Société à responsabilité limitée (SARL)' => 'Société à responsabilité limitée (SARL)',
+                    'Société anonyme (SA)' => 'Société anonyme (SA)',
+                    'Société par actions simplifiée (SAS) ou société par actions simplifiée unipersonnelle (SASU)' => 'Société par actions simplifiée (SAS) ou société par actions simplifiée unipersonnelle (SASU)',
+                    'Société en nom collectif (SNC)' => 'Société en nom collectif (SNC)',
+                    'Société coopérative de production (SCOP)' => 'Société coopérative de production (SCOP)',
+                    'Société en commandite par actions (SCA) et société en commandite simple (SCS)' => 'Société en commandite par actions (SCA) et société en commandite simple (SCS)',
+                ],
+                'expanded' => false,
+                'required' => true,
+                // 'mapped' => true,
+                // 'data' => '',
+                // 'choice_value' => null,
+                // 'choice_attr' => function ($choice) {
+                //     if ($choice === 'Entreprise économique sociale et solidaire' || $choice === 'Entreprise à mission') {
+                //         return ['class' => 'hidden'];
+                //     }
+                //     return [];
+                // },
+                
+                // 'choice_label' => function ($choice) {
+                //     return $choice;
+                // },
+            ])
+            ->add('imageFile', VichFileType::class, [
+                'required' => false,
+                'allow_delete' => true,
+                'asset_helper' => true,
+                'label' => 'logo de l\'entreprise',
+            ])
+            ->add('images', LiveCollectionType::class, [
+                'entry_type' => MediaType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
                 ])
-            ->add('adress',TypeTextType::class,[
-              'label' => 'Adresse',  
-                ])
+
+            ->add('economieSocialeEtSolidaire', CheckboxType::class, [
+                'label' => 'Entreprise économique sociale et solidaire',
+                'required' => false,
+                'mapped' => false,
+
+            ])
+            ->add('entrepriseAMission', CheckboxType::class, [
+                'label' => 'Entreprise à mission',
+                'required' => false,
+                'mapped' => false,
+
+            ])
+            // ->addModelTransformer(new CallbackTransformer(
+            //     function ($statut, $entity) {
+            //         return $statut;
+            //     },
+            //     function ($statut, $entity) {
+            //         if (isset($entity['economieSocialeEtSolidaire']) && $entity['economieSocialeEtSolidaire'] == true) {
+            //             return 'Entreprise économique sociale et solidaire';
+            //         } elseif (isset($entity['entrepriseAMission']) && $entity['entrepriseAMission'] == true) {
+            //             return 'Entreprise à mission';
+            //         } else {
+            //             return $statut;
+            //         }
+            //     }
+            // ))
+            ->add('adress', TypeTextType::class, [
+                'label' => 'Adresse',
+            ])
             ->add('email')
-            ->add('phoneNumber',NumberType::class,[
+            ->add('phoneNumber', NumberType::class, [
                 'label' => 'numéros de téléphone',
-                ])
-            ->add('socialNetworks',CollectionType::class,[
-               'label' => 'reseaux sociaux',
-               'entry_type' => SocialNetworkType::class,
-               'allow_add' => true,
-               'allow_delete' => true,
-               'prototype' => true,
-               'by_reference' => false,
-                ])
-            ->add('webSite')
-            ->add('lastName', TypeTextType::class,[
-                
+            ])
+            ->add('socialNetworks', TypeTextType::class, [
+                'label' => 'facebook',
+
+            ])
+
+            ->add('webSite', TypeTextType::class, [
+                'label' => 'site web',
+            ])
+            ->add('lastName', TypeTextType::class, [
+
                 'label' => 'Nom de la personne',
-               'required' => false,])
-            ->add('firstName', TypeTextType::class,[
-                
+                'required' => false,
+            ])
+            ->add('firstName', TypeTextType::class, [
+
                 'label' => 'Prénom',
-              'required' => false,
-              ])
+                'required' => false,
+            ])
             // ->add('image')
-            ->add('openingHoursMonday', TimeType::class,[
-               'label' => 'ouvert le lundi de  à',
+            ->add('openingHoursMonday', TimeType::class, [
+                'label' => 'ouvert le lundi de  à',
 
-                ])
-            ->add('closingHoursMonday',TimeType::class,[
-                
-                'label' => 'fermé lundi de  à',])
+            ])
+            ->add('closingHoursMonday', TimeType::class, [
 
-            ->add('openingHoursTuesday', TimeType::class,[
-                
+                'label' => 'fermé lundi de  à',
+            ])
+
+            ->add('openingHoursTuesday', TimeType::class, [
+
                 'label' => 'ouvert le mardi de à ',
 
-                ])
-            ->add('closingHoursTuesday',TimeType::class,[
-                
-                'label' => 'fermé mardi de  à ',])
+            ])
+            ->add('closingHoursTuesday', TimeType::class, [
 
-            ->add('openingHoursWednesday', TimeType::class,[
-                
+                'label' => 'fermé mardi de  à ',
+            ])
+
+            ->add('openingHoursWednesday', TimeType::class, [
+
                 'label' => 'ouvert le mercredi de   à',
 
-                ])
-            ->add('closingHoursWednesday',TimeType::class,[
-                
-                'label' => 'fermé mercredi de   à',])
+            ])
+            ->add('closingHoursWednesday', TimeType::class, [
 
-            ->add('openingHoursThursday', TimeType::class,[
-                
+                'label' => 'fermé mercredi de   à',
+            ])
+
+            ->add('openingHoursThursday', TimeType::class, [
+
                 'label' => 'ouvert le jeudi de   à',
 
-                ])
-            ->add('closingHoursThursday',TimeType::class,[
-                
-                'label' => 'fermé jeudi de   à',])
+            ])
+            ->add('closingHoursThursday', TimeType::class, [
 
-            ->add('openingHoursFriday', TimeType::class,[
-                
+                'label' => 'fermé jeudi de   à',
+            ])
+
+            ->add('openingHoursFriday', TimeType::class, [
+
                 'label' => 'ouvert le vendredi de   à',
 
-                ])
-            ->add('closingHoursFriday',TimeType::class,[
-                
-                'label' => 'fermé vendredi de   à',])
+            ])
+            ->add('closingHoursFriday', TimeType::class, [
 
-            ->add('openingHoursSaturday', TimeType::class,[
-                
+                'label' => 'fermé vendredi de   à',
+            ])
+
+            ->add('openingHoursSaturday', TimeType::class, [
+
                 'label' => 'ouvert le samedi de   à',
 
-                ])
-            ->add('closingHoursSaturday',TimeType::class,[
+            ])
+            ->add('closingHoursSaturday', TimeType::class, [
                 'label' => 'fermé samedi de   à',
-                ])
-        
-           
-            ->add('openingHoursSunday', TimeType::class,[
+            ])
+
+
+            ->add('openingHoursSunday', TimeType::class, [
                 'label' => 'ouvert le dimanche de   à',
-                ])
-            ->add('closingHoursSunday', TimeType::class,[
+            ])
+            ->add('closingHoursSunday', TimeType::class, [
                 'label' => 'fermé dimanche de   à',
-                ])
+            ])
             // ->add('region')
             // ->add('users')
         ;
