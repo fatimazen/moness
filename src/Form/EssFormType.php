@@ -3,12 +3,17 @@
 namespace App\Form;
 
 use App\Entity\Ess;
+use DateTime;
 use Doctrine\DBAL\Types\TextType;
+use Doctrine\DBAL\Types\TimeType as TypesTimeType;
 use Faker\Core\Number;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -69,7 +74,7 @@ class EssFormType extends AbstractType
                 
                 ])
             ->add('legalStatus',ChoiceType::class,[
-                'label '=>'statut juridique',
+                'label' => 'Satut juridique',
                 'choices' =>[
                     'Entreprise individuelle (EI)'=> 'Entreprise individuelle (EI)',
                     'Entreprise unipersonnelle à responsabilité limitée (EURL)'=>'Entreprise unipersonnelle à responsabilité limitée (EURL)',
@@ -82,28 +87,92 @@ class EssFormType extends AbstractType
                     
                     ]
                 ])
-            ->add('adress')
+            ->add('adress',TypeTextType::class,[
+              'label' => 'Adresse',  
+                ])
             ->add('email')
-            ->add('phoneNumber')
-            ->add('socialNetworks')
+            ->add('phoneNumber',NumberType::class,[
+                'label' => 'numéros de téléphone',
+                ])
+            ->add('socialNetworks',CollectionType::class,[
+               'label' => 'reseaux sociaux',
+               'entry_type' => SocialNetworkType::class,
+               'allow_add' => true,
+               'allow_delete' => true,
+               'prototype' => true,
+               'by_reference' => false,
+                ])
             ->add('webSite')
-            ->add('lastName')
-            ->add('firstName')
+            ->add('lastName', TypeTextType::class,[
+                
+                'label' => 'Nom de la personne',
+               'required' => false,])
+            ->add('firstName', TypeTextType::class,[
+                
+                'label' => 'Prénom',
+              'required' => false,
+              ])
             // ->add('image')
-            ->add('openingHoursMonday')
-            ->add('closingHoursMonday')
-            ->add('openingHoursTuesday')
-            ->add('closingHoursTuesday')
-            ->add('openingHoursWednesday')
-            ->add('closingHoursWednesday')
-            ->add('openingHoursThursday')
-            ->add('closingHoursThursday')
-            ->add('openingHoursFriday')
-            ->add('closingHoursfriday')
-            ->add('openingHoursSaturday')
-            ->add('closingHoursSaturday')
-            ->add('openingHoursSunday')
-            ->add('closingHoursSunday')
+            ->add('openingHoursMonday', TimeType::class,[
+               'label' => 'ouvert le lundi de  à',
+
+                ])
+            ->add('closingHoursMonday',TimeType::class,[
+                
+                'label' => 'fermé lundi de  à',])
+
+            ->add('openingHoursTuesday', TimeType::class,[
+                
+                'label' => 'ouvert le mardi de à ',
+
+                ])
+            ->add('closingHoursTuesday',TimeType::class,[
+                
+                'label' => 'fermé mardi de  à ',])
+
+            ->add('openingHoursWednesday', TimeType::class,[
+                
+                'label' => 'ouvert le mercredi de   à',
+
+                ])
+            ->add('closingHoursWednesday',TimeType::class,[
+                
+                'label' => 'fermé mercredi de   à',])
+
+            ->add('openingHoursThursday', TimeType::class,[
+                
+                'label' => 'ouvert le jeudi de   à',
+
+                ])
+            ->add('closingHoursThursday',TimeType::class,[
+                
+                'label' => 'fermé jeudi de   à',])
+
+            ->add('openingHoursFriday', TimeType::class,[
+                
+                'label' => 'ouvert le vendredi de   à',
+
+                ])
+            ->add('closingHoursFriday',TimeType::class,[
+                
+                'label' => 'fermé vendredi de   à',])
+
+            ->add('openingHoursSaturday', TimeType::class,[
+                
+                'label' => 'ouvert le samedi de   à',
+
+                ])
+            ->add('closingHoursSaturday',TimeType::class,[
+                'label' => 'fermé samedi de   à',
+                ])
+        
+           
+            ->add('openingHoursSunday', TimeType::class,[
+                'label' => 'ouvert le dimanche de   à',
+                ])
+            ->add('closingHoursSunday', TimeType::class,[
+                'label' => 'fermé dimanche de   à',
+                ])
             // ->add('region')
             // ->add('users')
         ;
