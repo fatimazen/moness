@@ -105,8 +105,8 @@ class Ess
     #[ORM\Column(length: 255)]
     private ?string $region = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $label = null;
+    #[ORM\Column(length:255 , nullable: true)]
+    private ?array $label = null;
 
     #[ORM\Column(length: 14)]
     private ?string $siretNumber = null;
@@ -492,12 +492,12 @@ class Ess
         return $this;
     }
 
-    public function getLabel(): ?string
+    public function getLabel(): ?array
     {
         return $this->label;
     }
 
-    public function setLabel(?string $label): self
+    public function setLabel(?array $label): self
     {
         $this->label = $label;
 

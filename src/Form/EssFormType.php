@@ -2,24 +2,17 @@
 
 namespace App\Form;
 
-use DateTime;
+
 use App\Entity\Ess;
-use Faker\Core\Number;
-use App\Form\MediaType;
-use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\CallbackTransformer;
-use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Doctrine\DBAL\Types\TimeType as TypesTimeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\UX\LiveComponent\form\Type\LiveCollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
 
 class EssFormType extends AbstractType
@@ -60,9 +53,12 @@ class EssFormType extends AbstractType
                 'label' => 'Activité',
             ])
 
-            ->add('description')
+            ->add('description', TextareaType::class, [
+                 
+                'label'=>'Description',
+            ])
             ->add('siretNumber', NumberType::class, [
-                'label' => 'Numéro de siret',
+                'label' => "Numéro de siret",
             ])
             ->add('label', ChoiceType::class, [
                 'label' => 'Label',
@@ -80,7 +76,7 @@ class EssFormType extends AbstractType
                 'multiple' => true,
             ])
             ->add('legalStatus', ChoiceType::class, [
-                'label' => 'Satut juridique',
+                'label' => 'Statut juridique',
                 'choices' => [
                     'Entreprise individuelle (EI)' => 'Entreprise individuelle (EI)',
                     'Entreprise unipersonnelle à responsabilité limitée (EURL)' => 'Entreprise unipersonnelle à responsabilité limitée (EURL)',
@@ -93,22 +89,10 @@ class EssFormType extends AbstractType
                 ],
                 'expanded' => false,
                 'required' => true,
-                // 'mapped' => true,
-                // 'data' => '',
-                // 'choice_value' => null,
-                // 'choice_attr' => function ($choice) {
-                //     if ($choice === 'Entreprise économique sociale et solidaire' || $choice === 'Entreprise à mission') {
-                //         return ['class' => 'hidden'];
-                //     }
-                //     return [];
-                // },
-                
-                // 'choice_label' => function ($choice) {
-                //     return $choice;
-                // },
             ])
-            ->add('image', FileType::class, [
-                'label' => 'logo de l\'entreprise',
+
+            ->add('images', FileType::class, [
+                'label' => 'logo ',
                 'multiple'=>'true',
                 'mapped'=> false,
                 'required' => false,
@@ -117,36 +101,20 @@ class EssFormType extends AbstractType
 
             ->add('economieSocialeEtSolidaire', CheckboxType::class, [
                 'label' => 'Entreprise économique sociale et solidaire',
-                'required' => false,
-                'mapped' => false,
 
             ])
             ->add('entrepriseAMission', CheckboxType::class, [
                 'label' => 'Entreprise à mission',
-                'required' => false,
-                'mapped' => false,
+                
 
             ])
-            // ->addModelTransformer(new CallbackTransformer(
-            //     function ($statut, $entity) {
-            //         return $statut;
-            //     },
-            //     function ($statut, $entity) {
-            //         if (isset($entity['economieSocialeEtSolidaire']) && $entity['economieSocialeEtSolidaire'] == true) {
-            //             return 'Entreprise économique sociale et solidaire';
-            //         } elseif (isset($entity['entrepriseAMission']) && $entity['entrepriseAMission'] == true) {
-            //             return 'Entreprise à mission';
-            //         } else {
-            //             return $statut;
-            //         }
-            //     }
-            // ))
+            
             ->add('adress', TypeTextType::class, [
                 'label' => 'Adresse',
             ])
             ->add('email')
             ->add('phoneNumber', NumberType::class, [
-                'label' => 'numéros de téléphone',
+                'label' => "Numéros de téléphone",
             ])
             ->add('socialNetworks', TypeTextType::class, [
                 'label' => 'facebook',
@@ -166,74 +134,73 @@ class EssFormType extends AbstractType
                 'label' => 'Prénom',
                 'required' => false,
             ])
-            // ->add('image')
+            
             ->add('openingHoursMonday', TimeType::class, [
-                'label' => 'ouvert le lundi de  à',
+                'label' => "ouvert le lundi de à",
 
             ])
             ->add('closingHoursMonday', TimeType::class, [
 
-                'label' => 'fermé lundi de  à',
+                'label' => "fermé lundi de  à",
             ])
 
             ->add('openingHoursTuesday', TimeType::class, [
 
-                'label' => 'ouvert le mardi de à ',
+                'label' => "ouvert le mardi de à ",
 
             ])
             ->add('closingHoursTuesday', TimeType::class, [
 
-                'label' => 'fermé mardi de  à ',
+                'label' => "fermé mardi de  à",
             ])
 
             ->add('openingHoursWednesday', TimeType::class, [
 
-                'label' => 'ouvert le mercredi de   à',
+                'label' => "ouvert le mercredi de   à",
 
             ])
             ->add('closingHoursWednesday', TimeType::class, [
 
-                'label' => 'fermé mercredi de   à',
+                'label' => "fermé mercredi de   à",
             ])
 
             ->add('openingHoursThursday', TimeType::class, [
 
-                'label' => 'ouvert le jeudi de   à',
+                'label' => "ouvert le jeudi de   à",
 
             ])
             ->add('closingHoursThursday', TimeType::class, [
 
-                'label' => 'fermé jeudi de   à',
+                'label' => "fermé jeudi de   à",
             ])
 
             ->add('openingHoursFriday', TimeType::class, [
 
-                'label' => 'ouvert le vendredi de   à',
+                'label' => "ouvert le vendredi de   à",
 
             ])
             ->add('closingHoursFriday', TimeType::class, [
 
-                'label' => 'fermé vendredi de   à',
+                'label' => "fermé vendredi de   à",
             ])
 
             ->add('openingHoursSaturday', TimeType::class, [
 
-                'label' => 'ouvert le samedi de   à',
+                'label' => "ouvert le samedi de   à",
 
             ])
             ->add('closingHoursSaturday', TimeType::class, [
-                'label' => 'fermé samedi de   à',
+                'label' => "fermé samedi de   à",
             ])
 
 
             ->add('openingHoursSunday', TimeType::class, [
-                'label' => 'ouvert le dimanche de   à',
+                'label' => "ouvert le dimanche de   à",
             ])
             ->add('closingHoursSunday', TimeType::class, [
-                'label' => 'fermé dimanche de   à',
+                'label' => "fermé dimanche de   à",
             ])
-            // ->add('region')
-            // ->add('users')
+           
         ;
     }
 
