@@ -2,22 +2,25 @@
 
 namespace App\Form;
 
-use App\Entity\Ess;
 use DateTime;
-use Doctrine\DBAL\Types\TextType;
-use Doctrine\DBAL\Types\TimeType as TypesTimeType;
+use App\Entity\Ess;
 use Faker\Core\Number;
+use App\Form\MediaType;
+use Doctrine\DBAL\Types\TextType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\CallbackTransformer;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
-use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Doctrine\DBAL\Types\TimeType as TypesTimeType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\UX\LiveComponent\form\Type\LiveCollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
 
 class EssFormType extends AbstractType
 {
@@ -104,19 +107,13 @@ class EssFormType extends AbstractType
                 //     return $choice;
                 // },
             ])
-            ->add('imageFile', VichFileType::class, [
-                'required' => false,
-                'allow_delete' => true,
-                'asset_helper' => true,
+            ->add('image', FileType::class, [
                 'label' => 'logo de l\'entreprise',
+                'multiple'=>'true',
+                'mapped'=> false,
+                'required' => false,
             ])
-            ->add('images', LiveCollectionType::class, [
-                'entry_type' => MediaType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                ])
+            
 
             ->add('economieSocialeEtSolidaire', CheckboxType::class, [
                 'label' => 'Entreprise économique sociale et solidaire',
