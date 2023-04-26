@@ -7,8 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints\Json;
 
 #[ORM\Entity(repositoryClass: EssRepository::class)]
 class Ess
@@ -105,7 +104,7 @@ class Ess
     #[ORM\Column(length: 255)]
     private ?string $region = null;
 
-    #[ORM\Column(length:255 , nullable: true)]
+    #[ORM\Column(type: 'json', nullable: true)]
     private ?array $label = null;
 
     #[ORM\Column(length: 14)]
@@ -122,7 +121,6 @@ class Ess
     private Collection $favoris;
 
 
-
     #[ORM\Column(length: 255)]
     private ?string $activity = null;
 
@@ -131,6 +129,9 @@ class Ess
 
     #[ORM\Column(length: 255)]
     private ?string $entrepriseAMission = null;
+
+    #[ORM\OneToOne(mappedBy: 'ess', cascade: ['persist', 'remove'])]
+    private ?Images $images = null;
 
     public function __construct()
     {
@@ -624,6 +625,23 @@ class Ess
     public function setEntrepriseAMission(string $entrepriseAMission): self
     {
         $this->entrepriseAMission = $entrepriseAMission;
+
+        return $this;
+    }
+
+    public function getImages(): ?Images
+    {
+        return $this->images;
+    }
+
+    public function setImages(Images $images): self
+    {
+        // set the owning side of the relation if necessary
+        if ($images->getEss() !== $this) {
+            $images->setEss($this);
+        }
+
+        $this->images = $images;
 
         return $this;
     }

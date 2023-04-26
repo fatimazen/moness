@@ -41,6 +41,9 @@ class Blog
     #[ORM\OneToMany(mappedBy: 'blog', targetEntity: ArticleCategories::class)]
     private Collection $articlesCategories;
 
+    #[ORM\OneToMany(mappedBy: 'blog', targetEntity: Images::class)]
+    private Collection $images;
+
     
 
     
@@ -49,6 +52,7 @@ class Blog
     {
         $this->comments = new ArrayCollection();
         $this->articlesCategories = new ArrayCollection();
+        $this->images = new ArrayCollection();
        
        
     }
@@ -184,6 +188,36 @@ class Blog
             // set the owning side to null (unless already changed)
             if ($articlesCategory->getBlog() === $this) {
                 $articlesCategory->setBlog(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Images>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Images $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setBlog($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getBlog() === $this) {
+                $image->setBlog(null);
             }
         }
 

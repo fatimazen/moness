@@ -39,12 +39,16 @@ class Articlespress
     #[ORM\OneToMany(mappedBy: 'articlespress', targetEntity: ArticleCategories::class)]
     private Collection $articlescategories;
 
+    #[ORM\OneToMany(mappedBy: 'articlepress', targetEntity: Images::class)]
+    private Collection $images;
+
     
 
     public function __construct()
     {
         $this->comment = new ArrayCollection();
         $this->articlescategories = new ArrayCollection();
+        $this->images = new ArrayCollection();
        
     }
 
@@ -169,6 +173,36 @@ class Articlespress
             // set the owning side to null (unless already changed)
             if ($articlescategory->getArticlespress() === $this) {
                 $articlescategory->setArticlespress(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Images>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Images $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setArticlepress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Images $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getArticlepress() === $this) {
+                $image->setArticlepress(null);
             }
         }
 

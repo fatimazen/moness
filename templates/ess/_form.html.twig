@@ -1,3 +1,4 @@
+<div>
 {{ form_start(essForm) }}
 {{ form_row(essForm.nameStructure) }}
 {{ form_row(essForm.sectorActivity) }}
@@ -8,23 +9,24 @@
 {{ form_row(essForm.legalStatus) }}
 {{ form_row(essForm.adress) }}
 {{ form_row(essForm.images) }}
+</div>
 
-<h3>catre</h3>
-    <button type="submit" class="btn btn-primary" > localiser </button>
+<h3>Carte</h3>
+<button type="submit" class="btn btn-primary" >Localiser</button>
 
-<h2>Coordonnées publique</h2>
+<h2>Coordonnées publiques</h2>
 
 {{ form_row(essForm.email) }}
 {{ form_row(essForm.phoneNumber) }}
 {{ form_row(essForm.socialNetworks) }}
 {{ form_row(essForm.webSite) }}
 
-<h2>Contacte interne à la structure </h2>
+<h2>Contact interne à la structure</h2>
 
 {{ form_row(essForm.lastName) }}
 {{ form_row(essForm.firstName) }}
 
-<h2>horaires d'ouverture(si ouvert au public) </h2>
+<h2>Horaires d'ouverture (si ouvert au public)</h2>
 
 {{ form_row(essForm.openingHoursMonday) }}
 {{ form_row(essForm.closingHoursMonday) }}
@@ -41,8 +43,6 @@
 {{ form_row(essForm.openingHoursSunday) }}
 {{ form_row(essForm.closingHoursSunday) }}
 
-<button type="submit" class="btn btn-primary" > ENVOYER </button>
-
+<button type="submit" class="btn btn-primary" >Envoyer</button>
 
 {{ form_end(essForm) }}
-

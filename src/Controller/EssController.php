@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ess;
 use App\Form\EssFormType;
+use App\Service\PictureService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EssController extends AbstractController
 {
     #[Route('/ajoutEss', name: 'app_ess')]
-    public function add(Request $request, EntityManagerInterface $em): Response
+    public function add(Request $request, EntityManagerInterface $em, PictureService $PictureService): Response
     {
         // je crée une nouvelle structure ess
         $ess= new Ess();
@@ -31,7 +32,14 @@ class EssController extends AbstractController
             // on récupere les images 
 
             $images =$essForm->get('images')->getData();
-            dd($images);
+            foreach($images as $image){
+                // on defini le dossier de destination
+                $folder= 'ess';
+                // on appelle le service d'ajout
+                $fichier=$PictureService ->add($image, $folder, 100, 100);
+                
+
+            }
         }
 
 

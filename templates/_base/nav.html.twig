@@ -1,11 +1,11 @@
 {% block body %}
 	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div class="container-fluid">
+		<div class="container-fluid" style='border-bottom:2px solid #82D830'>
 			<button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
 				<i class="fas fa-bars"></i>
 			</button>
 			<div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-				<a class="navbar-brand" href="#">Logo</a>
+				<a class="navbar-brand" href="#">Moness.fr</a>
 
 				<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 					<li class="nav-item">
@@ -20,15 +20,27 @@
 				</ul>
 
 				{# {% if app_user %} #}
-				<button type="button" class="btn btn-dark my-2 mx-2">Gestion des articles</button>
+				<div class="d-flex justify-content-left">
+					<button type="button" class="btn btn-dark my-2 mx-2" style='background-color: #FFA300 ; border:#FFA300; '>Ajuter une structure de Ess</button>
+				</div>
 				<button type="button" class="btn btn-dark my-2 mx-2">Mon compte</button>
 				<button type="button" class="btn btn-dark my-2 mx-2">Déconnexion</button>
 
 				{# {% else %} #}
-				<button type="button" class="btn btn-dark my-2 mx-2">Connexion</button>
+				<button type="button" class="btn btn-dark my-2 mx-2">
+					Se Connecter</button>
 				<button type="button" class="btn btn-dark my-2 mx-2">Inscription</button>
 				{# {% endif %} #}
+				<divclass="reseaux">
+					
+					<!-- Facebook -->
+					<i class="fab fa-facebook-f fa-2x" style="color: #3b5998;"></i>
+					<!-- Twitter -->
+					<i class="fab fa-twitter fa-2x" style="color: #55acee;"></i>
+					<!-- Linkedin -->
+					<i class="fab fa-linkedin-in fa-2x" style="color: #0082ca;"></i>
 
+				</div>
 			</div>
 		</div>
 	</nav>
