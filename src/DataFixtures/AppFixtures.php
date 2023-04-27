@@ -85,6 +85,7 @@ class AppFixtures extends Fixture
                 ->setImage($faker->imageUrl(640, 480, 'company', true))
                 ->setWebSite($faker->url())
                 ->setSocialNetworks($faker->url())
+                ->setActivity($faker->randomElement([1, 2, 3, 4, 5]))
                 ->setOpeningHoursMonday(new \Datetime($faker->time('H:i:s')))
                 ->setClosingHoursMonday(new \Datetime($faker->time('H:i:s')))
                 ->setOpeningHoursTuesday(new \Datetime($faker->time('H:i:s')))

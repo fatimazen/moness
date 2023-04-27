@@ -415,6 +415,21 @@ legend {
   legend {
     font-size: 1.5rem;
   }
+  /* Styles pour les écrans de bureau */
+@media (min-width: 992px) {
+  /* Vos styles CSS pour les écrans de bureau ici */
+}
+
+/* Styles pour les tablettes */
+@media (min-width: 768px) and (max-width: 991px) {
+  /* Vos styles CSS pour les tablettes ici */
+}
+
+/* Styles pour les téléphones mobiles */
+@media (max-width: 767px) {
+  /* Vos styles CSS pour les téléphones mobiles ici */
+}
+
 }
 legend + * {
   clear: left;

@@ -7,6 +7,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Json;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: EssRepository::class)]
 class Ess
@@ -16,7 +19,7 @@ class Ess
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255,unique: true)]
+    #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
@@ -48,6 +51,10 @@ class Ess
 
     #[ORM\Column(length: 20)]
     private ?string $phoneNumber = null;
+    #[Assert\Length(
+        min:10,
+        max:13,
+    )]
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
@@ -103,8 +110,8 @@ class Ess
     #[ORM\Column(length: 255)]
     private ?string $region = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $label = null;
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $label = null;
 
     #[ORM\Column(length: 14)]
     private ?string $siretNumber = null;
@@ -118,6 +125,14 @@ class Ess
 
     #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Favoris::class)]
     private Collection $favoris;
+
+
+    #[ORM\Column(length: 255)]
+    private ?string $activity = null;
+
+
+    #[ORM\OneToOne(mappedBy: 'ess', cascade: ['persist', 'remove'])]
+    private ?Images $images = null;
 
     public function __construct()
     {
@@ -261,7 +276,6 @@ class Ess
 
         return $this;
     }
-
     public function getImage(): ?string
     {
         return $this->image;
@@ -273,6 +287,8 @@ class Ess
 
         return $this;
     }
+
+
 
     public function getWebSite(): ?string
     {
@@ -478,12 +494,12 @@ class Ess
         return $this;
     }
 
-    public function getLabel(): ?string
+    public function getLabel(): ?array
     {
         return $this->label;
     }
 
-    public function setLabel(?string $label): self
+    public function setLabel(?array $label): self
     {
         $this->label = $label;
 
@@ -570,6 +586,38 @@ class Ess
                 $favori->setEss(null);
             }
         }
+
+        return $this;
+    }
+
+
+
+    public function Activity(): ?string
+    {
+        return $this->activity;
+    }
+
+    public function setActivity(string $activity): self
+    {
+        $this->activity = $activity;
+
+        return $this;
+    }
+
+
+    public function getImages(): ?Images
+    {
+        return $this->images;
+    }
+
+    public function setImages(Images $images): self
+    {
+        // set the owning side of the relation if necessary
+        if ($images->getEss() !== $this) {
+            $images->setEss($this);
+        }
+
+        $this->images = $images;
 
         return $this;
     }

@@ -1,0 +1,51 @@
+<div>
+{{ form_start(essForm) }}
+{{ form_row(essForm.nameStructure) }}
+{{ form_row(essForm.sectorActivity) }}
+{{ form_row(essForm.activity) }}
+{{ form_row(essForm.description) }}
+{{ form_row(essForm.siretNumber) }}
+{{ form_row(essForm.label) }}
+{{ form_row(essForm.legalStatus) }}
+{{ form_row(essForm.city) }}
+{{ form_row(essForm.zip_code) }}
+{{ form_row(essForm.adress) }}
+{{ form_row(essForm.region) }}
+{{ form_row(essForm.images) }}
+</div>
+
+<h3>Carte</h3>
+<button type="submit" class="btn btn-primary" >Localiser</button>
+
+<h2>Coordonnées publiques</h2>
+
+{{ form_row(essForm.email) }}
+{{ form_row(essForm.phoneNumber) }}
+{{ form_row(essForm.socialNetworks) }}
+{{ form_row(essForm.webSite) }}
+
+<h2>Contact interne à la structure</h2>
+
+{{ form_row(essForm.lastName) }}
+{{ form_row(essForm.firstName) }}
+
+<h2>Horaires d'ouverture (si ouvert au public)</h2>
+
+{{ form_row(essForm.openingHoursMonday) }}
+{{ form_row(essForm.closingHoursMonday) }}
+{{ form_row(essForm.openingHoursTuesday) }}
+{{ form_row(essForm.closingHoursTuesday) }}
+{{ form_row(essForm.openingHoursWednesday) }}
+{{ form_row(essForm.closingHoursWednesday) }}
+{{ form_row(essForm.openingHoursThursday) }}
+{{ form_row(essForm.closingHoursThursday) }}
+{{ form_row(essForm.openingHoursFriday) }}
+{{ form_row(essForm.closingHoursFriday) }}
+{{ form_row(essForm.openingHoursSaturday) }}
+{{ form_row(essForm.closingHoursSaturday) }}
+{{ form_row(essForm.openingHoursSunday) }}
+{{ form_row(essForm.closingHoursSunday) }}
+
+{# <button type="submit" class="btn btn-primary" >Envoyer</button> #}
+
+{{ form_end(essForm) }}
