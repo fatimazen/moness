@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints\Json;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: EssRepository::class)]
 class Ess
@@ -49,6 +51,10 @@ class Ess
 
     #[ORM\Column(length: 20)]
     private ?string $phoneNumber = null;
+    #[Assert\Length(
+        min:10,
+        max:13,
+    )]
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
@@ -124,11 +130,6 @@ class Ess
     #[ORM\Column(length: 255)]
     private ?string $activity = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $economieSocialeEtSolidaire = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $entrepriseAMission = null;
 
     #[ORM\OneToOne(mappedBy: 'ess', cascade: ['persist', 'remove'])]
     private ?Images $images = null;
@@ -603,31 +604,6 @@ class Ess
         return $this;
     }
 
-
-
-    public function getEconomieSocialeEtSolidaire(): ?string
-    {
-        return $this->economieSocialeEtSolidaire;
-    }
-
-    public function setEconomieSocialeEtSolidaire(string $economieSocialeEtSolidaire): self
-    {
-        $this->economieSocialeEtSolidaire = $economieSocialeEtSolidaire;
-
-        return $this;
-    }
-
-    public function getEntrepriseAMission(): ?string
-    {
-        return $this->entrepriseAMission;
-    }
-
-    public function setEntrepriseAMission(string $entrepriseAMission): self
-    {
-        $this->entrepriseAMission = $entrepriseAMission;
-
-        return $this;
-    }
 
     public function getImages(): ?Images
     {

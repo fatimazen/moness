@@ -20,29 +20,33 @@
 				</ul>
 
 				{# {% if app_user %} #}
-				<div class="d-flex justify-content-left">
-				<a href= {{ path ("app_ess") }} >
-					<button type="button" class="btn btn-dark my-2 mx-2" style='background-color: #FFA300 ; border:#FFA300; '>Ajuter une structure de Ess</button>
-				</a>
+				<div class="col-sm-6 col-md-4">
+					<a href={{ path ("app_ess") }}>
+						<button type="button" class="btn btn-dark my-2 mx-2" style='background-color: #FFA300 ; border:#FFA300; '>Ajuter une structure de Ess</button>
+					</a>
 				</div>
-				
+
 				<button type="button" class="btn btn-dark my-2 mx-2">Mon compte</button>
 				<button type="button" class="btn btn-dark my-2 mx-2">Déconnexion</button>
 
 				{# {% else %} #}
+				<div class="col-sm-6 col-md-4">
+
 				<button type="button" class="btn btn-dark my-2 mx-2">
 					Se Connecter</button>
 				<button type="button" class="btn btn-dark my-2 mx-2">Inscription</button>
+				</div>
 				{# {% endif %} #}
 				<divclass="reseaux">
-					
+				<div class="col-sm-6 col-md-4">
+
 					<!-- Facebook -->
 					<i class="fab fa-facebook-f fa-2x" style="color: #3b5998;"></i>
 					<!-- Twitter -->
 					<i class="fab fa-twitter fa-2x" style="color: #55acee;"></i>
 					<!-- Linkedin -->
 					<i class="fab fa-linkedin-in fa-2x" style="color: #0082ca;"></i>
-
+				</dive>
 				</div>
 			</div>
 		</div>

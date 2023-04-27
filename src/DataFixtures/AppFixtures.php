@@ -103,8 +103,6 @@ class AppFixtures extends Fixture
                 ->setRegion($faker->randomElement(['occitanie', 'PACA', 'Rhônes Alpes']))
                 ->setLabel($faker->randomElement(['L’AFNOR ', 'ESUS', 'Lucie', 'ISR']))
                 ->setSiretNumber($faker->randomNumber())
-                ->setEconomieSocialeEtSolidaire($faker->randomElement([1,2]))
-                ->setEntrepriseAMission($faker->randomElement([1,2]))
                 ->setUsers($faker->randomElement($users));
 
             $essS[] = $ess;

@@ -12,8 +12,11 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+
 
 class EssFormType extends AbstractType
 {
@@ -54,11 +57,15 @@ class EssFormType extends AbstractType
             ])
 
             ->add('description', TextareaType::class, [
-                 
-                'label'=>'Description',
+
+                'label' => 'Description',
             ])
             ->add('siretNumber', NumberType::class, [
                 'label' => "Numéro de siret",
+                'required' => false
+            ])
+            ->add('save', SubmitType::class, [
+                'label' => 'Enregistrer',
             ])
             ->add('label', ChoiceType::class, [
                 'label' => 'Label',
@@ -93,24 +100,33 @@ class EssFormType extends AbstractType
 
             ->add('images', FileType::class, [
                 'label' => 'logo ',
-                'multiple'=>'true',
-                'mapped'=> false,
+                'multiple' => false,
+                'mapped' => false,
                 'required' => false,
             ])
-            
 
-            ->add('economieSocialeEtSolidaire', CheckboxType::class, [
-                'label' => 'Entreprise économique sociale et solidaire',
 
+            // ->add('economieSocialeEtSolidaire', CheckboxType::class, [
+            //     'label' => 'Entreprise économique sociale et solidaire',
+
+            // ])
+            // ->add('entrepriseAMission', CheckboxType::class, [
+            //     'label' => 'Entreprise à mission',
+
+
+            // ])
+
+            ->add('city', TypeTextType::class, [
+                'label' => 'Ville',
             ])
-            ->add('entrepriseAMission', CheckboxType::class, [
-                'label' => 'Entreprise à mission',
-                
-
+            ->add('zip_code', NumberType::class, [
+                'label' => "Code postale",
             ])
-            
             ->add('adress', TypeTextType::class, [
-                'label' => 'Adresse',
+                'label' => "Adresse complète",
+            ])
+            ->add('region',TypeTextType::class,[
+                'label'=>'Région',
             ])
             ->add('email')
             ->add('phoneNumber', NumberType::class, [
@@ -134,7 +150,7 @@ class EssFormType extends AbstractType
                 'label' => 'Prénom',
                 'required' => false,
             ])
-            
+
             ->add('openingHoursMonday', TimeType::class, [
                 'label' => "ouvert le lundi de à",
 
@@ -199,9 +215,7 @@ class EssFormType extends AbstractType
             ])
             ->add('closingHoursSunday', TimeType::class, [
                 'label' => "fermé dimanche de   à",
-            ])
-           
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

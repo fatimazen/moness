@@ -7,7 +7,10 @@
 {{ form_row(essForm.siretNumber) }}
 {{ form_row(essForm.label) }}
 {{ form_row(essForm.legalStatus) }}
+{{ form_row(essForm.city) }}
+{{ form_row(essForm.zip_code) }}
 {{ form_row(essForm.adress) }}
+{{ form_row(essForm.region) }}
 {{ form_row(essForm.images) }}
 </div>
 
@@ -43,6 +46,6 @@
 {{ form_row(essForm.openingHoursSunday) }}
 {{ form_row(essForm.closingHoursSunday) }}
 
-<button type="submit" class="btn btn-primary" >Envoyer</button>
+{# <button type="submit" class="btn btn-primary" >Envoyer</button> #}
 
 {{ form_end(essForm) }}
