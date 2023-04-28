@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 class UserInscriptionController extends AbstractController
 {
     #[Route('/user/inscription', name: 'app_user_inscription')]
