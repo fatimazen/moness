@@ -6,16 +6,17 @@ namespace App\Form;
 use App\Entity\Ess;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 
 class EssFormType extends AbstractType
@@ -128,7 +129,10 @@ class EssFormType extends AbstractType
             ->add('region',TypeTextType::class,[
                 'label'=>'Région',
             ])
-            ->add('email')
+            ->add('email',TypeTextType::class, [
+                'label' => 'Email',
+                ])
+
             ->add('phoneNumber', NumberType::class, [
                 'label' => "Numéros de téléphone",
             ])
@@ -143,12 +147,12 @@ class EssFormType extends AbstractType
             ->add('lastName', TypeTextType::class, [
 
                 'label' => 'Nom de la personne',
-                'required' => false,
+                'required' => true,
             ])
             ->add('firstName', TypeTextType::class, [
 
                 'label' => 'Prénom',
-                'required' => false,
+                'required' => true,
             ])
 
             ->add('openingHoursMonday', TimeType::class, [
@@ -215,6 +219,11 @@ class EssFormType extends AbstractType
             ])
             ->add('closingHoursSunday', TimeType::class, [
                 'label' => "fermé dimanche de   à",
+            ])
+            ->add('users', EntityType::class, [
+                'class' => Users::class,
+                'label' => 'Utilisateur',
+                'required' => true,
             ]);
     }
 

@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Ess;
 use App\Event\EssCreatedEvent;
 use App\Entity\Images;
-use App\Entity\Users;
+
 use App\Form\EssFormType;
 use App\Repository\EssRepository;
 use App\Service\PictureService;
@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class EssController extends AbstractController
 {
     #[Route('/ajoutEss', name: 'app_ess')]
-    public function add(Request $request,PictureService $PictureService, EssRepository $essRepository, EventDispatcherInterface $dispatcher, EntityManagerInterface $manager): Response
+    public function add(Request $request, PictureService $PictureService, EssRepository $essRepository, EventDispatcherInterface $dispatcher, EntityManagerInterface $manager): Response
     {
         // Je crée une nouvelle structure ess
         $ess = new Ess();
@@ -48,10 +48,10 @@ class EssController extends AbstractController
 
             $essRepository->save($ess, true);
 
-            // $event = new EssCreatedEvent($ess);
-            // $dispatcher->dispatch($event, EssCreatedEvent::NAME);
-            $manager->persist($ess);
-            $manager->flush();
+            $event = new EssCreatedEvent($ess);
+            $dispatcher->dispatch($event, EssCreatedEvent::NAME);
+            // $manager->persist($ess);
+            // $manager->flush();
 
             return $this->redirectToRoute('app_ess', [], Response::HTTP_SEE_OTHER);
         }

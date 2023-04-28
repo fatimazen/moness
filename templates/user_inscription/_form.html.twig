@@ -1,0 +1,21 @@
+
+<div>
+    {{ form_start(userForm) }}
+    {{ form_row(userForm.gender) }}
+    {{ form_row(userForm.lastName) }}
+    {{ form_row(userForm.firstName) }}
+    {{ form_row(userForm.birthdate) }}
+</div>
+<h2>
+    Données de connexion
+</h2>
+<div>
+    {{ form_row(userForm.email) }}
+    {{ form_row(userForm.password) }}
+    </div>
+
+    <div class="col-md-12">
+<button type="submit" class="btn btn-primary" >Envoyer</button>
+    </div>
+    
+    {{ form_end(userForm) }}
