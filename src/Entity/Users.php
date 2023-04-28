@@ -35,10 +35,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'], nullable: true)]
     private ?\DateTimeImmutable $created_At = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private ?bool $is_abonneNewsLetter = null;
 
     #[ORM\Column(length: 255)]

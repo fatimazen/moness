@@ -9,9 +9,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
 use Symfony\Component\Form\FormTypeInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
+
 class UsersFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -33,9 +36,11 @@ class UsersFormType extends AbstractType
                 'label' => 'Nom',
                 
             ])
-            // ->add('created_At',DateTimeImmutable::class, [
+            // ->add('created_At',DateTimeType::class, [
             //     'label' => 'date de création',
-                   
+            //     'widget' => 'single_text',
+            //     'input'  => 'datetime_immutable',
+                
             // ])
 
             
