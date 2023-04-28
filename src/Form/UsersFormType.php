@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Users;
+use DateTimeImmutable;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -10,14 +11,14 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
-
+use Symfony\Component\Form\FormTypeInterface;
 class UsersFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('email', TypeTextType::class, [
-                'label' => 'Email',
+                'label' => 'Adresse Email',
 
             ])
             // ->add('roles')
@@ -26,24 +27,33 @@ class UsersFormType extends AbstractType
             ])
             ->add('firstName', TypeTextType::class, [
                 'label' => 'Prénom',
-                'attr' => ['placeholder' => 'Prénom'],
+                
             ])
             ->add('lastName', TypeTextType::class, [
                 'label' => 'Nom',
-                'attr' => ['placeholder' => 'Nom'],
+                
             ])
-            // ->add('created_At')
+            // ->add('created_At',DateTimeImmutable::class, [
+            //     'label' => 'date de création',
+                   
+            // ])
+
+            
             // ->add('is_abonneNewsLetter')
             ->add('birthdate', DateType::class, [
                 'label' => 'Date de naissance',
+                'widget' => 'single_text',
+                'input' => 'string',
             ])
 
             ->add('gender',ChoiceType::class,[
-                'label' => 'Genre',
+                'label' => 'Civilité',
                 'choices' => [
                     'M' => 'Homme',
                     'F' => 'Femme',
                 ],
+                'expanded' => true,
+                'multiple' => false,
             ]);
     }
 

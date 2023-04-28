@@ -1,21 +1,25 @@
 
 <div>
     {{ form_start(userForm) }}
-    {{ form_row(userForm.gender) }}
+    {{ form_row(userForm.gender,) }}
     {{ form_row(userForm.lastName) }}
     {{ form_row(userForm.firstName) }}
     {{ form_row(userForm.birthdate) }}
 </div>
+<div style="text-align: center; border: 1px solid #030303;box-shadow: 2px 2px 4px ;font-family: 'Futura Md-Bt', sans-serif;">
 <h2>
     Données de connexion
 </h2>
+</div>
 <div>
     {{ form_row(userForm.email) }}
     {{ form_row(userForm.password) }}
     </div>
 
     <div class="col-md-12">
-<button type="submit" class="btn btn-primary" >Envoyer</button>
+    
+<button type="submit" class="btn btn-primary" style="background-color:#25CCBF; border:none" >S'inscrire</button>
+
     </div>
     
     {{ form_end(userForm) }}

@@ -223,7 +223,7 @@ class EssFormType extends AbstractType
             ->add('users', EntityType::class, [
                 'class' => Users::class,
                 'label' => 'Utilisateur',
-                'required' => true,
+                'required' => false,
             ]);
     }
 
