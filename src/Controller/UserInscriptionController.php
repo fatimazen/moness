@@ -3,42 +3,51 @@
 namespace App\Controller;
 
 use App\Entity\Users;
-use App\Event\UsersCreatedEvent;
 use App\Form\UsersFormType;
+use App\Service\JWTService;
+use App\Service\SendMailService;
+use App\Form\RegistrationFormType;
 use App\Repository\UsersRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use App\Security\UserAuthenticator;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 
 class UserInscriptionController extends AbstractController
 {
     #[Route('/user/inscription', name: 'app_user_inscription')]
-    public function index(Request $request, UsersRepository $userRepository, EventDispatcherInterface $dispatcher): Response
+    public function register(Request $request,EntityManagerInterface $entityManager,UserPasswordHasherInterface $userPasswordHasher,UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator): Response
     {
-        // Je crée une nouvelle structure ess
         $user = new Users();
-        // On créé le formulaire
         $userForm = $this->createForm(UsersFormType::class, $user);
-
-        // On traite la requête du formulaire
         $userForm->handleRequest($request);
 
-        // On vérifie si le formulaire est soumis et valide
         if ($userForm->isSubmitted() && $userForm->isValid()) {
-            $userRepository->save($user, true);
+            // encode the plain password
+            $user->setPassword(
+            $userPasswordHasher->hashPassword(
+                    $user,
+                    $userForm->get('plainPassword')->getData()
+                )
+            );
 
-            $event = new UsersCreatedEvent($user);
-            $dispatcher->dispatch($event, UsersCreatedEvent::NAME);
+            $entityManager->persist($user);
+            $entityManager->flush();
 
-            return $this->redirectToRoute('app_user', [], Response::HTTP_SEE_OTHER);
+            return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
+            
         }
-
         return $this->render('user_inscription/index.html.twig', [
             'controller_name' => 'UserInscriptionController',
             'userForm' => $userForm->createView()
         ]);
     }
-}
+    }
