@@ -29,15 +29,24 @@ class UsersFormType extends AbstractType
 
             ])
             // ->add('roles')
-            ->add('password', PasswordType::class, [
-                'label' => 'Mot de passe',
+
+            ->add('plainPassword', PasswordType::class, [
+            
                 'mapped'=>false,
-                'attr'=>['autocomplete'=>'new-password'],
+                'attr'=>[
+                    'autocomplete'=>'new-password'
+                ],
                 'constraints'=>[
                     new NotBlank([
                         'message'=> 'veuillez entrée un mot de passe',
-                    ])
-                ]
+                    ]),
+                    new length([
+                        'min'=> 6,
+                        'minMessage'=>'you password should be at least{{limit}} characters',
+                        'max'=>4096,
+                    ]),
+                ],
+                'label'=>'Mot de passe'
             ])
             ->add('firstName', TypeTextType::class, [
                 'label' => 'Prénom',
@@ -69,15 +78,11 @@ class UsersFormType extends AbstractType
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([
-                        'message' => 'Validation des données personnelles requise'
+                        'message' => 'you should agree to our terms.'
                     ]),
-                    new Length([
-                        'min'=> 6,
-                        'minMessage'=>'Votre mot de passe doit contenir au minimum{{limit}}
-                        characters',
-                        'max'=>4096,
-                    ]),
+                   
                 ],
+                'label'=>'En m\'inscrivant à ce site j\'accepte les condition d\'inscription'
                     ]);
                     
                 

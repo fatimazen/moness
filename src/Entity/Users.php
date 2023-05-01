@@ -38,8 +38,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $lastName = null;
 
-    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'], nullable: true)]
-    private ?\DateTimeImmutable $created_At = null;
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private \DateTimeImmutable $created_At ;
 
     #[ORM\Column(nullable:true)]
     private ?bool $is_abonneNewsLetter = null;
@@ -49,12 +49,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255)]
     private ?string $gender = null;
-
-    // #[ORM\Column]
-    // private ?bool $isSubscribed = null;
-
-    // #[ORM\Column(options:['delfaut'=>false],type:'boolean',)]
-    // private ?bool $isVerified= false ;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Ess::class)]
     private Collection $ess;
@@ -88,6 +82,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->blog = new ArrayCollection();
         $this->newsletters = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->created_At = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -184,7 +179,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->created_At;
     }
