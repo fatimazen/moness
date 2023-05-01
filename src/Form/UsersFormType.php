@@ -59,6 +59,7 @@ class UsersFormType extends AbstractType
                 ],
                 'expanded' => true,
                 'multiple' => false,
+                
             ]);
     }
 
