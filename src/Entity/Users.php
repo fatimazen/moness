@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Event\UsersCreatedEvent;
-
+use phpDocumentor\Reflection\Types\Nullable;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
@@ -49,6 +49,12 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $gender = null;
 
+    // #[ORM\Column]
+    // private ?bool $isSubscribed = null;
+
+    // #[ORM\Column(options:['delfaut'=>false],type:'boolean',)]
+    // private ?bool $isVerified= false ;
+
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Ess::class)]
     private Collection $ess;
 
@@ -70,6 +76,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favoris::class)]
     private Collection $favoris;
 
+    
+    
     public function __construct()
     {
         $this->ess = new ArrayCollection();
@@ -395,7 +403,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeFavori(Favoris $favori): self
     {
         if ($this->favoris->removeElement($favori)) {
-            // set the owning side to null (unless already changed)
+            // set the owning side to null (unless already changed) 
             if ($favori->getUser() === $this) {
                 $favori->setUser(null);
             }
@@ -403,5 +411,28 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    // public function isIsSubscribed(): ?bool
+    // {
+    //     return $this->isSubscribed;
+    // }
+
+    // public function setIsSubscribed(?bool $isSubscribed): self
+    // {
+    //     $this->isSubscribed = $isSubscribed;
+
+    //     return $this;
+    // }
+
+    // public function isVerified(): bool
+    // {
+    //     return $this->isVerified;
+    // }
+    // public function setIsVerified(?bool $isVerified): self
+    // {
+    //     $this->isVerified = $isVerified;
+    
+    //     return $this;
+    // }
 
 }
