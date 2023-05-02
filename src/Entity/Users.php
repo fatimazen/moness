@@ -80,7 +80,6 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->comments = new ArrayCollection();
         $this->newsLetters = new ArrayCollection();
         $this->blog = new ArrayCollection();
-        $this->newsletters = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->created_At = new \DateTimeImmutable();
     }
