@@ -116,9 +116,8 @@ class Ess
     #[ORM\Column(length: 14)]
     private ?string $siretNumber = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ess')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Users $users = null;
+    #[ORM\ManyToOne(inversedBy: 'ess', cascade:['persist'])]
+    private ?Users $user = null;
 
     #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Comments::class)]
     private Collection $comments;
@@ -138,6 +137,7 @@ class Ess
     {
         $this->comments = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->user = new Users;
     }
 
     public function getId(): ?int
@@ -518,14 +518,14 @@ class Ess
         return $this;
     }
 
-    public function getUsers(): ?Users
+    public function getUser():?Users
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function setUsers(?Users $users): self
+    public function setUser(?Users $user): self
     {
-        $this->users = $users;
+        $this->user = $user;
 
         return $this;
     }

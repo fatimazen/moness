@@ -77,6 +77,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->blog = new ArrayCollection();
         $this->newsletters = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+    
     }
 
     public function getId(): ?int
@@ -234,7 +235,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->ess->contains($ess)) {
             $this->ess->add($ess);
-            $ess->setUsers($this);
+            $ess->setUser($this);
         }
 
         return $this;
@@ -244,8 +245,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->ess->removeElement($ess)) {
             // set the owning side to null (unless already changed)
-            if ($ess->getUsers() === $this) {
-                $ess->setUsers(null);
+            if ($ess->getUser() === $this) {
+                $ess->setUser(null);
             }
         }
 
