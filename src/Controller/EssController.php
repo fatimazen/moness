@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Ess;
 use App\Event\EssCreatedEvent;
 use App\Entity\Images;
+
 use App\Form\EssFormType;
 use App\Repository\EssRepository;
 use App\Service\PictureService;
@@ -19,13 +20,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 class EssController extends AbstractController
 {
     #[Route('/ajoutEss', name: 'app_ess')]
-    public function add(Request $request,  PictureService $PictureService, EssRepository $essRepository, EventDispatcherInterface $dispatcher): Response
+    public function add(Request $request, PictureService $PictureService, EssRepository $essRepository, EventDispatcherInterface $dispatcher, EntityManagerInterface $manager): Response
     {
         // Je crée une nouvelle structure ess
         $ess = new Ess();
         // On créé le formulaire
         $essForm = $this->createForm(EssFormType::class, $ess);
-    
+
         // On traite la requête du formulaire
         $essForm->handleRequest($request);
 
@@ -33,7 +34,7 @@ class EssController extends AbstractController
         if ($essForm->isSubmitted() && $essForm->isValid()) {
             // On récupère les images si elles existent
             $images = $essForm->get('images')->getData();
-            if (!empty($images)) {
+            if ($images) {
                 foreach ($images as $image) {
                     // On définit le dossier de destination
                     $folder = 'ess';
@@ -49,8 +50,10 @@ class EssController extends AbstractController
 
             $event = new EssCreatedEvent($ess);
             $dispatcher->dispatch($event, EssCreatedEvent::NAME);
+            // $manager->persist($ess);
+            // $manager->flush();
 
-            return $this->redirectToRoute('app_ess',[],Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_ess', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('ess/add.html.twig', [
