@@ -49,12 +49,12 @@ class Ess
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $phoneNumber = null;
     #[Assert\Length(
         min:10,
         max:13,
     )]
+    #[ORM\Column(length: 20)]
+    private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
@@ -116,9 +116,8 @@ class Ess
     #[ORM\Column(length: 14)]
     private ?string $siretNumber = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ess')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Users $users = null;
+    #[ORM\ManyToOne(inversedBy: 'ess', cascade:['persist'])]
+    private ?Users $user = null;
 
     #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Comments::class)]
     private Collection $comments;
@@ -518,14 +517,14 @@ class Ess
         return $this;
     }
 
-    public function getUsers(): ?Users
+    public function getUser():?Users
     {
-        return $this->users;
+        return $this->user;
     }
 
-    public function setUsers(?Users $users): self
+    public function setUser(?Users $user): self
     {
-        $this->users = $users;
+        $this->user = $user;
 
         return $this;
     }

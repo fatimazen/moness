@@ -59,8 +59,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Comments::class)]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: NewsLetters::class)]
-    private Collection $newsLetters;
+    // #[ORM\OneToMany(mappedBy: 'users', targetEntity: NewsLetters::class)]
+    // private Collection $newsLetters;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Blog::class)]
     private Collection $blog;
@@ -78,10 +78,12 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ess = new ArrayCollection();
         $this->contactMessage = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->newsLetters = new ArrayCollection();
+        // $this->newsLetters = new ArrayCollection();
         $this->blog = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+
         $this->created_At = new \DateTimeImmutable();
+
     }
 
     public function getId(): ?int
@@ -239,7 +241,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->ess->contains($ess)) {
             $this->ess->add($ess);
-            $ess->setUsers($this);
+            $ess->setUser($this);
         }
 
         return $this;
@@ -249,8 +251,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->ess->removeElement($ess)) {
             // set the owning side to null (unless already changed)
-            if ($ess->getUsers() === $this) {
-                $ess->setUsers(null);
+            if ($ess->getUser() === $this) {
+                $ess->setUser(null);
             }
         }
 

@@ -6,16 +6,22 @@ namespace App\Form;
 use App\Entity\Ess;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
 
 
@@ -61,10 +67,35 @@ class EssFormType extends AbstractType
 
                 'label' => 'Description',
             ])
-            ->add('siretNumber', NumberType::class, [
+            ->add('siretNumber', TypeTextType::class, [
                 'label' => "Numéro de siret",
-                'required' => false
+                'required' => true,
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Le numéro SIRET ne doit pas être vide.'
+                    ]),
+                    new length([
+                        'min' => 14,
+                        'max' => 14,
+                        'exactMessage' => 'Le numéro SIRET doit contenir exactement {{ limit }} chiffres.'
+                    ]),
+                    new Regex([
+                        'pattern' => '/^[0-9]{14}$/',
+                        'message' => 'Le numéro SIRET doit être composé de 14 chiffres.'
+                    ]),
+                ]
+
             ])
+
+
+
+            ->add('email', EmailType::class, [
+                'label' => 'Adresse Email',
+
+
+
+            ])
+
             ->add('save', SubmitType::class, [
                 'label' => 'Enregistrer',
             ])
@@ -120,21 +151,36 @@ class EssFormType extends AbstractType
             ->add('city', TypeTextType::class, [
                 'label' => 'Ville',
             ])
-            ->add('zip_code', NumberType::class, [
+            ->add('zip_code', TypeTextType::class, [
                 'label' => "Code postale",
+                'constraints' => [
+                    new Length([
+                        'min' => 5,
+                        'max' => 5,
+                        'exactMessage' => 'Le code postal doit contenir exactement {{ limit }} chiffres.',
+                    ]),
+                ]
             ])
             ->add('adress', TypeTextType::class, [
                 'label' => "Adresse complète",
             ])
-            ->add('region',TypeTextType::class,[
-                'label'=>'Région',
+            ->add('region', TypeTextType::class, [
+                'label' => 'Région',
             ])
-            ->add('email',TypeTextType::class, [
-                'label' => 'Email',
-                ])
 
-            ->add('phoneNumber', NumberType::class, [
+
+            ->add('phoneNumber', TelType::class, [
+
                 'label' => "Numéros de téléphone",
+                'constraints' => [
+                    new NotBlank(),
+                    new length([
+                        'min' => 10,
+                        'max' => 13,
+                        'minMessage' => 'Le numéro de téléphone doit avoir au moins {{ limit }} chiffres',
+                        'maxMessage' => 'Le numéro de téléphone ne doit pas dépasser {{ limit }} chiffres',
+                    ])
+                ]
             ])
             ->add('socialNetworks', TypeTextType::class, [
                 'label' => 'facebook',
@@ -231,6 +277,13 @@ class EssFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Ess::class,
+            'constraints' => [
+                new UniqueEntity([
+                    'fields' => ['email'],
+
+                    'message' => 'cette adresse e-mail est déjà utilisée'
+                ])
+            ],
         ]);
     }
 }

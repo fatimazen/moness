@@ -101,9 +101,9 @@ class AppFixtures extends Fixture
                 ->setOpeningHoursSunday(new \Datetime($faker->time('H:i:s')))
                 ->setClosingHoursSunday(new \Datetime($faker->time('H:i:s')))
                 ->setRegion($faker->randomElement(['occitanie', 'PACA', 'Rhônes Alpes']))
-                ->setLabel($faker->randomElement(['L’AFNOR ', 'ESUS', 'Lucie', 'ISR']))
+                ->setLabel([$faker->randomElement(['L’AFNOR ', 'ESUS', 'Lucie', 'ISR'])])
                 ->setSiretNumber($faker->randomNumber())
-                ->setUsers($faker->randomElement($users));
+                ->setUser($faker->randomElement($users));
 
             $essS[] = $ess;
             $manager->persist($ess);

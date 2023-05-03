@@ -49,6 +49,7 @@ class Articlespress
         $this->comment = new ArrayCollection();
         $this->articlescategories = new ArrayCollection();
         $this->images = new ArrayCollection();
+    
        
     }
 
