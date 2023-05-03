@@ -49,12 +49,12 @@ class Ess
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $phoneNumber = null;
     #[Assert\Length(
         min:10,
         max:13,
     )]
+    #[ORM\Column(length: 20)]
+    private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
@@ -137,7 +137,6 @@ class Ess
     {
         $this->comments = new ArrayCollection();
         $this->favoris = new ArrayCollection();
-        $this->user = new Users;
     }
 
     public function getId(): ?int

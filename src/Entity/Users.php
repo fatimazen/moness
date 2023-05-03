@@ -56,8 +56,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Comments::class)]
     private Collection $comments;
 
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: NewsLetters::class)]
-    private Collection $newsLetters;
+    // #[ORM\OneToMany(mappedBy: 'users', targetEntity: NewsLetters::class)]
+    // private Collection $newsLetters;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: Blog::class)]
     private Collection $blog;
@@ -73,7 +73,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->ess = new ArrayCollection();
         $this->contactMessage = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->newsLetters = new ArrayCollection();
+        // $this->newsLetters = new ArrayCollection();
         $this->blog = new ArrayCollection();
         $this->newsletters = new ArrayCollection();
         $this->favoris = new ArrayCollection();
