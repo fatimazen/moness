@@ -265,12 +265,8 @@ class EssFormType extends AbstractType
             ])
             ->add('closingHoursSunday', TimeType::class, [
                 'label' => "fermé dimanche de   à",
-            ])
-            ->add('users', EntityType::class, [
-                'class' => Users::class,
-                'label' => 'Utilisateur',
-                'required' => false,
             ]);
+          
     }
 
     public function configureOptions(OptionsResolver $resolver): void
