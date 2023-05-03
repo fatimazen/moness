@@ -6,10 +6,13 @@ use App\Repository\UsersRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use phpDocumentor\Reflection\Types\Nullable;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
+#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Users implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -36,9 +39,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $lastName = null;
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
-    private ?\DateTimeImmutable $created_At = null;
+    private \DateTimeImmutable $created_At ;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable:true)]
     private ?bool $is_abonneNewsLetter = null;
 
     #[ORM\Column(length: 255)]
@@ -68,6 +71,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favoris::class)]
     private Collection $favoris;
 
+    
+    
     public function __construct()
     {
         $this->ess = new ArrayCollection();
@@ -75,9 +80,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->comments = new ArrayCollection();
         // $this->newsLetters = new ArrayCollection();
         $this->blog = new ArrayCollection();
-        $this->newsletters = new ArrayCollection();
         $this->favoris = new ArrayCollection();
-    
+
+        $this->created_At = new \DateTimeImmutable();
+
     }
 
     public function getId(): ?int
@@ -174,7 +180,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): \DateTimeImmutable
     {
         return $this->created_At;
     }
@@ -394,7 +400,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeFavori(Favoris $favori): self
     {
         if ($this->favoris->removeElement($favori)) {
-            // set the owning side to null (unless already changed)
+            // set the owning side to null (unless already changed) 
             if ($favori->getUser() === $this) {
                 $favori->setUser(null);
             }
@@ -402,5 +408,28 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    // public function isIsSubscribed(): ?bool
+    // {
+    //     return $this->isSubscribed;
+    // }
+
+    // public function setIsSubscribed(?bool $isSubscribed): self
+    // {
+    //     $this->isSubscribed = $isSubscribed;
+
+    //     return $this;
+    // }
+
+    // public function isVerified(): bool
+    // {
+    //     return $this->isVerified;
+    // }
+    // public function setIsVerified(?bool $isVerified): self
+    // {
+    //     $this->isVerified = $isVerified;
+    
+    //     return $this;
+    // }
 
 }

@@ -24,6 +24,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
 
+
 class EssFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -167,7 +168,9 @@ class EssFormType extends AbstractType
                 'label' => 'Région',
             ])
 
+
             ->add('phoneNumber', TelType::class, [
+
                 'label' => "Numéros de téléphone",
                 'constraints' => [
                     new NotBlank(),
@@ -190,12 +193,12 @@ class EssFormType extends AbstractType
             ->add('lastName', TypeTextType::class, [
 
                 'label' => 'Nom de la personne',
-                'required' => false,
+                'required' => true,
             ])
             ->add('firstName', TypeTextType::class, [
 
                 'label' => 'Prénom',
-                'required' => false,
+                'required' => true,
             ])
 
             ->add('openingHoursMonday', TimeType::class, [
@@ -262,6 +265,11 @@ class EssFormType extends AbstractType
             ])
             ->add('closingHoursSunday', TimeType::class, [
                 'label' => "fermé dimanche de   à",
+            ])
+            ->add('users', EntityType::class, [
+                'class' => Users::class,
+                'label' => 'Utilisateur',
+                'required' => false,
             ]);
     }
 
