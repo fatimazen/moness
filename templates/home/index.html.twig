@@ -11,10 +11,10 @@
 		<head>
 			<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 			<link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
-			        <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
-                    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">       
-            <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
-                    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+			<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
+			<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
+			<script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
+			<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
 
 		</head>
 		<style>
@@ -44,15 +44,15 @@ var villes = {
 "lon": -4.500
 },
 "Quimper": {
- "lat": 48.000,
- "lon": -4.100 
- },
-   "Bayonne": {
+"lat": 48.000,
+"lon": -4.100
+},
+"Bayonne": {
 "lat": 43.500,
-"lon": -1.467 
+"lon": -1.467
 }
 };
- var tableauMarkers = [];
+var tableauMarkers = [];
 
 // le setView permet de mettre la latitude et la longitude (en initialise la carte)
 var carte = L.map('maCarte').setView([
@@ -65,7 +65,7 @@ attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL -
 minZoom: 6,
 maxZoom: 16
 });
-var markers= L.markerClusterGroup();
+var markers = L.markerClusterGroup();
 // on personnalise les marqueurs
 // var icone = L.icon({
 //     iconUrl:
@@ -82,16 +82,17 @@ villes[ville].lat,
 villes[ville].lon
 ]).addTo(carte);
 marker.bindPopup("<p>" + ville + "</p>");
-markers.addLayer(marker); //on ajoute le marqueur au groupe
- // On ajoute le marqueur au tableau
-                tableauMarkers.push(marker);
+markers.addLayer(marker);
+// on ajoute le marqueur au groupe
+// On ajoute le marqueur au tableau
+tableauMarkers.push(marker);
 carte.addLayer(osmLayer);
 
 }
 // On regroupe les marqueurs dans un groupe Leaflet
-            var groupe = new L.featureGroup(tableauMarkers);
-            // On adapte le zoom au groupe
-            carte.fitBounds(groupe.getBounds().pad(0.5));
+var groupe = new L.featureGroup(tableauMarkers);
+// On adapte le zoom au groupe
+carte.fitBounds(groupe.getBounds().pad(0.5));
 carte.addLayer(markers);
 }
 	</script>

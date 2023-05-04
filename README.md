@@ -23,3 +23,7 @@
 
 ### ajouter les datafixture en bdd
     php bin/console doctrine:fixtures:load --no-interaction
+
+### commande pour retourner sur une branche qui a etait push et que l on souhaite abondonner les modif
+    git revert HEAD
+
