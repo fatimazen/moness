@@ -29,7 +29,7 @@ class EssController extends AbstractController
     }
     #[Route('/ajoutEss', name: 'app_ess')]
 
-    public function add(Request $request,  PictureService $PictureService, EssRepository $essRepository, EntityManagerInterface $manager, ValidatorInterface $validator): Response
+    public function add(Request $request,  PictureService $PictureService, EssRepository $essRepository, EntityManagerInterface $manager,ValidatorInterface $validator ): Response
 
     {
         // Je crée une nouvelle structure ess
@@ -39,11 +39,11 @@ class EssController extends AbstractController
 
         // On traite la requête du formulaire
         $essForm->handleRequest($request);
-
+        
 
         // On vérifie si le formulaire est soumis et valide
         if ($essForm->isSubmitted() && $essForm->isValid()) {
-
+            
 
             // On récupère les images si elles existent
             $images = $essForm->get('images')->getData();
@@ -62,20 +62,15 @@ class EssController extends AbstractController
             // $essRepository->save($ess, true);
 
 
-            $manager->persist($ess);
-
-            $manager->flush();
-
-            $this->addFlash('success', 'structure ess ajouté avec succès');
-
-            return $this->redirectToRoute('app_ess_index');
-
+          $manager->persist($ess);
+          $manager->flush();
+          $this->addFlash('sucess','structure ess ajouté avec succès');
+          return $this->redirectToRoute('app_ess_index');
+         
 
 
             return $this->redirectToRoute('app_ess', [], Response::HTTP_SEE_OTHER);
         }
-        
-
 
         return $this->render('ess/add.html.twig', [
             'controller_name' => 'EssController',

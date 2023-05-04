@@ -53,7 +53,7 @@ class Ess
         min:10,
         max:13,
     )]
-    #[ORM\Column(length: 13)]
+    #[ORM\Column(length: 20)]
     private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
