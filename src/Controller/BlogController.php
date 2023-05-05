@@ -14,11 +14,13 @@ class BlogController extends AbstractController
     #[Route('/', name: 'index', methods:['GET'])]
     public function index(BlogRepository $blogRepository): Response
     {
-        $blog = $blogRepository ->findAll();
-        // dd($blog);
+        $blog = $blogRepository ->findPublished();
+        dd($blog);
+        
 
         return $this->render('blog/index.html.twig', [
             'controller_name' => 'Blog',
+            'blog'=> $blog
         ]);
     }
 }
