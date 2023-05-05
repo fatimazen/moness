@@ -103,6 +103,7 @@ class AppFixtures extends Fixture
                 ->setRegion($faker->randomElement(['occitanie', 'PACA', 'Rhônes Alpes']))
                 ->setLabel([$faker->randomElement(['L’AFNOR ', 'ESUS', 'Lucie', 'ISR'])])
                 ->setSiretNumber($faker->randomNumber())
+                ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
                 ->setUser($faker->randomElement($users));
 
             $essS[] = $ess;
@@ -134,6 +135,9 @@ class AppFixtures extends Fixture
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setImage($faker->imageUrl(640, 480, 'company', true))
                 ->setContent($faker->text(255))
+                ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
+                ->setState(mt_rand(0, 2) === 1 ? Blog::STATES[0] : Blog::STATES[1])
+                
                 ->setUsers($faker->randomElement($users));
             $blogs[] = $blog;
             $manager->persist($blog);
@@ -147,6 +151,7 @@ class AppFixtures extends Fixture
                 ->setAuthor($faker->name())
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setImage($faker->imageUrl(640, 480, 'company', true))
+                ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
                 ->setEss($faker->randomElement($essS));
 
             $articlespress[] = $articlePresse;

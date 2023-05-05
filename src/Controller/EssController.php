@@ -29,7 +29,7 @@ class EssController extends AbstractController
     }
     #[Route('/ajoutEss', name: 'app_ess')]
 
-    public function add(Request $request,  PictureService $PictureService, EssRepository $essRepository, EntityManagerInterface $manager,ValidatorInterface $validator ): Response
+    public function add(Request $request, EssRepository $essRepository, EntityManagerInterface $manager, ValidatorInterface $validator): Response
 
     {
         // Je crée une nouvelle structure ess
@@ -39,34 +39,22 @@ class EssController extends AbstractController
 
         // On traite la requête du formulaire
         $essForm->handleRequest($request);
-        
+
 
         // On vérifie si le formulaire est soumis et valide
         if ($essForm->isSubmitted() && $essForm->isValid()) {
-            
 
-            // On récupère les images si elles existent
-            $images = $essForm->get('images')->getData();
-            if ($images) {
-                foreach ($images as $image) {
-                    // On définit le dossier de destination
-                    $folder = 'ess';
-                    // On appelle le service d'ajout
-                    $fichier = $PictureService->add($image, $folder, 100, 100);
-                    $img = new Images();
-                    $img->setName($fichier);
-                    $ess->setImages($img);
-                }
-            }
+
+
 
             // $essRepository->save($ess, true);
 
 
-          $manager->persist($ess);
-          $manager->flush();
-          $this->addFlash('sucess','structure ess ajouté avec succès');
-          return $this->redirectToRoute('app_ess_index');
-         
+            $manager->persist($ess);
+            $manager->flush();
+            $this->addFlash('sucess', 'structure ess ajouté avec succès');
+            return $this->redirectToRoute('app_ess_index');
+
 
 
             return $this->redirectToRoute('app_ess', [], Response::HTTP_SEE_OTHER);
