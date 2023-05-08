@@ -19,7 +19,7 @@
 						<span class="navbar-toggler-icon"></span>
 					</button>
 					<div class="navbar-collapse collapse" id="navbarTogglerDemo02">
-						<ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center">
+						<ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-center" style="margin: 0 auto;">
 							<li class="nav-item">
 								<a class="nav-link active" aria-current="page" href="{{path ('app_home')}}">Accueil</a>
 							</li>
@@ -34,42 +34,39 @@
 							</li>
 
 							<li class="nav-item">
-								<a class="nav-link" href="{{ path ("app_ess") }}">
+								<a class="nav-link mx-1" href="{{ path ("app_ess") }}">
 									<button type="button" class="btn btn-dark my-2 mx-2" style='background-color: #FFA300 ; border:#FFA300; '>Ajouter une structure de Ess</button>
 								</a>
 							</li>
-
-							{% if app.user %}
-								<li class="nav-item">
-									<a class="nav-link" href="#">
-										<button class="btn btn-outline-success">
-											Mon compte
-										</button>
-									</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{path ('app_logout')}}">
-										<button class="btn btn-outline-success">
-											Déconnexion</button>
-									</a>
-								</li>
-							{% else %}
-								<li class="nav-item">
-									<a class="nav-link" href="{{path ('app_login')}}">
-										<button class="btn btn-outline-success">
-											Connexion</button>
-									</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link" href="{{path ('app_user_inscription')}}">
-										<button class="btn btn-outline-success">
-											Inscription
-										</button>
-									</a>
-								</li>
-							{% endif %}
 						</ul>
 
+						<div class="d-flex justify-content-center align-items-md-center">
+							{% if app.user %}
+								<a class="nav-link mx-1" href="#">
+									<button class="btn btn-outline-success">
+										Mon compte
+									</button>
+								</a>
+
+								<a class="nav-link mx-1" href="{{path ('app_logout')}}">
+									<button class="btn btn-outline-success">
+										Déconnexion</button>
+								</a>
+
+							{% else %}
+
+								<a class="nav-link mx-1" href="{{path ('app_login')}}">
+									<button class="btn btn-outline-success">
+										Connexion</button>
+								</a>
+
+								<a class="nav-link mx-1" href="{{path ('app_user_inscription')}}">
+									<button class="btn btn-outline-success">
+										Inscription
+									</button>
+								</a>
+							{% endif %}
+						</div>
 					</div>
 
 				</div>
