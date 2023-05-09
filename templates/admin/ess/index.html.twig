@@ -7,8 +7,15 @@
 
 	<div class="container mt-4">
 
-		<h1>Structures des Ess</h1>
-		<table class="table table-hover">
+		<h1>Inscriptions des Ess</h1>
+		<div class="count mt-4">
+			<h4>
+			il y a 	{{ essS.getTotalItemCount }} Ess inscrit  au total
+			</h4>
+		</div>
+
+
+		<table class="table table-hover mt-4">
 			<thead>
 				<tr>
 					<th scope="col">ID</th>
@@ -16,14 +23,13 @@
 					<th scope="col">Email</th>
 					<th scope="col">Nom</th>
 					<th scope="col">Prénom</th>
-                    <th scope="col">Secteur d'activité</th>
+					<th scope="col">Secteur d'activité</th>
 					<th scope="col">Statut juridique</th>
-                    <th scope="col">Numéros de téléphone</th>
-                    <th scope="col">numéro de SIRET</th>
-                     <th scope="col">Ville</th>
-                      <th scope="col">Date de création</th>
+					<th scope="col">Numéros de téléphone</th>
+					<th scope="col">numéro de SIRET</th>
+					<th scope="col">Ville</th>
+					<th scope="col">Date de création</th>
 
-                    
 
 				</tr>
 			</thead>
@@ -35,11 +41,11 @@
 						<td>{{ess.Email}}ntent</td>
 						<td>{{ess.LastName}}</td>
 						<td>{{ess.FirstName}}</td>
-                        <td>{{ess.SectorActivity}}</td>
-                        <td>{{ess.LegalStatus}}</td>
-                        <td>{{ess.PhoneNumber}}</td>
-                        <td>{{ess.SiretNumber}}</td>
-                         <td>{{ess.City}}</td>
+						<td>{{ess.SectorActivity}}</td>
+						<td>{{ess.LegalStatus}}</td>
+						<td>{{ess.PhoneNumber}}</td>
+						<td>{{ess.SiretNumber}}</td>
+						<td>{{ess.City}}</td>
 						<td>{{ess.CreatedAt|date('d/m/Y')}}</td>
 
 					</tr>
@@ -47,6 +53,9 @@
 
 			</tbody>
 		</table>
+		<div class="navigation d-flex justify-content-center mt-4">
+			{{ knp_pagination_render(essS) }}
+		</div>
 
 
 	</div>
