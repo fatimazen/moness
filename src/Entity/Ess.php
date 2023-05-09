@@ -2,15 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\EssRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EssRepository;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Json;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
 
+
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: EssRepository::class)]
 class Ess
 {
@@ -59,6 +63,14 @@ class Ess
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
+    
+    #[Vich\UploadableField(mapping: "ess", fileNameProperty: "image")]
+    private ?File $imageFile = null;
+
+
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $updated_At = null;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $webSite = null;
 
@@ -93,7 +105,7 @@ class Ess
     private ?\DateTimeInterface $openingHoursFriday = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $closingHoursfriday = null;
+    private ?\DateTimeInterface $closingHoursFriday = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $openingHoursSaturday = null;
@@ -130,13 +142,14 @@ class Ess
     private ?string $activity = null;
 
 
-    #[ORM\OneToOne(mappedBy: 'ess', cascade: ['persist', 'remove'])]
-    private ?Images $images = null;
+ 
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->updated_At = new \DateTimeImmutable();
+        
     }
 
     public function getId(): ?int
@@ -288,6 +301,40 @@ class Ess
     }
 
 
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * Set the value of imageFile
+     *
+     * @return  self
+     */
+    public function setImageFile(File $images = null)
+    {
+        $this->imageFile = $images;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($images) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updated_At;
+        }
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_At;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_At): self
+    {
+        $this->updated_At = new \DateTimeImmutable();
+
+        return $this;
+    }
 
     public function getWebSite(): ?string
     {
@@ -421,14 +468,14 @@ class Ess
         return $this;
     }
 
-    public function getClosingHoursfriday(): ?\DateTimeInterface
+    public function getClosingHoursFriday(): ?\DateTimeInterface
     {
-        return $this->closingHoursfriday;
+        return $this->closingHoursFriday;
     }
 
-    public function setClosingHoursfriday(\DateTimeInterface $closingHoursfriday): self
+    public function setClosingHoursFriday(\DateTimeInterface $closingHoursFriday): self
     {
-        $this->closingHoursfriday = $closingHoursfriday;
+        $this->closingHoursFriday = $closingHoursFriday;
 
         return $this;
     }
@@ -604,20 +651,4 @@ class Ess
     }
 
 
-    public function getImages(): ?Images
-    {
-        return $this->images;
-    }
-
-    public function setImages(Images $images): self
-    {
-        // set the owning side of the relation if necessary
-        if ($images->getEss() !== $this) {
-            $images->setEss($this);
-        }
-
-        $this->images = $images;
-
-        return $this;
-    }
 }

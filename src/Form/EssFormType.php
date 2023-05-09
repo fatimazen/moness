@@ -2,27 +2,33 @@
 
 namespace App\Form;
 
-
 use App\Entity\Ess;
+use App\Entity\Image;
+use App\Entity\Picture;
+use App\Repository\ImageRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
-use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
+
+
+
 
 
 class EssFormType extends AbstractType
@@ -129,13 +135,21 @@ class EssFormType extends AbstractType
                 'expanded' => false,
                 'required' => true,
             ])
-
-            ->add('images', FileType::class, [
-                'label' => 'logo ',
-                'multiple' => false,
-                'mapped' => false,
+            ->add('imageFile', VichFileType ::class, [
+                'label'=>'Logo de Ess',
+                'required'=> false,
+                'allow_delete'=> true,
+                'asset_helper'=>true,
+                'label_attr'=>[
+                    'class'=>'form-label mt-4'
+                ],
                 'required' => false,
+                'allow_delete' => true,
+                'asset_helper' => true,
             ])
+
+          
+            
 
 
             // ->add('economieSocialeEtSolidaire', CheckboxType::class, [
@@ -266,7 +280,6 @@ class EssFormType extends AbstractType
             ->add('closingHoursSunday', TimeType::class, [
                 'label' => "fermé dimanche de   à",
             ]);
-          
     }
 
     public function configureOptions(OptionsResolver $resolver): void

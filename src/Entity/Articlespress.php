@@ -7,7 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
+
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: ArticlespressRepository::class)]
 class Articlespress
 {
@@ -22,8 +26,15 @@ class Articlespress
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
+
+    #[Vich\UploadableField(mapping: "articlespress", fileNameProperty: "image")]
+    private ?File $imageFile = null;
+
     #[ORM\Column(length: 255)]
     private ?string $author = null;
+
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $updated_At = null;
 
     #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_At = null;
@@ -39,7 +50,8 @@ class Articlespress
     #[ORM\OneToMany(mappedBy: 'articlespress', targetEntity: ArticleCategories::class)]
     private Collection $articlescategories;
 
-    #[ORM\OneToMany(mappedBy: 'articlepress', targetEntity: Images::class)]
+    
+    #[ORM\OneToMany(mappedBy: 'articlespress', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $images;
 
     
@@ -49,6 +61,7 @@ class Articlespress
         $this->comment = new ArrayCollection();
         $this->articlescategories = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->updated_At = new \DateTimeImmutable();
     
        
     }
@@ -83,6 +96,30 @@ class Articlespress
         return $this;
     }
 
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * Set the value of imageFile
+     *
+     * @return  self
+     */
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updated_At;
+        }
+    }
+
+
     public function getAuthor(): ?string
     {
         return $this->author;
@@ -91,6 +128,18 @@ class Articlespress
     public function setAuthor(string $author): self
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_At;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_At): self
+    {
+        $this->updated_At = $updated_At;
 
         return $this;
     }
@@ -188,7 +237,7 @@ class Articlespress
         return $this->images;
     }
 
-    public function addImage(Images $image): self
+    public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
             $this->images->add($image);
@@ -198,7 +247,7 @@ class Articlespress
         return $this;
     }
 
-    public function removeImage(Images $image): self
+    public function removeImage(Image $image): self
     {
         if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)
