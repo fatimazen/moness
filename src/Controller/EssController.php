@@ -32,7 +32,7 @@ class EssController extends AbstractController
     }
     #[Route('/ajoutEss', name: 'app_ess')]
 
-    public function add(Request $request, EssRepository $essRepository, EntityManagerInterface $manager, ValidatorInterface $validator, UploaderHelper $uploaderHelper): Response
+    public function add(Request $request, EssRepository $essRepository, EntityManagerInterface $manager, ValidatorInterface $validator,UploaderHelper $uploaderHelper): Response
 
     {
         // Je crée une nouvelle structure ess
@@ -51,13 +51,13 @@ class EssController extends AbstractController
 
 
             // $essRepository->save($ess, true);
-
+           
 
             $manager->persist($ess);
             $manager->flush();
 
-            // Récupérer le chemin de l'image à partir de l'entité Ess
-            $path = $uploaderHelper->asset($ess, 'imageFile');
+                // Récupérer le chemin de l'image à partir de l'entité Ess
+                $path = $uploaderHelper->asset($ess, 'images');
 
             $this->addFlash('sucess', 'structure ess ajouté avec succès');
             return $this->redirectToRoute('app_ess_index');

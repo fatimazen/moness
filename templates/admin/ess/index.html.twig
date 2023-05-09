@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Ess!
+{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-4">
+
+		<h1>Structures des Ess</h1>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Nom de la structure</th>
+					<th scope="col">Email</th>
+					<th scope="col">Nom</th>
+					<th scope="col">Prénom</th>
+                    <th scope="col">Secteur d'activité</th>
+					<th scope="col">Statut juridique</th>
+                    <th scope="col">Numéros de téléphone</th>
+                    <th scope="col">numéro de SIRET</th>
+                     <th scope="col">Ville</th>
+                      <th scope="col">Date de création</th>
+
+                    
+
+				</tr>
+			</thead>
+			<tboy>
+				{% for ess in essS %}
+					<tr class="table-primary">
+						<th scope="row">{{ess.id}}</th>
+						<td>{{ess.NameStructure}}</td>
+						<td>{{ess.Email}}ntent</td>
+						<td>{{ess.LastName}}</td>
+						<td>{{ess.FirstName}}</td>
+                        <td>{{ess.SectorActivity}}</td>
+                        <td>{{ess.LegalStatus}}</td>
+                        <td>{{ess.PhoneNumber}}</td>
+                        <td>{{ess.SiretNumber}}</td>
+                         <td>{{ess.City}}</td>
+						<td>{{ess.CreatedAt|date('d/m/Y')}}</td>
+
+					</tr>
+				{% endfor %}
+
+			</tbody>
+		</table>
+
+
+	</div>
+{% endblock %}

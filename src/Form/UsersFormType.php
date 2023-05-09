@@ -49,10 +49,17 @@ class UsersFormType extends AbstractType
             ])
             ->add('firstName', TypeTextType::class, [
                 'label' => 'Prénom',
+                'attr' =>[
+
+                    'class'=>'from-control'
+                ],
                 
             ])
             ->add('lastName', TypeTextType::class, [
                 'label' => 'Nom',
+                'attr'=>[
+                    'class'=>'from-control'
+                ],
                 
             ])
 
