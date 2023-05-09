@@ -139,8 +139,8 @@ class AppFixtures extends Fixture
                 ->setState(mt_rand(0, 2) === 1 ? Blog::STATES[0] : Blog::STATES[1])
                 
                 ->setUsers($faker->randomElement($users));
-            $blogs[] = $blog;
-            $manager->persist($blog);
+                $manager->persist($blog);
+                $blogs[] = $blog;
         }
 
         $articlespress = [];

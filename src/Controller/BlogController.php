@@ -8,19 +8,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
  use Symfony\Component\HttpFoundation\File\File;
 
-#[Route('/blog', name: 'app_blog_')]
+#[Route('/blog', name: 'app_blog')]
 class BlogController extends AbstractController
 {
     #[Route('/', name: 'index', methods:['GET'])]
-    public function index(BlogRepository $blogRepository): Response
+    public function index(BlogRepository $blogRepository,): Response
     {
-        $blog = $blogRepository ->findPublished();
-        dd($blog);
+        $blogs = $blogRepository ->findPublished();
+        
         
 
         return $this->render('blog/index.html.twig', [
-            'controller_name' => 'Blog',
-            'blog'=> $blog
+            'controller_name' => 'BlogController',
+            
+
+            'blogs'=> $blogs
         ]);
     }
 }

@@ -5,12 +5,13 @@ namespace App\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EssRepository;
-use Vich\UploaderBundle\Entity\File;
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Json;
-use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 
 #[Vich\Uploadable]
@@ -63,7 +64,7 @@ class Ess
     private ?string $image = null;
 
     
-    #[Vich\UploadableField(mapping: "ess", fileNameProperty: "images")]
+    #[Vich\UploadableField(mapping: "ess", fileNameProperty: "image")]
     private ?File $imageFile = null;
 
 
@@ -104,7 +105,7 @@ class Ess
     private ?\DateTimeInterface $openingHoursFriday = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
-    private ?\DateTimeInterface $closingHoursfriday = null;
+    private ?\DateTimeInterface $closingHoursFriday = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $openingHoursSaturday = null;
@@ -141,8 +142,7 @@ class Ess
     private ?string $activity = null;
 
 
-    #[ORM\OneToOne(mappedBy: 'ess', cascade: ['persist', 'remove'])]
-    private ?Images $images = null;
+ 
 
     public function __construct()
     {
@@ -311,14 +311,14 @@ class Ess
      *
      * @return  self
      */
-    public function setImageFile(File $image = null)
+    public function setImageFile(File $images = null)
     {
-        $this->imageFile = $image;
+        $this->imageFile = $images;
 
         // VERY IMPORTANT:
         // It is required that at least one field changes if you are using Doctrine,
         // otherwise the event listeners won't be called and the file is lost
-        if ($image) {
+        if ($images) {
             // if 'updatedAt' is not defined in your entity, use another property
             $this->updated_At;
         }
@@ -331,7 +331,7 @@ class Ess
 
     public function setUpdatedAt(\DateTimeImmutable $updated_At): self
     {
-        $this->updated_At = $updated_At;
+        $this->updated_At = new \DateTimeImmutable();
 
         return $this;
     }
@@ -468,14 +468,14 @@ class Ess
         return $this;
     }
 
-    public function getClosingHoursfriday(): ?\DateTimeInterface
+    public function getClosingHoursFriday(): ?\DateTimeInterface
     {
-        return $this->closingHoursfriday;
+        return $this->closingHoursFriday;
     }
 
-    public function setClosingHoursfriday(\DateTimeInterface $closingHoursfriday): self
+    public function setClosingHoursFriday(\DateTimeInterface $closingHoursFriday): self
     {
-        $this->closingHoursfriday = $closingHoursfriday;
+        $this->closingHoursFriday = $closingHoursFriday;
 
         return $this;
     }
@@ -651,20 +651,4 @@ class Ess
     }
 
 
-    public function getImages(): ?Images
-    {
-        return $this->images;
-    }
-
-    public function setImages(Images $images): self
-    {
-        // set the owning side of the relation if necessary
-        if ($images->getEss() !== $this) {
-            $images->setEss($this);
-        }
-
-        $this->images = $images;
-
-        return $this;
-    }
 }

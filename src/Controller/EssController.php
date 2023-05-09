@@ -3,20 +3,23 @@
 namespace App\Controller;
 
 use App\Entity\Ess;
-use App\Event\EssCreatedEvent;
+use App\Entity\Image;
 use App\Entity\Images;
 
 use App\Form\EssFormType;
-use App\Repository\EssRepository;
+use App\Event\EssCreatedEvent;
 use App\Service\PictureService;
 use Doctrine\ORM\EntityManager;
+use App\Repository\EssRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 class EssController extends AbstractController
 {
@@ -29,7 +32,7 @@ class EssController extends AbstractController
     }
     #[Route('/ajoutEss', name: 'app_ess')]
 
-    public function add(Request $request, EssRepository $essRepository, EntityManagerInterface $manager, ValidatorInterface $validator): Response
+    public function add(Request $request, EssRepository $essRepository, EntityManagerInterface $manager, ValidatorInterface $validator, UploaderHelper $uploaderHelper): Response
 
     {
         // Je crée une nouvelle structure ess
@@ -52,6 +55,10 @@ class EssController extends AbstractController
 
             $manager->persist($ess);
             $manager->flush();
+
+            // Récupérer le chemin de l'image à partir de l'entité Ess
+            $path = $uploaderHelper->asset($ess, 'imageFile');
+
             $this->addFlash('sucess', 'structure ess ajouté avec succès');
             return $this->redirectToRoute('app_ess_index');
 
