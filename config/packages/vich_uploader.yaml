@@ -1,0 +1,33 @@
+vich_uploader:
+  db_driver: orm
+
+  metadata:
+    type: attribute
+
+  mappings:
+      blog:
+                uri_prefix: /images/blog
+                upload_destination: '%kernel.project_dir%/public/images/blog'
+                namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+                delete_on_update: false
+                delete_on_remove: false
+
+      articlespress:
+                uri_prefix: /images/ariclespress
+                upload_destination: '%kernel.project_dir%/public/images/articlespress'
+                namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+                delete_on_update: false
+                delete_on_remove: false
+      ess:
+                uri_prefix: /images/ess
+                upload_destination: '%kernel.project_dir%/public/images/ess'
+                namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+                delete_on_update: false
+                delete_on_remove: false
+
+      images:
+                uri_prefix: /images/images
+                upload_destination: '%kernel.project_dir%/public/images/images'
+                namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+                delete_on_update: false
+                delete_on_remove: false

@@ -2,15 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\EssRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EssRepository;
+use Vich\UploaderBundle\Entity\File;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints\Json;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
+#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: EssRepository::class)]
 class Ess
 {
@@ -58,6 +61,14 @@ class Ess
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
+
+    
+    #[Vich\UploadableField(mapping: "ess", fileNameProperty: "images")]
+    private ?File $imageFile = null;
+
+
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $updated_At = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $webSite = null;
@@ -137,6 +148,8 @@ class Ess
     {
         $this->comments = new ArrayCollection();
         $this->favoris = new ArrayCollection();
+        $this->updated_At = new \DateTimeImmutable();
+        
     }
 
     public function getId(): ?int
@@ -288,6 +301,40 @@ class Ess
     }
 
 
+    public function getImageFile()
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * Set the value of imageFile
+     *
+     * @return  self
+     */
+    public function setImageFile(File $image = null)
+    {
+        $this->imageFile = $image;
+
+        // VERY IMPORTANT:
+        // It is required that at least one field changes if you are using Doctrine,
+        // otherwise the event listeners won't be called and the file is lost
+        if ($image) {
+            // if 'updatedAt' is not defined in your entity, use another property
+            $this->updated_At;
+        }
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_At;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_At): self
+    {
+        $this->updated_At = $updated_At;
+
+        return $this;
+    }
 
     public function getWebSite(): ?string
     {

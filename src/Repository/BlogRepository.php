@@ -21,22 +21,20 @@ class BlogRepository extends ServiceEntityRepository
         parent::__construct($registry, Blog::class);
     }
 
-    public function save(Blog $entity, bool $flush = false): void
+    public function findPublished():array
     {
-        $this->getEntityManager()->persist($entity);
+        /**
+         * GET published blog (publications)
+         * 
+         * @return array
+         */
 
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    public function remove(Blog $entity, bool $flush = false): void
-    {
-        $this->getEntityManager()->remove($entity);
-
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
+        return $this->createQueryBuilder('b')
+                ->where('b.state LIKE :state')
+                ->setParameter('state', '%STATE_PUBLISHED%')
+                ->addOrderBy('b.created_At', 'DESC')
+                ->getQuery()
+                ->getResult();
     }
 
 //    /**
