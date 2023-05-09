@@ -13,9 +13,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-
-
-
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -34,11 +31,11 @@ class Blog
 
     private ?int $id = null;
 
-    #[ORM\Column( length: 255, unique: true)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank()]
     private string $title;
 
-    #[ORM\Column( length: 255, unique: true)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\NotBlank()]
     private string $slug;
 
@@ -49,9 +46,12 @@ class Blog
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    
-    #[Vich\UploadableField(mapping: "blog", fileNameProperty: "images")]
+
+    #[Vich\UploadableField(mapping: "blog", fileNameProperty: "image")]
     private ?File $imageFile = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?string $imageName = null;
 
     #[ORM\Column(type: 'text',)]
     #[Assert\NotBlank()]
@@ -77,7 +77,7 @@ class Blog
     #[ORM\OneToMany(mappedBy: 'blog', targetEntity: ArticleCategories::class)]
     private Collection $articlesCategories;
 
-    #[ORM\OneToMany(mappedBy: 'blog', targetEntity: Images::class, orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'blog', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $images;
 
 
@@ -169,6 +169,17 @@ class Blog
 
         return $this;
     }
+
+    public function setImageName(?string $imageName): void
+    {
+        $this->imageName = $imageName;
+    }
+
+    public function getImageName(): ?string
+    {
+        return $this->imageName;
+    }
+
 
     public function getImageFile()
     {
@@ -315,7 +326,7 @@ class Blog
         return $this->images;
     }
 
-    public function addImage(Images $image): self
+    public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
             $this->images->add($image);
@@ -325,7 +336,7 @@ class Blog
         return $this;
     }
 
-    public function removeImage(Images $image): self
+    public function removeImage(Image $image): self
     {
         if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)

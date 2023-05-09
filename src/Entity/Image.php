@@ -3,12 +3,17 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Repository\ImagesRepository;
+use App\Repository\ImageRepository;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Doctrine\Common\Collections\ArrayCollection;
 
-#[ORM\Entity(repositoryClass: ImagesRepository::class)]
-class Images
+
+
+#[Vich\Uploadable]
+#[ORM\Entity(repositoryClass: ImageRepository::class)]
+class Image
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,26 +26,32 @@ class Images
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
-    #[Vich\UploadableField(mapping: 'images', fileNameProperty: 'image', size: 'imageSize')]
+    #[Vich\UploadableField(mapping: 'image', fileNameProperty: 'image', size: 'imageSize')]
     private ?File $imageFile = null;
 
     #[ORM\Column(type: 'integer')]
-    private ?string $imageSize = null;
+    private ?Int $imageSize = null;
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $updated_At = null;
 
-    #[ORM\OneToOne(inversedBy: 'images', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Ess $ess = null;
-
-    #[ORM\ManyToOne(inversedBy: 'images')]
+   
+    #[ORM\ManyToOne(inversedBy: 'image')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Blog $blog = null;
 
-    #[ORM\ManyToOne(inversedBy: 'images')]
+    #[ORM\ManyToOne(inversedBy: 'image')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Articlespress $articlepress = null;
+
+    
+
+    #[ORM\PreUpdate]
+    public function preUpdate()
+
+    {
+        $this->updated_At = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
@@ -94,6 +105,18 @@ class Images
         }
     }
 
+    public function getImageSize(): ?Int
+    {
+        return $this->imageSize;
+    }
+
+    public function setImageSize(Int $imageSize): self
+    {
+        $this->imageSize = $imageSize;
+
+        return $this;
+    }
+
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updated_At;
@@ -105,18 +128,7 @@ class Images
 
         return $this;
     }
-    public function getEss(): ?Ess
-    {
-        return $this->ess;
-    }
-
-    public function setEss(Ess $ess): self
-    {
-        $this->ess = $ess;
-
-        return $this;
-    }
-
+   
     public function getBlog(): ?Blog
     {
         return $this->blog;

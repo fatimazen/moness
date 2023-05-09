@@ -27,7 +27,7 @@ class Articlespress
     private ?string $image = null;
 
 
-    #[Vich\UploadableField(mapping: "blog", fileNameProperty: "images")]
+    #[Vich\UploadableField(mapping: "articlespress", fileNameProperty: "image")]
     private ?File $imageFile = null;
 
     #[ORM\Column(length: 255)]
@@ -51,7 +51,7 @@ class Articlespress
     private Collection $articlescategories;
 
     
-    #[ORM\OneToMany(mappedBy: 'articlespress', targetEntity: Images::class, orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'articlespress', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $images;
 
     
@@ -237,7 +237,7 @@ class Articlespress
         return $this->images;
     }
 
-    public function addImage(Images $image): self
+    public function addImage(Image $image): self
     {
         if (!$this->images->contains($image)) {
             $this->images->add($image);
@@ -247,7 +247,7 @@ class Articlespress
         return $this;
     }
 
-    public function removeImage(Images $image): self
+    public function removeImage(Image $image): self
     {
         if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)

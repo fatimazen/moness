@@ -6,28 +6,23 @@ vich_uploader:
 
   mappings:
       blog:
-                uri_prefix: /images/blog
-                upload_destination: '%kernel.project_dir%/public/images/blog'
+                uri_prefix: /uploads/blog
+                upload_destination: '%kernel.project_dir%/public/uploads/blog'
                 namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
                 delete_on_update: false
                 delete_on_remove: false
 
-      articlespress:
-                uri_prefix: /images/ariclespress
-                upload_destination: '%kernel.project_dir%/public/images/articlespress'
-                namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
-                delete_on_update: false
-                delete_on_remove: false
+  
       ess:
-                uri_prefix: /images/ess
-                upload_destination: '%kernel.project_dir%/public/images/ess'
+                uri_prefix: /uploads/ess
+                upload_destination: '%kernel.project_dir%/public/uploads/ess'
                 namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
                 delete_on_update: false
                 delete_on_remove: false
 
-      images:
-                uri_prefix: /images/images
-                upload_destination: '%kernel.project_dir%/public/images/images'
+      image:
+                uri_prefix: /uploads/image
+                upload_destination: '%kernel.project_dir%/public/uploads/image   '
                 namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
                 delete_on_update: false
                 delete_on_remove: false
