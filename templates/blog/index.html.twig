@@ -17,7 +17,7 @@
 			{% for blog in blogs %}
 				<article class="blog-post">
 					<h2 class="blog-post-title mb-1">{{blog.title}}</h2>
-					{% if blog.image %}
+					{% if blog.imageFile %}
 						<a href="">
 							<img src="{{ vich_uploader_asset(blog, 'imageFile') }}" alt="{{blog.image}}" class="rounded-t-lg">
 						</a>
