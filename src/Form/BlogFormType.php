@@ -28,13 +28,13 @@ class BlogFormType extends AbstractType
                 'allow_delete' => true,
                 'asset_helper' => true,
             ])
-            ->add('image', CollectionType::class, [
-                'entry_type' => ImageFormType::class,
-                // 'entry_options' => ['label' => false],
-                // 'allow_add' => true,
-                // 'allow_delete' => true,
-                // 'by_reference' => false,
-            ])
+            // ->add('image', CollectionType::class, [
+            //     'entry_type' => ImageFormType::class,
+            //     // 'entry_options' => ['label' => false],
+            //     // 'allow_add' => true,
+            //     // 'allow_delete' => true,
+            //     // 'by_reference' => false,
+            // ])
             // ->add('imageName')
             ->add('content', TextareaType::class, [
                 'label' => 'description',
