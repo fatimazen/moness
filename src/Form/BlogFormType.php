@@ -9,6 +9,7 @@ use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class BlogFormType extends AbstractType
 {
@@ -19,7 +20,7 @@ class BlogFormType extends AbstractType
                 'label' => 'titre de article'
             ])
             ->add('slug')
-            ->add('author', TexttypeText::class, [
+            ->add('author', TextTypeText::class, [
                 'label' => 'auteur de articles'
             ])
             ->add('imageFile', VichFileType::class, [

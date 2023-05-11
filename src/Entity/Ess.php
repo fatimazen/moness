@@ -8,6 +8,7 @@ use App\Repository\EssRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\Validator\Constraints\Json;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -20,8 +21,8 @@ class Ess
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type:'integer')]
+    private ?int $id  ;
 
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
@@ -70,6 +71,9 @@ class Ess
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $updated_At = null;
+
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $created_At = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $webSite = null;
@@ -149,6 +153,7 @@ class Ess
         $this->comments = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->updated_At = new \DateTimeImmutable();
+        $this->created_At = new \DateTimeImmutable();
         
     }
 
@@ -332,6 +337,18 @@ class Ess
     public function setUpdatedAt(\DateTimeImmutable $updated_At): self
     {
         $this->updated_At = new \DateTimeImmutable();
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_At;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_At): self
+    {
+        $this->created_At = $created_At;
 
         return $this;
     }
