@@ -6,7 +6,7 @@ use DateTimeImmutable;
 use Faker\Factory;
 use App\Entity\Users;
 use App\Entity\Ess;
-use App\Entity\Articlespress;
+use App\Entity\Articlespresse;
 use App\Entity\Blog;
 use App\Entity\Comments;
 use App\Entity\ContactMessages;
@@ -143,10 +143,10 @@ class AppFixtures extends Fixture
                 $blogs[] = $blog;
         }
 
-        $articlespress = [];
+        $articlespresses = [];
         for ($i = 0; $i < 10; $i++) {
-            $articlePresse = new Articlespress;
-            $articlePresse
+            $articlepresse = new Articlespresse;
+            $articlepresse
                 ->setTitle($faker->sentence())
                 ->setAuthor($faker->name())
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
@@ -154,8 +154,8 @@ class AppFixtures extends Fixture
                 ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
                 ->setEss($faker->randomElement($essS));
 
-            $articlespress[] = $articlePresse;
-            $manager->persist($articlePresse);
+                $manager->persist($articlepresse);
+                $articlespresses[] = $articlepresse;
         }
         $comments = [];
         for ($i = 0; $i < 30; $i++) {
@@ -164,7 +164,7 @@ class AppFixtures extends Fixture
                 ->setComment($faker->text())
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setUsers($faker->randomElement($users))
-                ->setArticlepress($faker->randomElement($articlespress))
+                ->setArticlepresse($faker->randomElement($articlespresses))
                 ->setEss($faker->randomElement($essS))
                 ->setBlog($faker->randomElement($blogs));
 
