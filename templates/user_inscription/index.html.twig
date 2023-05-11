@@ -1,38 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Inscription
-{% endblock %}
-
-{% block body %}
-	<section class=" d-flex justify-content-center flex-column bg-light" style="padding:10px 0;">
-
-		<form class="form-control w-50" style="margin: 0 auto;">
-			<legend style="text-align: center; border-radius:5px; outline: 1px solid #030303; font-family: 'Futura Md-Bt', sans-serif;">Mes données personnelles</legend>
-
-			{{ form_start(userForm) }}
-			{{ form_row(userForm.gender,) }}
-			{{ form_row(userForm.lastName) }}
-			{{ form_row(userForm.firstName) }}
-			{{ form_row(userForm.birthdate) }}
-
-			<fieldset>
-				<div>
-					<legend style="text-align: center; border-radius:5px; outline: 1px solid #030303;font-family: 'Futura Md-Bt', sans-serif;">
-						Données de connexion
-					</legend>
-				</div>
-				<div>
-					{{ form_row(userForm.email) }}
-					{{ form_row(userForm.plainPassword) }}
-				</div>
-			</fieldset>
-
-			<div class="col-md-12">
-				{{form_row(userForm.RGPDConsent)}}
-				<button type="submit" class="btn btn-primary  my-3" style="background-color:#25CCBF; border:none; ">S'inscrire</button>
-			</div>
-
-			{{ form_end(userForm) }}
-		</form>
-	</section>
-{% endblock %}
+	{% block title %}Inscription
+	{% endblock %}
+	
+	{% block body %}
+		<div class="container">
+			<div class="row">
+				<div class="col-md-10">
+					
+						<legend style="text-align: center; border: 1px solid #030303;box-shadow: 1px 1px 2px ;font-family: 'Futura Md-Bt', sans-serif;">Mes données personnelles</legend>
+				
+					<div class="col-md-3"></div>
+	
+					<div>
+						{{ form_start(userForm) }}
+						{{ form_row(userForm.gender,) }}
+						{{ form_row(userForm.lastName) }}
+						{{ form_row(userForm.firstName) }}
+						{{ form_row(userForm.birthdate) }}
+					</div>
+					<fieldset>
+						<div >
+							<legend style="text-align: center; border: 1px solid #030303;box-shadow: 2px 2px 4px ;font-family: 'Futura Md-Bt', sans-serif;">
+								Données de connexion
+							</legend>
+						</div>
+						<div>
+							{{ form_row(userForm.email) }}
+							{{ form_row(userForm.plainPassword) }}
+						</div>
+					</fieldset>
+	
+					<div class="col-md-12">
+						{{form_row(userForm.RGPDConsent)}}
+	
+						<button type="submit" class="btn btn-primary btn-lg my-3" style="background-color:#25CCBF; border:none; ">S'inscrire</button>
+						
+	
+					</div>
+	
+					{{ form_end(userForm) }}
+	
+					{% include "user_inscription/_form.html.twig" %}
+	
+				{% endblock %}
