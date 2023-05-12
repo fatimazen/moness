@@ -116,9 +116,10 @@ class AppFixtures extends Fixture
 
             $contactMessage = new ContactMessages;
             $contactMessage
-                ->setFirstName($faker->firstName())
+                ->setFullName($faker->name())
                 ->setEmail($faker->safeEmail())
                 ->setMessage($faker->text(255))
+                ->setSujet($faker->randomElement(['demande n°' . ($i + 1)]))
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setUsers($faker->randomElement($users));
 
@@ -137,10 +138,10 @@ class AppFixtures extends Fixture
                 ->setContent($faker->text(255))
                 ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
                 ->setState(mt_rand(0, 2) === 1 ? Blog::STATES[0] : Blog::STATES[1])
-                
+
                 ->setUsers($faker->randomElement($users));
-                $manager->persist($blog);
-                $blogs[] = $blog;
+            $manager->persist($blog);
+            $blogs[] = $blog;
         }
 
         $articlespresses = [];
@@ -156,8 +157,8 @@ class AppFixtures extends Fixture
                 ->setEss($faker->randomElement($essS))
                 ->setState(mt_rand(0, 2) === 1 ? Articlespresse::STATES[0] : Articlespresse::STATES[1]);
 
-                $manager->persist($articlepresse);
-                $articlespresses[] = $articlepresse;
+            $manager->persist($articlepresse);
+            $articlespresses[] = $articlepresse;
         }
         $comments = [];
         for ($i = 0; $i < 30; $i++) {
@@ -185,9 +186,9 @@ class AppFixtures extends Fixture
             $manager->persist($newsletter);
             $newsletters[] = $newsletter;
         }
-        $geolocalisations=[];
+        $geolocalisations = [];
         foreach ($essS as $ess) {
-        
+
             $geolocalisation = new GeoLocalisationEss();
             $geolocalisation
                 ->setLatitude($faker->latitude(-90, 90))
@@ -198,7 +199,7 @@ class AppFixtures extends Fixture
             $geolocalisations[] = $geolocalisation;
         }
 
-        
+
 
         $manager->flush();
     }
