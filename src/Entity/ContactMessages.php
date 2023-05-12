@@ -38,7 +38,7 @@ class ContactMessages
     private ?\DateTimeImmutable $created_At = null;
 
     #[ORM\ManyToOne(inversedBy: 'contactMessage')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Users $users = null;
 
     public function __construct()
