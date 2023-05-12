@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 
+use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
@@ -10,10 +11,19 @@ use App\Repository\ArticlespresseRepository;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 
 #[Vich\Uploadable]
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: ArticlespresseRepository::class)]
+#[UniqueEntity(
+
+    'slug',
+    message: 'ce slug existe déjà.'
+)]
 class Articlespresse
 {
     const STATES = ['STATE_DRAFT', 'STATE_PUBLISHED'];
@@ -35,6 +45,14 @@ class Articlespresse
 
     #[ORM\Column(length: 255)]
     private ?string $author = null;
+
+    #[ORM\Column(type: 'text',)]
+    #[Assert\NotBlank()]
+    private string $content;
+
+    #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank()]
+    private string $slug;
 
     #[ORM\Column(length: 255)]
     private string $state = Articlespresse::STATES[0];
@@ -67,6 +85,21 @@ class Articlespresse
         $this->comment = new ArrayCollection();
         $this->articlescategories = new ArrayCollection();
         $this->images = new ArrayCollection();
+        $this->updated_At = new \DateTimeImmutable();
+        $this->created_At = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+        $this->slug = (new Slugify())->slugify($this->title);
+    }
+
+
+    #[ORM\PreUpdate]
+    public function preUpdate()
+
+    {
         $this->updated_At = new \DateTimeImmutable();
     }
 
@@ -135,6 +168,29 @@ class Articlespresse
 
         return $this;
     }
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
 
     public function getState(): string
     {
@@ -170,6 +226,12 @@ class Articlespresse
         $this->created_At = $created_At;
 
         return $this;
+    }
+
+    public function __toString()
+
+    {
+        return $this->title;
     }
 
 

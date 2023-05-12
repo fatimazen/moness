@@ -14,11 +14,11 @@ class ArticlespresseController extends AbstractController
     public function index(ArticlespresseRepository $articlespresseRepository): Response
     {
         $articlespresses = $articlespresseRepository->findPublished();
-
+    
 
         return $this->render('articlespresse/index.html.twig', [
             'controller_name' => 'ArticlespresseController',
-            'articlespresses' => $articlespresses
+             'articlespresses' => $articlespresses
         ]);
     }
 }

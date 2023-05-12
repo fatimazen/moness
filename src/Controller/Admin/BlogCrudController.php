@@ -37,11 +37,12 @@ class BlogCrudController extends AbstractCrudController
     {
         return [
             
-            TextField::new('title'),
-            TextField::new('author'),
-            TextField::new('imageFile')->setFormType(VichImageType::class),
+            TextField::new('title', 'titre'),
+            TextField::new('author', 'auteur'),
+            TextField::new('imageFile','photo')->setFormType(VichImageType::class)
+            ->hideOnIndex(),
             ImageField::new('image')->setBasePath('/uploads/blog')->onlyOnIndex(),
-            TextEditorField::new('content')
+            TextEditorField::new('content', 'contenu')
             ->setFormType(CKEditorType::class),
           
         ];

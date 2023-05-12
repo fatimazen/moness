@@ -151,8 +151,10 @@ class AppFixtures extends Fixture
                 ->setAuthor($faker->name())
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setImage($faker->imageUrl(640, 480, 'company', true))
+                ->setContent($faker->text(255))
                 ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
-                ->setEss($faker->randomElement($essS));
+                ->setEss($faker->randomElement($essS))
+                ->setState(mt_rand(0, 2) === 1 ? Articlespresse::STATES[0] : Articlespresse::STATES[1]);
 
                 $manager->persist($articlepresse);
                 $articlespresses[] = $articlepresse;
