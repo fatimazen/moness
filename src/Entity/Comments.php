@@ -28,7 +28,7 @@ class Comments
 
     #[ORM\ManyToOne(inversedBy: 'comment')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Articlespress $Articlepress = null;
+    private ?Articlespresse $Articlepresse = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
@@ -79,14 +79,14 @@ class Comments
         return $this;
     }
 
-    public function getArticlepress(): ?Articlespress
+    public function getArticlepresse(): ?Articlespresse
     {
-        return $this->Articlepress;
+        return $this->Articlepresse;
     }
 
-    public function setArticlepress(?Articlespress $Articlepress): self
+    public function setArticlepresse(?Articlespresse $Articlepresse): self
     {
-        $this->Articlepress = $Articlepress;
+        $this->Articlepresse = $Articlepresse;
 
         return $this;
     }

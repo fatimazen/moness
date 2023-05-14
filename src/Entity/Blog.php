@@ -13,8 +13,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: BlogRepository::class)]
+#[Vich\Uploadable]
 #[ORM\HasLifecycleCallbacks]
 #[UniqueEntity(
 
@@ -200,8 +200,7 @@ class Blog
         // otherwise the event listeners won't be called and the file is lost
         if ($image) {
             // if 'updatedAt' is not defined in your entity, use another property
-            $this->updated_At;
-        }
+            $this->updated_At= new \DateTimeImmutable();        }
     }
 
     public function getContent(): string

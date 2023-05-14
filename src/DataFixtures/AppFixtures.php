@@ -6,7 +6,7 @@ use DateTimeImmutable;
 use Faker\Factory;
 use App\Entity\Users;
 use App\Entity\Ess;
-use App\Entity\Articlespress;
+use App\Entity\Articlespresse;
 use App\Entity\Blog;
 use App\Entity\Comments;
 use App\Entity\ContactMessages;
@@ -116,9 +116,10 @@ class AppFixtures extends Fixture
 
             $contactMessage = new ContactMessages;
             $contactMessage
-                ->setFirstName($faker->firstName())
+                ->setFullName($faker->name())
                 ->setEmail($faker->safeEmail())
                 ->setMessage($faker->text(255))
+                ->setSujet($faker->randomElement(['demande n°' . ($i + 1)]))
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setUsers($faker->randomElement($users));
 
@@ -137,25 +138,27 @@ class AppFixtures extends Fixture
                 ->setContent($faker->text(255))
                 ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
                 ->setState(mt_rand(0, 2) === 1 ? Blog::STATES[0] : Blog::STATES[1])
-                
+
                 ->setUsers($faker->randomElement($users));
-                $manager->persist($blog);
-                $blogs[] = $blog;
+            $manager->persist($blog);
+            $blogs[] = $blog;
         }
 
-        $articlespress = [];
+        $articlespresses = [];
         for ($i = 0; $i < 10; $i++) {
-            $articlePresse = new Articlespress;
-            $articlePresse
+            $articlepresse = new Articlespresse;
+            $articlepresse
                 ->setTitle($faker->sentence())
                 ->setAuthor($faker->name())
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setImage($faker->imageUrl(640, 480, 'company', true))
+                ->setContent($faker->text(255))
                 ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
-                ->setEss($faker->randomElement($essS));
+                ->setEss($faker->randomElement($essS))
+                ->setState(mt_rand(0, 2) === 1 ? Articlespresse::STATES[0] : Articlespresse::STATES[1]);
 
-            $articlespress[] = $articlePresse;
-            $manager->persist($articlePresse);
+            $manager->persist($articlepresse);
+            $articlespresses[] = $articlepresse;
         }
         $comments = [];
         for ($i = 0; $i < 30; $i++) {
@@ -164,7 +167,7 @@ class AppFixtures extends Fixture
                 ->setComment($faker->text())
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setUsers($faker->randomElement($users))
-                ->setArticlepress($faker->randomElement($articlespress))
+                ->setArticlepresse($faker->randomElement($articlespresses))
                 ->setEss($faker->randomElement($essS))
                 ->setBlog($faker->randomElement($blogs));
 
@@ -183,9 +186,9 @@ class AppFixtures extends Fixture
             $manager->persist($newsletter);
             $newsletters[] = $newsletter;
         }
-        $geolocalisations=[];
+        $geolocalisations = [];
         foreach ($essS as $ess) {
-        
+
             $geolocalisation = new GeoLocalisationEss();
             $geolocalisation
                 ->setLatitude($faker->latitude(-90, 90))
@@ -196,7 +199,7 @@ class AppFixtures extends Fixture
             $geolocalisations[] = $geolocalisation;
         }
 
-        
+
 
         $manager->flush();
     }

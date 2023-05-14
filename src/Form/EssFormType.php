@@ -3,10 +3,6 @@
 namespace App\Form;
 
 use App\Entity\Ess;
-use App\Entity\Image;
-use App\Entity\Picture;
-use App\Repository\ImageRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -15,16 +11,16 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
+use Symfony\Component\Form\Extension\Core\Type\TextType ;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Form\Extension\Core\Type\FormType;
+
 
 
 
@@ -36,7 +32,7 @@ class EssFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nameStructure', TypeTextType::class, [
+            ->add('nameStructure', TextType::class, [
                 'label' => 'Nom de la structure',
             ])
             ->add('sectorActivity', ChoiceType::class, [
@@ -65,7 +61,7 @@ class EssFormType extends AbstractType
                     ' Activités extra-territoriales' => 'Activités extra-territoriales',
                 ]
             ])
-            ->add('activity', TypeTextType::class, [
+            ->add('activity', TextType::class, [
                 'label' => 'Activité',
             ])
 
@@ -73,7 +69,7 @@ class EssFormType extends AbstractType
 
                 'label' => 'Description',
             ])
-            ->add('siretNumber', TypeTextType::class, [
+            ->add('siretNumber', TextType::class, [
                 'label' => "Numéro de siret",
                 'required' => true,
                 'constraints' => [
@@ -162,10 +158,10 @@ class EssFormType extends AbstractType
 
             // ])
 
-            ->add('city', TypeTextType::class, [
+            ->add('city', TextType::class, [
                 'label' => 'Ville',
             ])
-            ->add('zip_code', TypeTextType::class, [
+            ->add('zip_code', TextType::class, [
                 'label' => "Code postale",
                 'constraints' => [
                     new Length([
@@ -175,10 +171,10 @@ class EssFormType extends AbstractType
                     ]),
                 ]
             ])
-            ->add('adress', TypeTextType::class, [
+            ->add('adress', TextType::class, [
                 'label' => "Adresse complète",
             ])
-            ->add('region', TypeTextType::class, [
+            ->add('region', TextType::class, [
                 'label' => 'Région',
             ])
 
@@ -196,20 +192,20 @@ class EssFormType extends AbstractType
                     ])
                 ]
             ])
-            ->add('socialNetworks', TypeTextType::class, [
+            ->add('socialNetworks', TextType::class, [
                 'label' => 'facebook',
 
             ])
 
-            ->add('webSite', TypeTextType::class, [
+            ->add('webSite', TextType::class, [
                 'label' => 'site web',
             ])
-            ->add('lastName', TypeTextType::class, [
+            ->add('lastName', TextType::class, [
 
                 'label' => 'Nom de la personne',
                 'required' => true,
             ])
-            ->add('firstName', TypeTextType::class, [
+            ->add('firstName', TextType::class, [
 
                 'label' => 'Prénom',
                 'required' => true,

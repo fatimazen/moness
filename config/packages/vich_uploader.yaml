@@ -26,3 +26,10 @@ vich_uploader:
                 namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
                 delete_on_update: false
                 delete_on_remove: false
+
+      articlespresse:
+                uri_prefix: /uploads/articlespresse
+                upload_destination: '%kernel.project_dir%/public/uploads/articlespresse   '
+                namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+                delete_on_update: false
+                delete_on_remove: false

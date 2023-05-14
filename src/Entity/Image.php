@@ -4,10 +4,9 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ImageRepository;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Doctrine\Common\Collections\ArrayCollection;
+
 
 
 
@@ -42,7 +41,7 @@ class Image
 
     #[ORM\ManyToOne(inversedBy: 'image')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Articlespress $articlepress = null;
+    private ?Articlespresse $articlepresse = null;
 
     
 
@@ -141,14 +140,14 @@ class Image
         return $this;
     }
 
-    public function getArticlepress(): ?Articlespress
+    public function getArticlepresse(): ?Articlespresse
     {
-        return $this->articlepress;
+        return $this->articlepresse;
     }
 
-    public function setArticlepress(?Articlespress $articlepress): self
+    public function setArticlepresse(?Articlespresse $articlepresse): self
     {
-        $this->articlepress = $articlepress;
+        $this->articlepresse = $articlepresse;
 
         return $this;
     }

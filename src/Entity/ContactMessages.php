@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\ContactMessagesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ContactMessagesRepository::class)]
 class ContactMessages
@@ -14,35 +16,50 @@ class ContactMessages
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $firstName = null;
+    #[ORM\Column(length: 50, nullable:true)]
+    #[Assert\Length(min: 2, max:50)]
+    private ?string $fullName = null;
 
-    #[ORM\Column(length: 255,unique: true)]
-    private ?string $email = null;
+    #[ORM\Column(length: 180)]
+    #[Assert\Email()]
+    #[Assert\Length(min: 2, max:180)]
+    private string $email ;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $message = null;
+    #[ORM\Column(type:'text')]
+    #[Assert\NotBlank()]
+    private string $message ;
+
+    #[ORM\Column(length:100, nullable:true)]
+    #[Assert\Length(min: 2, max:100)]
+    private ?string $sujet= null ;
 
     #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
+    #[Assert\NotNull()]
     private ?\DateTimeImmutable $created_At = null;
 
     #[ORM\ManyToOne(inversedBy: 'contactMessage')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Users $users = null;
+
+    public function __construct()
+    {
+    
+        $this->created_At = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFirstName(): ?string
+    public function getFullName(): ?string
     {
-        return $this->firstName;
+        return $this->fullName;
     }
 
-    public function setFirstName(string $firstName): self
+    public function setFullName(string $fullName): self
     {
-        $this->firstName = $firstName;
+        $this->fullName = $fullName;
 
         return $this;
     }
@@ -59,7 +76,7 @@ class ContactMessages
         return $this;
     }
 
-    public function getMessage(): ?string
+    public function getMessage(): string
     {
         return $this->message;
     }
@@ -67,6 +84,18 @@ class ContactMessages
     public function setMessage(string $message): self
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getSujet():? string
+    {
+        return $this->sujet;
+    }
+
+    public function setSujet(string $sujet): self
+    {
+        $this->sujet = $sujet;
 
         return $this;
     }

@@ -8,6 +8,8 @@ use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -16,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType as TypeTextType;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UsersFormType extends AbstractType
 {
@@ -30,40 +31,40 @@ class UsersFormType extends AbstractType
             // ->add('roles')
 
             ->add('plainPassword', PasswordType::class, [
-            
-                'mapped'=>false,
-                'attr'=>[
-                    'autocomplete'=>'new-password'
+
+                'mapped' => false,
+                'attr' => [
+                    'autocomplete' => 'new-password'
                 ],
-                'constraints'=>[
+                'constraints' => [
                     new NotBlank([
-                        'message'=> 'veuillez entrée un mot de passe',
+                        'message' => 'veuillez entrée un mot de passe',
                     ]),
                     new length([
-                        'min'=> 6,
-                        'minMessage'=>'you password should be at least{{limit}} characters',
-                        'max'=>4096,
+                        'min' => 6,
+                        'minMessage' => 'you password should be at least{{limit}} characters',
+                        'max' => 4096,
                     ]),
                 ],
-                'label'=>'Mot de passe'
+                'label' => 'Mot de passe'
             ])
             ->add('firstName', TypeTextType::class, [
                 'label' => 'Prénom',
-                
+
             ])
             ->add('lastName', TypeTextType::class, [
                 'label' => 'Nom',
-                
+
             ])
 
-    
+
             ->add('birthdate', DateType::class, [
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
                 'input' => 'string',
             ])
 
-            ->add('gender',ChoiceType::class,[
+            ->add('gender', ChoiceType::class, [
                 'label' => 'Civilité',
                 'choices' => [
                     'M' => 'Homme',
@@ -79,12 +80,10 @@ class UsersFormType extends AbstractType
                     new IsTrue([
                         'message' => 'you should agree to our terms.'
                     ]),
-                   
+
                 ],
-                'label'=>'En m\'inscrivant à ce site j\'accepte les condition d\'inscription'
-                    ]);
-                    
-                
+                'label' => 'En m\'inscrivant à ce site j\'accepte les condition d\'inscription'
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

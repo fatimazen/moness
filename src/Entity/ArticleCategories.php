@@ -22,7 +22,7 @@ class ArticleCategories
 
     #[ORM\ManyToOne(inversedBy: 'articlescategories')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Articlespress $articlespress = null;
+    private ?Articlespresse $articlepresse = null;
 
     #[ORM\ManyToOne(inversedBy: 'articlesCategories')]
     #[ORM\JoinColumn(nullable: false)]
@@ -47,14 +47,14 @@ class ArticleCategories
         return $this;
     }
 
-    public function getArticlespress(): ?Articlespress
+    public function getArticlepresse(): ?Articlespresse
     {
-        return $this->articlespress;
+        return $this->articlepresse;
     }
 
-    public function setArticlespress(?Articlespress $articlespress): self
+    public function setArticlepresse(?Articlespresse $articlepresse): self
     {
-        $this->articlespress = $articlespress;
+        $this->articlepresse = $articlepresse;
 
         return $this;
     }

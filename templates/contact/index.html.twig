@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Moness.fr contact{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success mt-4">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <h1>Formulaire de contact</h1>
+        {{ form(contactForm) }}
+    </div>
+{% endblock %}

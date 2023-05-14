@@ -2,19 +2,32 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticlespressRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+
+use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Doctrine\Common\Collections\Collection;
+use App\Repository\ArticlespresseRepository;
 use Symfony\Component\HttpFoundation\File\File;
+use Doctrine\Common\Collections\ArrayCollection;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 
 #[Vich\Uploadable]
-#[ORM\Entity(repositoryClass: ArticlespressRepository::class)]
-class Articlespress
+#[ORM\HasLifecycleCallbacks]
+#[ORM\Entity(repositoryClass: ArticlespresseRepository::class)]
+#[UniqueEntity(
+
+    'slug',
+    message: 'ce slug existe déjà.'
+)]
+class Articlespresse
 {
+    const STATES = ['STATE_DRAFT', 'STATE_PUBLISHED'];
+    
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -27,34 +40,45 @@ class Articlespress
     private ?string $image = null;
 
 
-    #[Vich\UploadableField(mapping: "articlespress", fileNameProperty: "image")]
+    #[Vich\UploadableField(mapping: "articlespresse", fileNameProperty: "image")]
     private ?File $imageFile = null;
 
     #[ORM\Column(length: 255)]
     private ?string $author = null;
 
+    #[ORM\Column(type: 'text',)]
+    #[Assert\NotBlank()]
+    private string $content;
+
+    #[ORM\Column(length: 255, unique: true)]
+    #[Assert\NotBlank()]
+    private string $slug;
+
+    #[ORM\Column(length: 255)]
+    private string $state = Articlespresse::STATES[0];
+
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $updated_At = null;
 
-    #[ORM\Column(options:['default'=>'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_At = null;
 
 
-    #[ORM\OneToMany(mappedBy: 'Articlepress', targetEntity: Comments::class)]
+    #[ORM\OneToMany(mappedBy: 'articlespresse', targetEntity: Comments::class)]
     private Collection $comment;
 
-    #[ORM\ManyToOne(inversedBy: 'articlespresses')]
+    #[ORM\ManyToOne(inversedBy: 'articlespresse')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Ess $ess = null;
 
-    #[ORM\OneToMany(mappedBy: 'articlespress', targetEntity: ArticleCategories::class)]
+    #[ORM\OneToMany(mappedBy: 'articlespresse', targetEntity: ArticleCategories::class)]
     private Collection $articlescategories;
 
-    
-    #[ORM\OneToMany(mappedBy: 'articlespress', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist'])]
+
+    #[ORM\OneToMany(mappedBy: 'articlespresse', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $images;
 
-    
+
 
     public function __construct()
     {
@@ -62,8 +86,21 @@ class Articlespress
         $this->articlescategories = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->updated_At = new \DateTimeImmutable();
-    
-       
+        $this->created_At = new \DateTimeImmutable();
+    }
+
+    #[ORM\PrePersist]
+    public function prePersist()
+    {
+        $this->slug = (new Slugify())->slugify($this->title);
+    }
+
+
+    #[ORM\PreUpdate]
+    public function preUpdate()
+
+    {
+        $this->updated_At = new \DateTimeImmutable();
     }
 
 
@@ -131,6 +168,41 @@ class Articlespress
 
         return $this;
     }
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): self
+    {
+        $this->content = $content;
+
+        return $this;
+    }
+
+    public function getSlug(): string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getState(): string
+    {
+        return $this->state;
+    }
+
+    public function setState(string $state): self
+    {
+        $this->state = $state;
+
+        return $this;
+    }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
@@ -156,6 +228,12 @@ class Articlespress
         return $this;
     }
 
+    public function __toString()
+
+    {
+        return $this->title;
+    }
+
 
     /**
      * @return Collection<int, Comments>
@@ -169,7 +247,7 @@ class Articlespress
     {
         if (!$this->comment->contains($comment)) {
             $this->comment->add($comment);
-            $comment->setArticlepress($this);
+            $comment->setArticlepresse($this);
         }
 
         return $this;
@@ -179,8 +257,8 @@ class Articlespress
     {
         if ($this->comment->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getArticlepress() === $this) {
-                $comment->setArticlepress(null);
+            if ($comment->getArticlepresse() === $this) {
+                $comment->setArticlepresse(null);
             }
         }
 
@@ -202,16 +280,16 @@ class Articlespress
     /**
      * @return Collection<int, ArticleCategories>
      */
-    public function getArticlescategories(): Collection
+    public function getArticlecategories(): Collection
     {
         return $this->articlescategories;
     }
 
-    public function addArticlescategory(ArticleCategories $articlescategory): self
+    public function addArticlecategory(ArticleCategories $articlescategory): self
     {
         if (!$this->articlescategories->contains($articlescategory)) {
             $this->articlescategories->add($articlescategory);
-            $articlescategory->setArticlespress($this);
+            $articlescategory->setArticlepresse($this);
         }
 
         return $this;
@@ -221,8 +299,8 @@ class Articlespress
     {
         if ($this->articlescategories->removeElement($articlescategory)) {
             // set the owning side to null (unless already changed)
-            if ($articlescategory->getArticlespress() === $this) {
-                $articlescategory->setArticlespress(null);
+            if ($articlescategory->getArticlepresse() === $this) {
+                $articlescategory->setArticlepresse(null);
             }
         }
 
@@ -241,7 +319,7 @@ class Articlespress
     {
         if (!$this->images->contains($image)) {
             $this->images->add($image);
-            $image->setArticlepress($this);
+            $image->setArticlepresse($this);
         }
 
         return $this;
@@ -251,14 +329,11 @@ class Articlespress
     {
         if ($this->images->removeElement($image)) {
             // set the owning side to null (unless already changed)
-            if ($image->getArticlepress() === $this) {
-                $image->setArticlepress(null);
+            if ($image->getArticlepresse() === $this) {
+                $image->setArticlepresse(null);
             }
         }
 
         return $this;
     }
-
-    
-    
 }

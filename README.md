@@ -27,3 +27,10 @@
 ### commande pour retourner sur une branche qui a etait push et que l on souhaite abondonner les modif
     git revert HEAD
 
+### commande pour generer les data fitures 
+composer requier fakerphp/faker
+
+### pour les envoyer en bd
+
+symfony console doctrine:fixtures:load
+
