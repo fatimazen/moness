@@ -7,18 +7,18 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/news', name: 'app_articlespresse')]
 class ArticlespresseController extends AbstractController
 {
-    #[Route('/', name: 'index', methods: ['GET'])]
+    #[Route('/news', name: 'articlespresse.index')]
+    // #[Route('/', name: 'index', methods: ['GET'])]
     public function index(ArticlespresseRepository $articlespresseRepository): Response
     {
         $articlespresses = $articlespresseRepository->findPublished();
-    
+
 
         return $this->render('articlespresse/index.html.twig', [
             'controller_name' => 'ArticlespresseController',
-             'articlespresses' => $articlespresses
+            'articlespresses' => $articlespresses
         ]);
     }
 }
