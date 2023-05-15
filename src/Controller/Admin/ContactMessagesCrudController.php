@@ -3,11 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\ContactMessages;
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 class ContactMessagesCrudController extends AbstractCrudController
@@ -23,7 +25,8 @@ class ContactMessagesCrudController extends AbstractCrudController
             ->setEntityLabelInSingular('Demande de contact')
             ->setEntityLabelInPlural('Demandes de contact')
             ->setPageTitle("index", "Moness.fr-Administration des demandes de  contact")
-            ->setPaginatorPageSize(20);
+            ->setPaginatorPageSize(20)
+            ->addformTheme('@FOSCKEditor/Form/ckeditor_widget.html.twig');
     }
 
 
@@ -34,8 +37,9 @@ class ContactMessagesCrudController extends AbstractCrudController
                 ->hideOnIndex(),
             TextField::new('fullName', "Nom / Prènom"),
             TextField::new('email'),
-            TextareaField::new('message')
-            ->hideOnIndex(),
+            TextEditorField::new('message')
+            ->hideOnIndex()
+            ->setFormType(CKEditorType::class),
             DateTimeField::new('createdAt')
                 ->hideOnForm()
         ];

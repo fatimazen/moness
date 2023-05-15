@@ -32,6 +32,22 @@ class AppFixtures extends Fixture
 
         $users = [];
 
+        $admin = new Users;
+        $admin
+            ->setFirstName('fatima')
+            ->setLastName('yakhlef')
+            ->setEmail('fatimazen24@gmail.fr')
+            ->setPassword($this->passwordEncoder->hashPassword($admin, 'Yakhlef.24'))
+            ->setBirthdate($faker->date())
+            ->setIsAbonneNewsLetter($faker->boolean())
+            ->setGender('female')
+            ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
+            ->setRoles(['ROLE_USER', 'ROLE_ADMIN']);
+
+        $users[] = $admin;
+        $manager->persist($admin);
+
+
         for ($i = 0; $i < 10; $i++) {
 
             $user = new Users();
@@ -51,19 +67,6 @@ class AppFixtures extends Fixture
             $manager->persist($user);
         }
 
-        $admin = new Users;
-        $admin
-            ->setFirstName('fatima')
-            ->setLastName('yakhlef')
-            ->setEmail('fatimazen24@gmail.fr')
-            ->setPassword($this->passwordEncoder->hashPassword($admin, 'Yakhlef.24'))
-            ->setBirthdate($faker->date())
-            ->setIsAbonneNewsLetter($faker->boolean())
-            ->setGender('female')
-            ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
-            ->setRoles(['ROLE_ADMIN']);
-
-        $manager->persist($admin);
 
 
         $essS = [];
