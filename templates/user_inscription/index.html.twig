@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 
-	{% block title %}Inscription
-	{% endblock %}
-	
+	{% block title %}Inscription{% endblock %}
+
 	{% block body %}
 		<div class="container">
 			<div class="row">
 				<div class="col-md-10">
-					
+						{% include '_base/_flash.html.twig'%}
+
 						<legend style="text-align: center; border: 1px solid #030303;box-shadow: 1px 1px 2px ;font-family: 'Futura Md-Bt', sans-serif;">Mes données personnelles</legend>
 				
 					<div class="col-md-3"></div>
@@ -42,5 +42,5 @@
 					{{ form_end(userForm) }}
 	
 					{% include "user_inscription/_form.html.twig" %}
-	
+				</div>
 				{% endblock %}
