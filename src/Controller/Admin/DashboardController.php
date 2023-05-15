@@ -7,6 +7,7 @@ use App\Entity\Blog;
 use App\Entity\Image;
 use App\Entity\Users;
 use App\Entity\Articlespresse;
+use App\Entity\ContactMessages;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -34,6 +35,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::linkToCrud('structure des ess', 'fas fa-building', Ess::class);
         yield MenuItem::linkToCrud(' utilisateurs', 'fas fa-users', Users::class);
+        yield MenuItem::linkToCrud(' Demandes de contact', 'fas fa-envelope', ContactMessages::class);
         yield MenuItem::linkToCrud(' blogs', 'fas fa-blog', Blog::class);
         yield MenuItem::linkToCrud(' articlepresse', 'fas fa-newspaper', Articlespresse::class);
         
