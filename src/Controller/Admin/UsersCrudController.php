@@ -27,18 +27,20 @@ class UsersCrudController extends AbstractCrudController
             ->setPaginatorPageSize(10);
     }
 
-    
+
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')
-            ->hideOnForm(),
-            TextField::new('email'),
-            ArrayField::new('roles'),
-            TextField::new('firstName'),
-            TextField::new('lastName'),
-            DateTimeField::new('createdAt'),
+                ->hideOnForm(),
+            TextField::new('email')
+                ->hideOnForm(),
+            ArrayField::new('roles')
+                ->hideOnIndex(),
+            TextField::new('firstName', "Prènom"),
+            TextField::new('lastName', "Nom"),
+            DateTimeField::new('createdAt')
+                ->hideOnForm()
         ];
     }
-   
 }
