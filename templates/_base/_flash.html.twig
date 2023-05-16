@@ -1,11 +1,12 @@
 {% for label, message in app.flashes %}
-	{% for message in messages %}
-		<div class="alert alert-{{ label }} alert-dismissible" role="alert">
-
-			<button type="button" class="btn-close" data-bs-dismiss="alert-message">
-
-				{{ message|raw }}
-			</div>
-		</div>
-	{% endfor %}
+    <div class="alert alert-{{ label }} alert-dismissible" role="alert">
+        <button type="button" class="btn-close" data-bs-dismiss="alert-message"></button>
+        {% if message is iterable %}
+            {% for item in message %}
+                <p>{{ item }}</p>
+            {% endfor %}
+        {% else %}
+            <p>{{ message|raw }}</p>
+        {% endif %}
+    </div>
 {% endfor %}

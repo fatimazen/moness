@@ -2,14 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\UsersRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTime;
+use DateInterval;
+use DateTimeInterface;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\UsersRepository;
+use Doctrine\Common\Collections\Collection;
+use phpDocumentor\Reflection\Types\Nullable;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
-use phpDocumentor\Reflection\Types\Nullable;
 
 #[ORM\Entity(repositoryClass: UsersRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
@@ -71,6 +75,15 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favoris::class)]
     private Collection $favoris;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tokenRegistration = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable:true)]
+    private ?DateTimeInterface $tokenRegistrationLifeTime = null;
+
+    #[ORM\Column]
+    private bool $isVerfied = false;
+
     
     
     public function __construct()
@@ -81,8 +94,9 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->newsLetters = new ArrayCollection();
         $this->blog = new ArrayCollection();
         $this->favoris = new ArrayCollection();
-
         $this->created_At = new \DateTimeImmutable();
+        $this->isVerfied = false;
+        $this->tokenRegistrationLifeTime =(new DateTime('now'))->add(new DateInterval("P1D"));
 
     }
 
@@ -431,5 +445,41 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     
     //     return $this;
     // }
+
+    public function getTokenRegistration(): ?string
+    {
+        return $this->tokenRegistration;
+    }
+
+    public function setTokenRegistration(?string $tokenRegistration): self
+    {
+        $this->tokenRegistration = $tokenRegistration;
+
+        return $this;
+    }
+
+    public function getTokenRegistrationLifeTime(): ?\DateTimeInterface
+    {
+        return $this->tokenRegistrationLifeTime;
+    }
+
+    public function setTokenRegistrationLifeTime(\DateTimeInterface $tokenRegistrationLifeTime): self
+    {
+        $this->tokenRegistrationLifeTime = $tokenRegistrationLifeTime;
+
+        return $this;
+    }
+
+    public function isIsVerfied(): ?bool
+    {
+        return $this->isVerfied;
+    }
+
+    public function setIsVerfied(bool $isVerfied): self
+    {
+        $this->isVerfied = $isVerfied;
+
+        return $this;
+    }
 
 }
