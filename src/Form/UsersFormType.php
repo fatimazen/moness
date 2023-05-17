@@ -3,12 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Users;
-use DateTimeImmutable;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\DateTime;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -28,7 +25,7 @@ class UsersFormType extends AbstractType
                 'label' => 'Adresse Email',
 
             ])
-            // ->add('roles')
+
 
             ->add('plainPassword', PasswordType::class, [
 
@@ -42,7 +39,7 @@ class UsersFormType extends AbstractType
                     ]),
                     new length([
                         'min' => 6,
-                        'minMessage' => 'you password should be at least{{limit}} characters',
+                        'minMessage' => 'you password should be at least 6 characters',
                         'max' => 4096,
                     ]),
                 ],
