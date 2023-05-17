@@ -28,7 +28,7 @@ class UsersFormType extends AbstractType
                 'label' => 'Adresse Email',
 
             ])
-            // ->add('roles')
+
 
             ->add('plainPassword', PasswordType::class, [
 
@@ -42,7 +42,7 @@ class UsersFormType extends AbstractType
                     ]),
                     new length([
                         'min' => 6,
-                        'minMessage' => 'you password should be at least{{limit}} characters',
+                        'minMessage' => 'you password should be at least 6 characters',
                         'max' => 4096,
                     ]),
                 ],
