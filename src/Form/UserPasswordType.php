@@ -6,13 +6,11 @@ namespace App\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-
-use function PHPSTORM_META\type;
 
 class UserPasswordType extends AbstractType
 {
@@ -46,13 +44,9 @@ class UserPasswordType extends AbstractType
                         
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'veuillez entrée un mot de passe',
+                        'message' => 'veuillez remplir ce champ.',
                     ]),
-                    new Assert\length([
-                        'min' => 6,
-                        'minMessage' => 'you password should be at least 8 characters',
-                        'max' => 4096,
-                    ]),
+                   
 
                 ],
                 'label' => 'Mot de passe'
