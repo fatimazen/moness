@@ -12,8 +12,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+
 class UsersController extends AbstractController
 {
+    #[Route('/users', name: 'users.index')]
+    public function index()
+    {
+        return $this->render('users/index.html.twig',[
+            'controller_name'=>'Userscontroller'
+        ]);
+    }
     /**
      * Ce controller nous permet de modifier le profil de l'utilisateur
      */
