@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Blog;
 use App\Entity\Image;
+use Doctrine\ORM\EntityManager;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -36,15 +37,17 @@ class BlogCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            
+
             TextField::new('title', 'titre'),
             TextField::new('author', 'auteur'),
-            TextField::new('imageFile','photo')->setFormType(VichImageType::class)
-            ->hideOnIndex(),
+            TextField::new('imageFile', 'photo')->setFormType(VichImageType::class)
+                ->hideOnIndex(),
             ImageField::new('image')->setBasePath('/uploads/blog')->onlyOnIndex(),
             TextEditorField::new('content', 'contenu')
-            ->setFormType(CKEditorType::class),
-          
+                ->setFormType(CKEditorType::class),
+            TextField::new('slug', 'slug')->hideOnIndex(),
+
         ];
     }
+
 }

@@ -34,12 +34,13 @@ class ContactMessagesCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')
-                ->hideOnIndex(),
+                ->hideOnIndex()
+                ->hideOnForm(),
             TextField::new('fullName', "Nom / Prènom"),
             TextField::new('email'),
             TextEditorField::new('message')
-            ->hideOnIndex()
-            ->setFormType(CKEditorType::class),
+                ->hideOnIndex()
+                ->setFormType(CKEditorType::class),
             DateTimeField::new('createdAt')
                 ->hideOnForm()
         ];

@@ -9,14 +9,14 @@
 		
 			<div class="row g-5">
 				{# <div class="col-md-8"> #}
-					<h1 class="pb-4 mb-4 fst-italic border-bottom">Blog</h1>
+					<h1 class="display-5 fst-italic border-bottom">Blog</h1>
 						{% for articleBlogs in articleBlog %}
 						
 							</section>
 							<div class="d-flex justify-content-center">
 								<img  src="{{ vich_uploader_asset(articleBlogs, 'imageFile') }}" alt="{{articleBlogs.image}}" class="rounded mt-5 w-100 " style="height: 450px;">
 							</div>
-								<h2 class="display-6 fw-bold text-center my-4">{{articleBlogs.title}}</h2>
+								<h2 class="display-8 fw-bold text-center my-4">{{articleBlogs.title}}</h2>
 										<div class="col-lg-7 mx-auto">
 											<p>{{articleBlogs.content}} </p>
 												<hr class="my-4">

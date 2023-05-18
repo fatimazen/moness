@@ -15,7 +15,6 @@ class ArticlespresseController extends AbstractController
     {
         $articlespresses = $articlespresseRepository->findPublished();
 
-
         return $this->render('articlespresse/index.html.twig', [
             'controller_name' => 'ArticlespresseController',
             'articlespresses' => $articlespresses
