@@ -42,8 +42,13 @@
 
 						<div class="d-flex justify-content-center align-items-md-center">
 							{% if app.user %}
+							<a class="nav-link mx-1" href="{{ path ("admin.index")}}">
+									<button class="btn btn-outline-success">
+										Admin
+									</button>
+								</a>
 
-								<a class="nav-link mx-1" href="#">
+								<a class="nav-link mx-1" href="{{ path ("users.index")}}">
 									<button class="btn btn-outline-success">
 										Mon compte
 									</button>
