@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Blog;
 use App\Entity\Image;
+use Doctrine\ORM\EntityManagerInterface;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -36,15 +37,30 @@ class BlogCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            
+
             TextField::new('title', 'titre'),
             TextField::new('author', 'auteur'),
-            TextField::new('imageFile','photo')->setFormType(VichImageType::class)
-            ->hideOnIndex(),
+            TextField::new('imageFile', 'photo')->setFormType(VichImageType::class)
+                ->hideOnIndex(),
             ImageField::new('image')->setBasePath('/uploads/blog')->onlyOnIndex(),
             TextEditorField::new('content', 'contenu')
-            ->setFormType(CKEditorType::class),
-          
+                ->setFormType(CKEditorType::class),
+            TextField::new('slug', 'référencement')
+
         ];
+    }
+
+    public function persistEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        if (!$entityInstance instanceof Blog) {
+            return;
+        }
+
+        $entityInstance
+        ->setCreatedAt(new \DateTimeImmutable())
+        ->setUsers($this->getUser());
+    
+    //je persiste et je flush en base de données et j'envoie un email
+    parent::persistEntity($entityManager, $entityInstance);
     }
 }

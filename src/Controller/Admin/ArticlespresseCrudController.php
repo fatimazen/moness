@@ -33,14 +33,16 @@ class ArticlespresseCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('title', 'titre'),
-            TextField::new('author', 'auteur'),
-            TextField::new('imageFile', 'photo')->setFormType(VichImageType::class)
+            IdField::new('id')
+                ->hideOnForm(),
+            TextField::new('title', 'Titre'),
+            TextField::new('author', 'Auteur'),
+            TextField::new('imageFile', 'Photo')->setFormType(VichImageType::class)
                 ->hideOnIndex(),
             ImageField::new('image')->setBasePath('/uploads/blog')->onlyOnIndex(),
-            TextEditorField::new('content', 'contenu')
+            TextEditorField::new('content', 'Contenu')
                 ->setFormType(CKEditorType::class),
+            TextField::new('slug', 'Référencement')
         ];
     }
 }
