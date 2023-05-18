@@ -15,14 +15,18 @@ class BlogController extends AbstractController
     public function index(BlogRepository $blogRepository,): Response
     {
         $blogs = $blogRepository->findPublished();
+        $articleBlog = $blogRepository->findAll();
 
+        // dd([$articleBlog]);
 
 
         return $this->render('blog/index.html.twig', [
             'controller_name' => 'BlogController',
 
 
-            'blogs' => $blogs
+            'blogs' => $blogs,
+            'articleBlog' => $articleBlog,
+
         ]);
     }
 }
