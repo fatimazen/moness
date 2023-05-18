@@ -1,0 +1,33 @@
+<section class="container">
+    <div class="row g-5">
+        <h1 class="display-5 fst-italic border-bottom">
+            Blog
+                        
+        </h1>
+        {% for articleBlogs in articleBlog %}
+        </section>
+        <div class="d-flex justify-content-center">
+            <img src="{{ vich_uploader_asset(articleBlogs, 'imageFile') }}" alt="{{ articleBlogs.image }}" class="rounded mt-5 w-100 " style="height: 450px;"></div>
+            <h2 class="display-8 fw-bold text-center my-4">
+                {{ articleBlogs.title }}
+            </h2>
+            <div class="col-lg-7 mx-auto">
+                <p>
+                    {{ articleBlogs.content }}
+                </p>
+                <hr class="my-4">
+                    <p>
+                        Publié par: 
+                                                    
+                        <a href="#">
+                            {{ articleBlogs.author }}
+                        </a>
+                        le: 
+                                                    
+                        {{ articleBlogs.createdAt? articleBlogs.createdAt|date('d/m/Y') : '' }}
+                    </p>
+                <!-- ajouter à la place du hashtag du href la route vers le profil utilisateur-->
+                </div>
+            {% endfor %}
+        </div>
+    </section>

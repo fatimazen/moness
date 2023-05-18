@@ -8,6 +8,7 @@ use App\Entity\Users;
 use App\Entity\Ess;
 use App\Entity\Articlespresse;
 use App\Entity\Blog;
+use App\Entity\Categories;
 use App\Entity\Comments;
 use App\Entity\ContactMessages;
 use App\Entity\GeoLocalisationEss;
@@ -138,13 +139,46 @@ class AppFixtures extends Fixture
                 ->setAuthor($faker->name())
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setImage('blogtest.jpg')
-                ->setContent($faker->text(255))
+                ->setContent($faker->text(800))
                 ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
                 ->setState(mt_rand(0, 2) === 1 ? Blog::STATES[0] : Blog::STATES[1])
 
                 ->setUsers($faker->randomElement($users));
             $manager->persist($blog);
             $blogs[] = $blog;
+        }
+
+        $defaultCategories = [
+            [
+                "nom" => "Economie",
+                "slug"  => "initiative",
+            ],
+            [
+                "nom" => "Social",
+                "slug" => "Social",
+            ],
+            [
+                "nom" => "Commerce de proximité",
+                "slug" => "Commerce de proximité"
+            ]
+        ];
+        foreach ($defaultCategories as $categories) {
+
+            $categories = new Categories;
+
+            $categories
+                ->setNom($faker->randomElement(['Economie', 'Social', 'Commerce de proximité']))
+                ->setSlug($faker->randomElement(['initiative', 'Social', 'Commerce de proximité']));
+
+            $manager->persist($categories);
+        }
+
+        for($cat = 0; $cat < 5; $cat++) {
+            $categories = new Categories;
+            $categories
+                ->setNom($faker->word(3, true))
+                ->setSlug($faker->slug());
+            $manager->persist($categories);
         }
 
         $articlespresses = [];
@@ -155,7 +189,7 @@ class AppFixtures extends Fixture
                 ->setAuthor($faker->name())
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
                 ->setImage('blogtest.jpg')
-                ->setContent($faker->text(255))
+                ->setContent($faker->text(800))
                 ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
                 ->setEss($faker->randomElement($essS))
                 ->setState(mt_rand(0, 2) === 1 ? Articlespresse::STATES[0] : Articlespresse::STATES[1]);
