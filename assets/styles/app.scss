@@ -1,13 +1,23 @@
 @import "~bootstrap/scss/bootstrap";
-@import url("https://fonts.googleapis.com/css?family=Futura");
+@import url('https://fonts.cdnfonts.com/css/futura-md-bt');
+@import url('https://fonts.cdnfonts.com/css/futura-lt-bt');
+
 
 body {
 
 p{
-    font-family: Futura Lt-Bt;
+    font-family: futura-md-bt;
 }
 h1{
-    font-family:Wollicht;
+    font-family:futura-md-bt;
     color: #82D830;
 }
+h2{
+    text-transform: uppercase;
+    font-family:futura-md-bt;
+}
+p{
+    font-family:futura-lt-bt;
+}
+
 }
