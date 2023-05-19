@@ -18,9 +18,7 @@ class UsersController extends AbstractController
     #[Route('/users', name: 'users.index')]
     public function index()
     {
-        return $this->render('users/index.html.twig',[
-            'controller_name'=>'Userscontroller'
-        ]);
+        return $this->render('users/index.html.twig',);
     }
     /**
      * Ce controller nous permet de modifier le profil de l'utilisateur
@@ -100,6 +98,7 @@ class UsersController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+    
 }
 // return $this->render('users/edit.html.twig', [
 //     'form' => $form->createView(),

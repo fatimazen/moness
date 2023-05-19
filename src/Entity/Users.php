@@ -54,8 +54,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $gender = null;
 
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Ess::class)]
-    private Collection $ess;
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ess::class)]
+    private ?Collection $ess;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: ContactMessages::class)]
     private Collection $contactMessage;

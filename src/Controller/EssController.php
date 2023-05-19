@@ -3,13 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Ess;
-use App\Entity\Image;
-use App\Entity\Images;
-
 use App\Form\EssFormType;
-use App\Event\EssCreatedEvent;
-use App\Service\PictureService;
-use Doctrine\ORM\EntityManager;
 use App\Repository\EssRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
