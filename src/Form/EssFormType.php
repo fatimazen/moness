@@ -17,13 +17,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Form\Extension\Core\Type\TextType ;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\Form\Extension\Core\Type\FormType;
-
-
-
-
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 
@@ -33,10 +28,18 @@ class EssFormType extends AbstractType
     {
         $builder
             ->add('nameStructure', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                 'label' => 'Nom de la structure',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
             ])
             ->add('sectorActivity', ChoiceType::class, [
-                'label' => 'Secteur d\'activité',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                 'choices' => [
                     'Agriculture, sylviculture et pêche' => 'Agriculture, sylviculture et pêche',
                     'Industries extractives' => 'Industries extractives',
@@ -59,17 +62,36 @@ class EssFormType extends AbstractType
                     ' Autres activités de services' => 'Autres activités de services',
                     'Activités des ménages en tant qu\'employeurs ; activités indifférenciées des ménages en tant que producteurs de biens et services pour usage propre' => 'Activités des ménages en tant qu\'employeurs ;activités indifférenciées des ménages en tant que producteurs de biens et services pour usage propre',
                     ' Activités extra-territoriales' => 'Activités extra-territoriales',
-                ]
+                ],
+                'label' => 'Secteur d\'activité',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
             ])
             ->add('activity', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                 'label' => 'Activité',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
             ])
 
             ->add('description', TextareaType::class, [
+                'attr' => [
+                    'class' => 'form-label mt-4',
+                ],
+                'constraints' => [
+                    new Assert\NotBlank(),
+                ],
 
                 'label' => 'Description',
             ])
             ->add('siretNumber', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                 'label' => "Numéro de siret",
                 'required' => true,
                 'constraints' => [
@@ -89,20 +111,27 @@ class EssFormType extends AbstractType
 
             ])
 
-
-
             ->add('email', EmailType::class, [
-                'label' => 'Adresse Email',
-
-
-
+                'attr' => [
+                    'class' => 'form-control',
+                    'minlength' => 2,
+                    'maxlength' => 180,
+                ],
+                'label' => 'Adresse email',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
+                'constraints' => [
+                    new Assert\NotBlank(),
+                    new Assert\Email(),
+                    new Assert\Length(['min' => 2, 'max' => 180]),
+                ],
             ])
 
-            ->add('save', SubmitType::class, [
-                'label' => 'Enregistrer',
-            ])
             ->add('label', ChoiceType::class, [
-                'label' => 'Label',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                 'choices' => [
                     'L\'agrément ESUS' => 'ESUS',
                     'ISR' => 'ISR',
@@ -113,11 +142,19 @@ class EssFormType extends AbstractType
                     'Relations Fournisseurs et Achat Responsable (RFAR)' => 'Relations Fournisseurs et Achat Responsable (RFAR)',
                     'aucun' => 'Aucun',
                 ],
-                'expanded' => true,
-                'multiple' => true,
+
+                'label' => 'Label',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
+
+                // 'expanded' => true,
+                // 'multiple' => true,
             ])
             ->add('legalStatus', ChoiceType::class, [
-                'label' => 'Statut juridique',
+                'attr' => [
+                    'class' => 'form-control',
+                ],
                 'choices' => [
                     'Entreprise individuelle (EI)' => 'Entreprise individuelle (EI)',
                     'Entreprise unipersonnelle à responsabilité limitée (EURL)' => 'Entreprise unipersonnelle à responsabilité limitée (EURL)',
@@ -128,25 +165,28 @@ class EssFormType extends AbstractType
                     'Société coopérative de production (SCOP)' => 'Société coopérative de production (SCOP)',
                     'Société en commandite par actions (SCA) et société en commandite simple (SCS)' => 'Société en commandite par actions (SCA) et société en commandite simple (SCS)',
                 ],
+                'label' => 'Statut juridique',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
                 'expanded' => false,
                 'required' => true,
             ])
-            ->add('imageFile', VichFileType ::class, [
-                'label'=>'Logo de Ess',
-                'required'=> false,
-                'allow_delete'=> true,
-                'asset_helper'=>true,
-                'label_attr'=>[
-                    'class'=>'form-label mt-4'
+            ->add('imageFile', VichFileType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ],
+                'label' => 'Logo de Ess',
+                'required' => false,
+                'allow_delete' => true,
+                'asset_helper' => true,
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
                 ],
                 'required' => false,
                 'allow_delete' => true,
                 'asset_helper' => true,
             ])
-
-          
-            
-
 
             // ->add('economieSocialeEtSolidaire', CheckboxType::class, [
             //     'label' => 'Entreprise économique sociale et solidaire',
@@ -159,55 +199,98 @@ class EssFormType extends AbstractType
             // ])
 
             ->add('city', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+
+                ],
                 'label' => 'Ville',
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
             ])
             ->add('zip_code', TextType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'minlength' => 5,
+                    'maxlength' => 5,
+                ],
                 'label' => "Code postale",
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
                 'constraints' => [
                     new Length([
                         'min' => 5,
                         'max' => 5,
-                        'exactMessage' => 'Le code postal doit contenir exactement {{ limit }} chiffres.',
+                        'exactMessage' => 'Le code postal doit contenir exactement {{5}} chiffres.',
                     ]),
                 ]
             ])
             ->add('adress', TextType::class, [
+                'attr' => [
+                    'class' => 'form-label mt-4',
+                ],
                 'label' => "Adresse complète",
             ])
             ->add('region', TextType::class, [
+                'attr' => [
+                    'class' => 'form-label mt-4',
+                ],
                 'label' => 'Région',
             ])
 
 
             ->add('phoneNumber', TelType::class, [
+                'attr' => [
+                    'class' => 'form-label mt-4',
+                ],
 
                 'label' => "Numéros de téléphone",
+                'label_attr' => [
+                    'class' => 'form-label mt-4',
+                ],
+
                 'constraints' => [
                     new NotBlank(),
-                    new length([
+                    new Length([
                         'min' => 10,
                         'max' => 13,
-                        'minMessage' => 'Le numéro de téléphone doit avoir au moins {{ limit }} chiffres',
-                        'maxMessage' => 'Le numéro de téléphone ne doit pas dépasser {{ limit }} chiffres',
+                        'minMessage' => 'Le numéro de téléphone doit avoir au moins {{10}} chiffres',
+                        'maxMessage' => 'Le numéro de téléphone ne doit pas dépasser {{13}} chiffres',
                     ])
                 ]
             ])
             ->add('socialNetworks', TextType::class, [
-                'label' => 'facebook',
+                'attr' => [
+                    'class' => 'from-control',
 
+                ],
+                'label' => 'facebook',
+                'label_attr' => [],
             ])
 
             ->add('webSite', TextType::class, [
-                'label' => 'site web',
+                'label' => 'facebook',
+
             ])
             ->add('lastName', TextType::class, [
-
+                'attr' => [
+                    'form-control',
+                ],
                 'label' => 'Nom de la personne',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
                 'required' => true,
             ])
             ->add('firstName', TextType::class, [
-
+                'attr' => [
+                    'form-control',
+                ],
                 'label' => 'Prénom',
+                'label_attr' => [
+                    'class' => 'form-label mt-4'
+                ],
                 'required' => true,
             ])
 
@@ -276,6 +359,7 @@ class EssFormType extends AbstractType
             ->add('closingHoursSunday', TimeType::class, [
                 'label' => "fermé dimanche de   à",
             ]);
+          
     }
 
     public function configureOptions(OptionsResolver $resolver): void

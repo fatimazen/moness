@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Users;
+use App\Entity\Ess;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -72,6 +73,9 @@ class UsersType extends AbstractType
                 ],
                 'label' => 'Envoyer',
 
+            ])
+            ->add('nameStructure', TextType::class, [
+                'label' => 'Nom de la structure',
             ]);
     }
 
@@ -79,6 +83,7 @@ class UsersType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Users::class,
+            'data_class'=>Ess::class,
         ]);
     }
 }
