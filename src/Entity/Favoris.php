@@ -14,7 +14,7 @@ class Favoris
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
-    private ?Users $user = null;
+    private ?Users $users = null;
 
     #[ORM\ManyToOne(inversedBy: 'favoris')]
     private ?Ess $ess = null;
@@ -24,14 +24,14 @@ class Favoris
         return $this->id;
     }
 
-    public function getUser(): ?Users
+    public function getUsers(): ?Users
     {
-        return $this->user;
+        return $this->users;
     }
 
-    public function setUser(?Users $user): self
+    public function setUsers(?Users $users): self
     {
-        $this->user = $user;
+        $this->users = $users;
 
         return $this;
     }

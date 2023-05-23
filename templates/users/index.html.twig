@@ -1,11 +1,14 @@
 {% extends 'users.html.twig' %}
 
-{% block title %}moness - Compte de l'utilisateur{% endblock %}
+{% block title %}moness - Compte de l'utilisateur
+{% endblock %}
 
 {% block body %}
 	<div class="row justify-content-center align-items-end">
 		<div class="col-md-6 offset-md-2">
-			<h1 class="text-left mb-4">Profil de {{ app.user.firstName }} {{ app.user.lastName }}</h1>
+			<h1 class="text-left mb-4">Profil de
+				{{ app.user.firstName }}
+				{{ app.user.lastName }}</h1>
 			<div class="mb-2">
 				<strong class="mr-2">Nom:</strong>
 				<span>{{ app.user.lastName }}</span>
@@ -18,27 +21,28 @@
 				<strong class="mr-2">Email:</strong>
 				<span>{{ app.user.email }}</span>
 			</div>
-		
+
 
 			<a href="{{ path('users.edit', {'id': app.user.id}) }}" class="btn" style="background-color: #25CCBF; border: none; border-radius: 5px; color: white; text-decoration: none; padding: 10px 20px;">Modifier le profil</a>
 
-			
-			<a href="{{ path('users.edit_password', {'id': app.user.id}) }}" class="btn "style="background-color: #25CCBF; border: none; border-radius: 5px;color:#ffffff">Modifier le mot de passe</a>
+
+			<a href="{{ path('users.edit_password', {'id': app.user.id}) }}" class="btn " style="background-color: #25CCBF; border: none; border-radius: 5px;color:#ffffff">Modifier le mot de passe</a>
 		</div>
 	</div>
 	<div class="row justify-content-center align-items-end">
-		{# <div class="col-md-6 offset-md-2">
-			<h1 class="text-left mb-4">Ess de {{ app.user.firstName }} {{ app.user.lastName }}</h1>
+		<div class="col-md-6 offset-md-2">
+			<h1 class="text-left mb-4">Ess de
+				{{ app.user.firstName }}
+				{{ app.user.lastName }}</h1>
+
 			{% for ess in app.user.ess %}
-			{# <pre>
-				{{ dump(app.user.ess) }}
-			</pre> #}
-			
-				{# <div class="mb-2">
+
+
+				<div class="mb-2">
 					<strong class="mr-2">Nom:</strong>
-					<span>{{ ess.lastName }}</span>
-				</div> #}
-			{# {% endfor %} #}
-		</div> #}
+					<span>{{ ess.nameStructure}}</span>
+				</div>
+			{% endfor %}
+		</div>
 	</div>
 {% endblock %}

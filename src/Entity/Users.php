@@ -54,7 +54,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $gender = null;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ess::class)]
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Ess::class)]
     private ?Collection $ess;
 
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: ContactMessages::class)]
@@ -72,7 +72,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: NewsLetters::class)]
     private Collection $newsletters;
 
-    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Favoris::class)]
+    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Favoris::class)]
     private Collection $favoris;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -255,7 +255,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->ess->contains($ess)) {
             $this->ess->add($ess);
-            $ess->setUser($this);
+            $ess->setUsers($this);
         }
 
         return $this;
@@ -265,8 +265,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->ess->removeElement($ess)) {
             // set the owning side to null (unless already changed)
-            if ($ess->getUser() === $this) {
-                $ess->setUser(null);
+            if ($ess->getUsers() === $this) {
+                $ess->setUsers(null);
             }
         }
 
@@ -405,7 +405,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->favoris->contains($favori)) {
             $this->favoris->add($favori);
-            $favori->setUser($this);
+            $favori->setUsers($this);
         }
 
         return $this;
@@ -415,8 +415,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->favoris->removeElement($favori)) {
             // set the owning side to null (unless already changed) 
-            if ($favori->getUser() === $this) {
-                $favori->setUser(null);
+            if ($favori->getUsers() === $this) {
+                $favori->setUsers(null);
             }
         }
 

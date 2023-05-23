@@ -3,13 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Users;
-use App\Form\UserPasswordType;
 use App\Form\UsersType;
+use App\Form\UserPasswordType;
+use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
@@ -18,7 +19,15 @@ class UsersController extends AbstractController
     #[Route('/users', name: 'users.index')]
     public function index()
     {
-        return $this->render('users/index.html.twig',);
+        // Récupérer l'utilisateur actuellement connecté
+    $user = $this->getUser();
+     // Récupérer la collection d'ess associés à l'utilisateur
+     $ess = $user->getEss();
+        
+        return $this->render('users/index.html.twig',[
+            'user' => $user,
+        'ess' => $ess,
+        ]);
     }
     /**
      * Ce controller nous permet de modifier le profil de l'utilisateur

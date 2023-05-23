@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Ess;
 use App\Form\EssFormType;
-use App\Repository\EssRepository;
+use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,13 +19,14 @@ class EssController extends AbstractController
     #[Route('/ess', name: 'app_ess_index')]
     public function index(): Response
     {
+
         return $this->render('ess/index.html.twig', [
             'controller_name' => 'EssController',
         ]);
     }
     #[Route('/ajoutEss', name: 'app_ess')]
 
-    public function add(Request $request, EssRepository $essRepository, EntityManagerInterface $manager, ValidatorInterface $validator, UploaderHelper $uploaderHelper): Response
+    public function add(Request $request, UsersRepository $usersRepository, EntityManagerInterface $manager, ValidatorInterface $validator, UploaderHelper $uploaderHelper): Response
 
     {
         // Je crée une nouvelle structure ess
@@ -44,8 +45,8 @@ class EssController extends AbstractController
 
 
             // $essRepository->save($ess, true);
-
-
+            $user = $this->getUser();
+            $ess->setUsers($user);
             $manager->persist($ess);
             $manager->flush();
 
@@ -60,9 +61,12 @@ class EssController extends AbstractController
             return $this->redirectToRoute('app_ess', [], Response::HTTP_SEE_OTHER);
         }
 
+        
+
         return $this->render('ess/add.html.twig', [
             'controller_name' => 'EssController',
-            'essForm' => $essForm->createView()
+            'essForm' => $essForm->createView(),
+            
         ]);
     }
 }
