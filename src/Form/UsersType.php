@@ -73,17 +73,14 @@ class UsersType extends AbstractType
                 ],
                 'label' => 'Envoyer',
 
-            ])
-            ->add('nameStructure', TextType::class, [
-                'label' => 'Nom de la structure',
             ]);
-    }
+            
+        }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Users::class,
-            'data_class'=>Ess::class,
         ]);
     }
 }

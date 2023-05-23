@@ -101,7 +101,7 @@ class EssFormType extends AbstractType
                     new length([
                         'min' => 14,
                         'max' => 14,
-                        'exactMessage' => 'Le numéro SIRET doit contenir exactement {{ limit }} chiffres.'
+                        
                     ]),
                     new Regex([
                         'pattern' => '/^[0-9]{14}$/',
@@ -148,8 +148,8 @@ class EssFormType extends AbstractType
                     'class' => 'form-label mt-4',
                 ],
 
-                // 'expanded' => true,
-                // 'multiple' => true,
+                 'expanded' => true,
+                'multiple' => true,
             ])
             ->add('legalStatus', ChoiceType::class, [
                 'attr' => [

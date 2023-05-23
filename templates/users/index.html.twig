@@ -20,24 +20,25 @@
 			</div>
 		
 
-			<a href="{{ path('users.edit', {'id': app.user.id}) }}" class="btn "style="background-color: #25CCBF; border: none; border-radius: 5px;color:#ffffff">Modifier le profil</a>
+			<a href="{{ path('users.edit', {'id': app.user.id}) }}" class="btn" style="background-color: #25CCBF; border: none; border-radius: 5px; color: white; text-decoration: none; padding: 10px 20px;">Modifier le profil</a>
+
 			
 			<a href="{{ path('users.edit_password', {'id': app.user.id}) }}" class="btn "style="background-color: #25CCBF; border: none; border-radius: 5px;color:#ffffff">Modifier le mot de passe</a>
 		</div>
 	</div>
 	<div class="row justify-content-center align-items-end">
-		<div class="col-md-6 offset-md-2">
+		{# <div class="col-md-6 offset-md-2">
 			<h1 class="text-left mb-4">Ess de {{ app.user.firstName }} {{ app.user.lastName }}</h1>
 			{% for ess in app.user.ess %}
-			<pre>
+			{# <pre>
 				{{ dump(app.user.ess) }}
-			</pre>
+			</pre> #}
 			
-				<div class="mb-2">
+				{# <div class="mb-2">
 					<strong class="mr-2">Nom:</strong>
 					<span>{{ ess.lastName }}</span>
-				</div>
-			{% endfor %}
-		</div>
+				</div> #}
+			{# {% endfor %} #}
+		</div> #}
 	</div>
 {% endblock %}
