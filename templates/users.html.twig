@@ -22,26 +22,27 @@
 
 	</head>
 	{% include "_base/nav.html.twig" %}
-		{% block body %}
-		{% endblock %}
+	{% block body %}{% endblock %}
 	<body class="layout-sidenav">
 
-	<div id="example-sidenav" data-ax="sidenav" class="sidenav shadow-1 sidenav-fixed white">
-				<div class="sidenav-header">
-					<img class="sidenav-logo dropshadow-1" src="your_img_path" alt="Logo"/>
-				</div>
-				<a href="{{ path("users.index")}}" class="sidenav-link active">Mon profil</a>
-				<a href="{{ path("app_ess")}}" class="sidenav-link">Mon Ess
-				</a>
-				{# <a href="#" class="sidenav-link">Link 3</a>
-				<a href="#" class="sidenav-link">Link 4</a> #}
+		<div id="example-sidenav" data-ax="sidenav" class="sidenav shadow-1 sidenav-fixed white">
+			<div class="sidenav-header">
+				<img class="sidenav-logo dropshadow-1" src="your_img_path" alt="Logo"/>
 			</div>
-			<div>
-				<!-- Code here the main content -->
-				<button data-target="example-sidenav" class="btn rounded-1 press amaranth dark-1 hide-md-up">
-					Open sidenav
-				</button>
-			</div>
+			<a href="{{ path("users.index")}}" class="sidenav-link active">Mon profil</a>
+			<a href="{{ path('users.edit', {'id': app.user.id}) }}" class="sidenav-link ">Modifier le profil</a>
+			<a href="{{ path('users.edit_password', {'id': app.user.id}) }}" class="sidenav-link active">Modifier le mot de passe</a>
+			<a href="{{ path('users.delete', {'id': app.user.id}) }}" class="sidenav-link" style="color: red;" onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre compte?')">Supprimer le compte</a>
+			<a href="{{ path("app_ess")}}" class="sidenav-link">Mon Ess
+			</a>
+
+		</div>
+		<div>
+			<!-- Code here the main content -->
+			<button data-target="example-sidenav" class="btn rounded-1 press amaranth dark-1 hide-md-up">
+				Open sidenav
+			</button>
+		</div>
 		<footer>
 			{% include "_base/footer.html.twig" %}
 		</footer>

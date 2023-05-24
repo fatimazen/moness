@@ -6,6 +6,7 @@ use App\Entity\Users;
 use App\Form\UsersType;
 use App\Form\UserPasswordType;
 use App\Repository\UsersRepository;
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,13 +21,13 @@ class UsersController extends AbstractController
     public function index()
     {
         // Récupérer l'utilisateur actuellement connecté
-    $user = $this->getUser();
-     // Récupérer la collection d'ess associés à l'utilisateur
-     $ess = $user->getEss();
-        
-        return $this->render('users/index.html.twig',[
+        $user = $this->getUser();
+        // Récupérer la collection d'ess associés à l'utilisateur
+        $ess = $user->getEss();
+
+        return $this->render('users/index.html.twig', [
             'user' => $user,
-        'ess' => $ess,
+            'ess' => $ess,
         ]);
     }
     /**
@@ -74,7 +75,7 @@ class UsersController extends AbstractController
     }
 
     #[Route('/utilisateur/edition-mot-de-passe/{id}', name: 'users.edit_password', methods: ['GET', 'POST'])]
-    public function editPassword(Users $user, Request $request, UserPasswordHasherInterface $hasher,EntityManagerInterface $manager): Response
+    public function editPassword(Users $user, Request $request, UserPasswordHasherInterface $hasher, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(UserPasswordType::class);
 
@@ -107,8 +108,18 @@ class UsersController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-    
+    #[Route('/utilisateur/supprimer-compte/{id}', name: 'users.delete', methods: ['GET'])]
+    public function delete(Request $request, Users $user, EntityManagerInterface $manager): Response
+    {
+        // Vérifier la validité du jeton CSRF
+
+        // Supprimer l'utilisateur
+        $manager->remove($user);
+        $manager->flush();
+
+        $this->addFlash('success', 'Votre compte a bien été supprimé');
+
+
+        return $this->redirectToRoute('home.index');
+    }
 }
-// return $this->render('users/edit.html.twig', [
-//     'form' => $form->createView(),
-// ]);
