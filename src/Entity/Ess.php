@@ -133,7 +133,7 @@ class Ess
     private ?string $siretNumber = null;
 
     #[ORM\ManyToOne(inversedBy: 'ess', cascade:['persist'])]
-    private ?Users $users = null;
+    private ?Users $users ;
 
     #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Comments::class)]
     private Collection $comments;
@@ -586,7 +586,7 @@ class Ess
         return $this->users;
     }
 
-    public function setUsers(Users $users): self
+    public function setUsers(?Users $users): self
     {
         $this->users = $users;
 
