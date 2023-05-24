@@ -586,7 +586,7 @@ class Ess
         return $this->users;
     }
 
-    public function setUsers(Users $users): self
+    public function setUsers(?Users $users): self
     {
         $this->users = $users;
 
