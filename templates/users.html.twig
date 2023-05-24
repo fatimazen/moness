@@ -3,52 +3,50 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>
-			{% block title %}Welcome!
+			{% block title %}inscription
 			{% endblock %}
 		</title>
+		<link
+		rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+		{# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@2.3.0/dist/axentix.min.css">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/axentix@0.5.3/dist/css/axentix.min.css"> {% block stylesheets %}{% endblock %}
-		<link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+		{% block stylesheets %}
+			{{ encore_entry_link_tags('app') }}
+		{% endblock %}
+
+		{% block javascripts %}
+			{{ encore_entry_script_tags('app') }}
+		{% endblock %}
+
 	</head>
-	<body class="layout with-sidenav">
-		<header>
-			<nav class="navbar primary">
-				<a href="{{ path('app_home') }}" class="navbar-brand">PetitesAnnonces</a>
-				<div class="navbar-menu ml-auto">
-					<a class="navbar-link" href="#">Accueil</a>
-					<a class="navbar-link" href="#">Link 2</a>
-					<a class="navbar-link" href="#">Link 3</a>
-					<a class="navbar-link" href="#">Link 4</a>
-				</div>
-			</nav>
-		</header>
-		<div id="example-sidenav" class="sidenav large fixed white">
+	{% include "_base/nav.html.twig" %}
+	{% block body %}{% endblock %}
+	<body class="layout-sidenav">
+
+		<div id="example-sidenav" data-ax="sidenav" class="sidenav shadow-1 sidenav-fixed white">
 			<div class="sidenav-header">
-				<button data-target="example-sidenav" class="sidenav-trigger">
-					<i class="fas fa-times"></i>
-				</button>
-				<img class="logo dropshadow-1" src="your_img_path" alt="Logo"/>
+				<img class="sidenav-logo dropshadow-1" src="your_img_path" alt="Logo"/>
 			</div>
-			<a href="#" class="sidenav-link active">Mon profil</a>
-			<a href="#" class="sidenav-link">Mes annonces</a>
+			<a href="{{ path("users.index")}}" class="sidenav-link active">Mon profil</a>
+			<a href="{{ path('users.edit', {'id': app.user.id}) }}" class="sidenav-link ">Modifier le profil</a>
+			<a href="{{ path('users.edit_password', {'id': app.user.id}) }}" class="sidenav-link active">Modifier le mot de passe</a>
+			<a href="{{ path('users.delete', {'id': app.user.id}) }}" class="sidenav-link" style="color: red;" onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre compte?')">Supprimer le compte</a>
+			<a href="{{ path("app_ess")}}" class="sidenav-link">Mon Ess
+			</a>
+
 		</div>
-		<main>
-			<button data-target="example-sidenav" class="btn press amaranth dark-1 sidenav-trigger hide-md-up">
+		<div>
+			<!-- Code here the main content -->
+			<button data-target="example-sidenav" class="btn rounded-1 press amaranth dark-1 hide-md-up">
 				Open sidenav
 			</button>
-			{% block body %}{% endblock %}
-		</main>
-
-		<footer class="footer primary">
-			Copyright © 2019 - Example
+		</div>
+		<footer>
+			{% include "_base/footer.html.twig" %}
 		</footer>
+		<script src="https://cdn.jsdelivr.net/npm/axentix@2.3.0/dist/axentix.min.js"></script>
 
-
-		<script src="https://cdn.jsdelivr.net/npm/axentix@0.5.3/dist/js/axentix.min.js"></script>
-		{% block javascripts %}{% endblock %}
-		<script>
-			var sidenav = new Sidenav('#example-sidenav');
-		</script>
-		<script src="{{ asset('js/scripts.js') }}"></script>
 	</body>
 </html>

@@ -1,8 +1,45 @@
-{% extends 'base.html.twig' %}
+{% extends 'users.html.twig' %}
 
-{% block title %}moness- Modification de l'utilisateur
+{% block title %}moness - Compte de l'utilisateur
 {% endblock %}
 
 {% block body %}
-	
-	{% endblock %}
+	<div class="row justify-content-center align-items-end">
+		<div class="col-md-6 offset-md-2">
+			<h1 class="text-left mb-4">Profil de
+				{{ app.user.firstName }}
+				{{ app.user.lastName }}</h1>
+			<div class="mb-2">
+				<strong class="mr-2">Nom:</strong>
+				<span>{{ app.user.lastName }}</span>
+			</div>
+			<div class="mb-2">
+				<strong class="mr-2">Prénom:</strong>
+				<span>{{ app.user.firstName }}</span>
+			</div>
+			<div class="mb-2">
+				<strong class="mr-2">Email:</strong>
+				<span>{{ app.user.email }}</span>
+			</div>
+
+
+		
+		</div>
+	</div>
+	<div class="row justify-content-center align-items-end">
+		<div class="col-md-6 offset-md-2">
+			<h1 class="text-left mb-4">Ess de
+				{{ app.user.firstName }}
+				{{ app.user.lastName }}</h1>
+
+			{% for ess in app.user.ess %}
+
+
+				<div class="mb-2">
+					<strong class="mr-2">Nom:</strong>
+					<span>{{ ess.nameStructure}}</span>
+				</div>
+			{% endfor %}
+		</div>
+	</div>
+{% endblock %}

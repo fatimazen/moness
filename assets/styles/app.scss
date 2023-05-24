@@ -1,6 +1,7 @@
 @import "~bootstrap/scss/bootstrap";
 @import url('https://fonts.cdnfonts.com/css/futura-md-bt');
 @import url('https://fonts.cdnfonts.com/css/futura-lt-bt');
+@import '~@fortawesome/fontawesome-free/css/all.css';
 
 
 body {
@@ -20,4 +21,10 @@ p{
     font-family:futura-lt-bt;
 }
 
+}
+.custom-form input[type="text"],
+.custom-form textarea {
+    width: 200px; /* Réglez la largeur souhaitée */
+    background-color: #f2f2f2; /* Réglez la couleur de fond gris clair souhaitée */
+    /* Autres styles personnalisés */
 }

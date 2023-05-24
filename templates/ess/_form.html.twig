@@ -1,51 +1,57 @@
-<div>
-{{ form_start(essForm) }}
-{{ form_row(essForm.nameStructure) }}
-{{ form_row(essForm.sectorActivity) }}
-{{ form_row(essForm.activity) }}
-{{ form_row(essForm.description) }}
-{{ form_row(essForm.siretNumber) }}
-{{ form_row(essForm.label) }}
-{{ form_row(essForm.legalStatus) }}
-{{ form_row(essForm.city) }}
-{{ form_row(essForm.zip_code) }}
-{{ form_row(essForm.adress) }}
-{{ form_row(essForm.region) }}
-{{ form_row(essForm.imageFile) }}
-</div>
+<div class="custom-form" style="margin: 0 auto; display: flex; justify-content: center;">	{{ form_start(essForm) }}
+	{{ form_row(essForm.nameStructure, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.sectorActivity, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.activity, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.description, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.siretNumber, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.label, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.legalStatus, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.city, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.zip_code, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.adress, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.region, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.imageFile, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
 
 <h3>Carte</h3>
-<button type="submit" class="btn btn-primary" >Localiser</button>
 
-<h2>Coordonnées publiques</h2>
+<button type="submit" class="btn btn-primary" style="background-color: #25CCBF; border: none; border-radius: 15px;">Localier</button>
 
-{{ form_row(essForm.email) }}
-{{ form_row(essForm.phoneNumber) }}
-{{ form_row(essForm.socialNetworks) }}
-{{ form_row(essForm.webSite) }}
+<br><br>
+<h1 class="titre" style="font-family: Futura Md-Bt; text-align: center;">Coordonnées publiques</h1>
+<br><br>
+{{ form_row(essForm.email,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
 
-<h2>Contact interne à la structure</h2>
+{{ form_row(essForm.phoneNumber,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
 
-{{ form_row(essForm.lastName) }}
-{{ form_row(essForm.firstName) }}
+{{ form_row(essForm.socialNetworks,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.webSite,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+<br><br>
+<h1 class="titre" style="font-family: Futura Md-Bt; text-align: center;">Contact interne à la structure</h1>
+<br><br>
+{{ form_row(essForm.lastName,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.firstName,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+<br><b>
+<h1 class="titre" style="font-family: Futura Md-Bt; text-align: center;">Horaires d'ouverture (si ouvert au public)</h1>
+<br><br>
+{{ form_row(essForm.openingHoursMonday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.closingHoursMonday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.openingHoursTuesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.closingHoursTuesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.openingHoursWednesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.closingHoursWednesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.openingHoursThursday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.closingHoursThursday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.openingHoursFriday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.closingHoursFriday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.openingHoursSaturday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.closingHoursSaturday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+{{ form_row(essForm.openingHoursSunday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}})}}
+{{ form_row(essForm.closingHoursSunday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+<br><br>
+<div style="text-align: center;">
+    <button type="submit" class="btn btn-primary" style="background-color: #25CCBF; border: none; border-radius: 15px;width: 300px;">Envoyer</button>
+</div>
 
-<h2>Horaires d'ouverture (si ouvert au public)</h2>
-
-{{ form_row(essForm.openingHoursMonday) }}
-{{ form_row(essForm.closingHoursMonday) }}
-{{ form_row(essForm.openingHoursTuesday) }}
-{{ form_row(essForm.closingHoursTuesday) }}
-{{ form_row(essForm.openingHoursWednesday) }}
-{{ form_row(essForm.closingHoursWednesday) }}
-{{ form_row(essForm.openingHoursThursday) }}
-{{ form_row(essForm.closingHoursThursday) }}
-{{ form_row(essForm.openingHoursFriday) }}
-{{ form_row(essForm.closingHoursFriday) }}
-{{ form_row(essForm.openingHoursSaturday) }}
-{{ form_row(essForm.closingHoursSaturday) }}
-{{ form_row(essForm.openingHoursSunday) }}
-{{ form_row(essForm.closingHoursSunday) }}
-
-{# <button type="submit" class="btn btn-primary" >Envoyer</button> #}
 
 {{ form_end(essForm) }}
+</div>

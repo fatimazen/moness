@@ -4,11 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Users;
 use App\Form\UsersFormType;
-use App\Service\JWTService;
 use App\Service\MailerService;
-use App\Service\SendMailService;
-use App\Form\RegistrationFormType;
-use App\Repository\UsersRepository;
 use App\Security\UserAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;

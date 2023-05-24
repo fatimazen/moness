@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Users;
+use App\Entity\Ess;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -73,7 +74,8 @@ class UsersType extends AbstractType
                 'label' => 'Envoyer',
 
             ]);
-    }
+            
+        }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
