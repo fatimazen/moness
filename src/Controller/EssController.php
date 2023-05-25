@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Ess;
+use App\Entity\Users;
+use App\Form\EssType;
 use App\Form\EssFormType;
+use App\Repository\EssRepository;
 use App\Repository\UsersRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,22 +15,45 @@ use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class EssController extends AbstractController
 {
-    #[Route('/ess', name: 'app_ess_index')]
-    public function index(): Response
+    /**
+     * fonction qui permet afficher toutes les ess des utilisateurs connecter
+     *
+     * @param EssRepository $repository
+     * @return Response
+     */
+    #[Route('/ess', name: 'ess.index')]
+    public function index(EssRepository $repository): Response
     {
+        // Récupérer l'utilisateur actuellement connecté
+        $user = $this->getUser();
+
+        // Récupérer la collection d'ess associés à l'utilisateur
+        $ess = $user->getEss();
+
+        $essS = $repository->findBy(['users'=>$user]);
 
         return $this->render('ess/index.html.twig', [
-            'controller_name' => 'EssController',
+            'user' => $user,
+            'ess' => $ess,
+            'essS'=>$essS
         ]);
     }
+/**
+ * fonction qui permet 
+ *
+ * @param Request $request
+ * @param UsersRepository $usersRepository
+ * @param EntityManagerInterface $manager
+ * @param ValidatorInterface $validator
+ * @param UploaderHelper $uploaderHelper
+ * @return Response
+ */
     #[Route('/ajoutEss', name: 'app_ess')]
-
     public function add(Request $request, UsersRepository $usersRepository, EntityManagerInterface $manager, ValidatorInterface $validator, UploaderHelper $uploaderHelper): Response
-
     {
         // Je crée une nouvelle structure ess
         $ess = new Ess();
@@ -37,14 +63,8 @@ class EssController extends AbstractController
         // On traite la requête du formulaire
         $essForm->handleRequest($request);
 
-
         // On vérifie si le formulaire est soumis et valide
         if ($essForm->isSubmitted() && $essForm->isValid()) {
-
-
-
-
-            // $essRepository->save($ess, true);
             $user = $this->getUser();
             $ess->setUsers($user);
             $manager->persist($ess);
@@ -53,20 +73,40 @@ class EssController extends AbstractController
             // Récupérer le chemin de l'image à partir de l'entité Ess
             $path = $uploaderHelper->asset($ess, 'imageFile');
 
-            $this->addFlash('sucess', 'structure ess ajouté avec succès');
-            return $this->redirectToRoute('app_ess_index');
-
-
-
-            return $this->redirectToRoute('app_ess', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('success', 'Structure ess ajoutée avec succès');
+            return $this->redirectToRoute('ess.index');
         }
 
-        
-
         return $this->render('ess/add.html.twig', [
-            'controller_name' => 'EssController',
             'essForm' => $essForm->createView(),
-            
         ]);
     }
+
+    #[Route('/ess/edit/{id}', name: 'ess.edit', methods: ['GET', 'POST'])]
+    public function edit(EssRepository $repository, int $id, Users $user,Request $request): Response
+    {
+        $user = $this->getUser();
+
+        $ess = $repository->findOneBy(["id" => $id]);
+        // if (!$this->getUser()) {
+        //     return $this->redirectToRoute('app_login');
+        // }
+
+        // if (!$user) {
+        //     throw $this->createNotFoundException('Utilisateur non trouvé');
+        // }
+
+        // if ($this->getUser() !== $user) {
+        //     return $this->redirectToRoute('home.index');
+        // }
+        $essForm = $this->createForm(EssFormType::class, $ess);
+        $essForm->handleRequest($request);
+
+
+        return $this->render('ess/edit.html.twig', [
+            'essForm' => $essForm->createView(),
+            'ess' => $ess
+        ]);
+    }
+    
 }

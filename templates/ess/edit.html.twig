@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+<h1 class="mt-4">Modifier de mon   Ess</h1>
+  {% for flashMessage in app.flashes('success') %}
+            <div class=" alert alert-success mt-4">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+    
+        
+ {% for flashMessage in app.flashes('warning') %}
+            <div class="alert alert-warning">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+{{form(essForm)}}
+
+</div>
+{% endblock %}

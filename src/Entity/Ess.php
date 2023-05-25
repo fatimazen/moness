@@ -9,6 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
 use phpDocumentor\Reflection\Types\Integer;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints\Json;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,6 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[Vich\Uploadable]
 #[ORM\Entity(repositoryClass: EssRepository::class)]
+#[UniqueEntity('nameStructure')]
 class Ess
 {
     #[ORM\Id]

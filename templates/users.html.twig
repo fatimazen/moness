@@ -33,8 +33,9 @@
 			<a href="{{ path('users.edit', {'id': app.user.id}) }}" class="sidenav-link ">Modifier le profil</a>
 			<a href="{{ path('users.edit_password', {'id': app.user.id}) }}" class="sidenav-link active">Modifier le mot de passe</a>
 			<a href="{{ path('users.delete', {'id': app.user.id}) }}" class="sidenav-link" style="color: red;" onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre compte?')">Supprimer le compte</a>
-			<a href="{{ path("app_ess")}}" class="sidenav-link">Mon Ess
-			</a>
+			<a href="{{path('ess.index')}}" class="sidenav-link active">Mon Ess</a>
+			<a href="{{ path('ess.edit',{'id':app.user.id})}}" class="sidenav-link active">Modifier mon ess</a>
+			{# <a href="{{ path('ess.delete', {'id': app.user.id}) }}" class="sidenav-link" style="color: red;" onclick="return confirm('Êtes-vous sûr de vouloir supprimer votre compte?')">Supprimer une ess</a> #}
 
 		</div>
 		<div>

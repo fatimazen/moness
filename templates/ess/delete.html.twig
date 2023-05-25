@@ -1,0 +1,12 @@
+{% block body %}
+	<div class="container">
+	
+		  {% for flashMessage in app.flashes('success') %}
+            <div class="alert alert-success mt-4">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+		{{form(form)}}
+		</div>
+	{% endblock %}
