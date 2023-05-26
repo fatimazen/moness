@@ -34,24 +34,24 @@ class EssController extends AbstractController
         // Récupérer la collection d'ess associés à l'utilisateur
         $ess = $user->getEss();
 
-        $essS = $repository->findBy(['users'=>$user]);
+        $essS = $repository->findBy(['users' => $user]);
 
         return $this->render('ess/index.html.twig', [
             'user' => $user,
             'ess' => $ess,
-            'essS'=>$essS
+            'essS' => $essS
         ]);
     }
-/**
- * fonction qui permet 
- *
- * @param Request $request
- * @param UsersRepository $usersRepository
- * @param EntityManagerInterface $manager
- * @param ValidatorInterface $validator
- * @param UploaderHelper $uploaderHelper
- * @return Response
- */
+    /**
+     * fonction qui permet 
+     *
+     * @param Request $request
+     * @param UsersRepository $usersRepository
+     * @param EntityManagerInterface $manager
+     * @param ValidatorInterface $validator
+     * @param UploaderHelper $uploaderHelper
+     * @return Response
+     */
     #[Route('/ajoutEss', name: 'app_ess')]
     public function add(Request $request, UsersRepository $usersRepository, EntityManagerInterface $manager, ValidatorInterface $validator, UploaderHelper $uploaderHelper): Response
     {
@@ -83,30 +83,25 @@ class EssController extends AbstractController
     }
 
     #[Route('/ess/edit/{id}', name: 'ess.edit', methods: ['GET', 'POST'])]
-    public function edit(EssRepository $repository, int $id, Users $user,Request $request): Response
+    public function edit(EssRepository $essRepository, int $id, UsersRepository $usersRepository, Request $request): Response
     {
         $user = $this->getUser();
+        $user =$usersRepository->findAll($essRepository);
+        $ess = $essRepository->findOneBy(["id" => $id]);
 
-        $ess = $repository->findOneBy(["id" => $id]);
-        // if (!$this->getUser()) {
-        //     return $this->redirectToRoute('app_login');
-        // }
 
-        // if (!$user) {
-        //     throw $this->createNotFoundException('Utilisateur non trouvé');
-        // }
-
-        // if ($this->getUser() !== $user) {
-        //     return $this->redirectToRoute('home.index');
-        // }
         $essForm = $this->createForm(EssFormType::class, $ess);
         $essForm->handleRequest($request);
+        if ($essForm->isSubmitted() && $essForm->isValid()) {
 
+            $essRepository->save($ess, true);
 
-        return $this->render('ess/edit.html.twig', [
-            'essForm' => $essForm->createView(),
-            'ess' => $ess
+            return $this->redirectToRoute('ess.index', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderForm('ess/edit.html.twig', [
+            'ess' => $ess,
+            'essForm' => $essForm,
+            'user'=> $user
         ]);
     }
-    
 }
