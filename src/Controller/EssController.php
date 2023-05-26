@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Ess;
-use App\Entity\Users;
-use App\Form\EssType;
 use App\Form\EssFormType;
 use App\Repository\EssRepository;
 use App\Repository\UsersRepository;
@@ -15,7 +13,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class EssController extends AbstractController
 {
@@ -43,7 +40,7 @@ class EssController extends AbstractController
         ]);
     }
     /**
-     * fonction qui permet 
+     * fonction qui permet d ajouter une ess
      *
      * @param Request $request
      * @param UsersRepository $usersRepository
@@ -81,12 +78,14 @@ class EssController extends AbstractController
             'essForm' => $essForm->createView(),
         ]);
     }
-
+    /**
+     * fonction qui permet de modifier une ess
+     */
     #[Route('/ess/edit/{id}', name: 'ess.edit', methods: ['GET', 'POST'])]
     public function edit(EssRepository $essRepository, int $id, UsersRepository $usersRepository, Request $request): Response
     {
         $user = $this->getUser();
-        $user =$usersRepository->findAll($essRepository);
+        $user = $usersRepository->findAll($essRepository);
         $ess = $essRepository->findOneBy(["id" => $id]);
 
 
@@ -101,7 +100,23 @@ class EssController extends AbstractController
         return $this->renderForm('ess/edit.html.twig', [
             'ess' => $ess,
             'essForm' => $essForm,
-            'user'=> $user
+            'user' => $user
         ]);
+    }
+    /**
+     * fonction qui permet de supprimer une ess
+     */
+    #[Route('/ess/supprimer-compte/{id}', name: 'ess.delete', methods: ['GET'])]
+    public function delete(Request $request, Ess $ess, EntityManagerInterface $manager): Response
+    {
+
+        // Supprimer l'utilisateur
+        $manager->remove($ess);
+        $manager->flush();
+
+        $this->addFlash('success', 'Votre compte a bien été supprimé');
+
+
+        return $this->redirectToRoute('ess.index');
     }
 }

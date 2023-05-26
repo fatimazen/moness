@@ -107,7 +107,7 @@ class AppFixtures extends Fixture
                 ->setLabel([$faker->randomElement(['L’AFNOR ', 'ESUS', 'Lucie', 'ISR'])])
                 ->setSiretNumber($faker->randomNumber())
                 ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
-                ->setUser($faker->randomElement($users));
+                ->setUsers($faker->randomElement($users));
 
             $essS[] = $ess;
             $manager->persist($ess);

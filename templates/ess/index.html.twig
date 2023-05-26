@@ -1,12 +1,13 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}liste des mes ess{% endblock %}
-{% block body %} Mes ess
+{% block title %}liste des mes ess
+{% endblock %}
+{% block body %}
+	Mes ess
 
 
-
- {% block table_content %}
-	<table class="table table-hover mt-4">
+	{% block table_content %}
+		<table class="table table-hover mt-4">
 			<thead>
 				<tr>
 					<th scope="col">ID</th>
@@ -19,6 +20,7 @@
 					<th scope="col">Numéros de téléphone</th>
 					<th scope="col">numéro de SIRET</th>
 					<th scope="col">Ville</th>
+					<th scope="col">logo</th>
 					<th scope="col">Date de création</th>
 
 
@@ -37,20 +39,23 @@
 						<td>{{ess.PhoneNumber}}</td>
 						<td>{{ess.SiretNumber}}</td>
 						<td>{{ess.City}}</td>
+						<td>{{ess.Image}}</td>
 						<td>{{ess.CreatedAt|date('d/m/Y')}}</td>
-						<td> <a href="{{ path('ess.edit', {'id': ess.id}) }}">Modifier</a></td>
+						<td>
+							<a href="{{ path('ess.edit', {'id': ess.id}) }}">Modifier</a>
+
+							<a href="{{ path('ess.delete', {'id': ess.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
+
+						</td>
 					</tr>
 				{% endfor %}
 
 			</tbody>
 		</table>
-		
-		  <a href="{{ path('users.index') }}">Retour au profil </a>
-		  <div>
-   
-</div>
 
-{% endblock %} 
+		<a href="{{ path('users.index') }}">Retour au profil
+		</a>
 
- {% endblock %}
-	
+	{% endblock %}
+
+{% endblock %}

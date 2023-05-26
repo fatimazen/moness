@@ -1,8 +1,7 @@
-{# {% extends 'base.html.twig' %} #}
-{% set cancel_route = "ess.index" %}
-{% set title = "Ajouter une ess" %}
-{# {% block title %}Ajouter une structure de Ess
-{% endblock %} #}
+ {% extends 'base.html.twig' %} 
+
+{% block title %}Ajouter une structure de Ess
+{% endblock %} 
 
 {% block body %}
 	<h1 class="titre" style="font-family: Futura Md-Bt; text-align: center;">Soyez visible ajouter votre ESS</h1><br><br>
@@ -15,7 +14,4 @@
 		Soyez facilement identifiable <br>et localisable pour que les gens puissent
 		vous trouver et vous soutenir dans votre engagement pour un avenir meilleur.</p>
 	{% include "ess/_form.html.twig" %}
-{% endblock %}
-{% block forms %}
-    {{ include('app/ess/add.html.twig', {'button_label': 'Enregistrer'}) }}
 {% endblock %}
