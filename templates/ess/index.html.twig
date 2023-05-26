@@ -1,18 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter une structure de Ess{% endblock %}
-
+{% block title %}liste des mes ess
+{% endblock %}
 {% block body %}
-<div class="col-12 cold-md-6 container">
-	<h1 class="display-5 fw-bolder" style="font-family: Futura Md-Bt; text-align: center;">Ajouter votre structure de Ess</h1>
-    <h2 style="text-align: left;">Soyez visible, ajoutez votre ESS</h2>
-	<p class="lead" style="text-align: center;">
-		Pour avoir un impact, vous devez être vu(e) et localisable.
-    	Pour avoir un impact réel, votre entreprise de l'économie sociale et solidaire doit être facilement trouvable, identifiable et localisable.
-    	Faites en sorte que votre mission soit clairement visible pour la communauté.
-    	Soyez facilement identifiable et localisable pour que les gens puissent vous trouver et vous soutenir dans votre engagement pour un avenir meilleur.
-	</p>
-	
-	{# {% include "ess/_form.html.twig" %} #}
-</div>
+	Mes ess
+
+
+	{% block table_content %}
+		<table class="table table-hover mt-4">
+			<thead>
+				<tr>
+					<th scope="col">ID</th>
+					<th scope="col">Nom de la structure</th>
+					<th scope="col">Email</th>
+					<th scope="col">Nom</th>
+					<th scope="col">Prénom</th>
+					<th scope="col">Secteur d'activité</th>
+					<th scope="col">Statut juridique</th>
+					<th scope="col">Numéros de téléphone</th>
+					<th scope="col">numéro de SIRET</th>
+					<th scope="col">Ville</th>
+					<th scope="col">logo</th>
+					<th scope="col">Date de création</th>
+
+
+				</tr>
+			</thead>
+			<tboy>
+				{% for ess in app.user.ess %}
+					<tr class="table-primary">
+						<th scope="row">{{ess.id}}</th>
+						<td>{{ess.NameStructure}}</td>
+						<td>{{ess.Email}}ntent</td>
+						<td>{{ess.LastName}}</td>
+						<td>{{ess.FirstName}}</td>
+						<td>{{ess.SectorActivity}}</td>
+						<td>{{ess.LegalStatus}}</td>
+						<td>{{ess.PhoneNumber}}</td>
+						<td>{{ess.SiretNumber}}</td>
+						<td>{{ess.City}}</td>
+						<td>{{ess.Image}}</td>
+						<td>{{ess.CreatedAt|date('d/m/Y')}}</td>
+						<td>
+							<a href="{{ path('ess.edit', {'id': ess.id}) }}">Modifier</a>
+
+							<a href="{{ path('ess.delete', {'id': ess.id}) }}" class="btn btn-danger btn-sm">Supprimer</a>
+
+						</td>
+					</tr>
+				{% endfor %}
+
+			</tbody>
+		</table>
+
+		<a href="{{ path('users.index') }}">Retour au profil
+		</a>
+
+	{% endblock %}
+
 {% endblock %}

@@ -34,9 +34,11 @@
 							</li>
 
 							<li class="nav-item">
+							{% if app.user %}
 								<a class="nav-link mx-1" href="{{ path ("app_ess") }}">
 									<button type="button" class="btn btn-dark my-2 mx-2" style='background-color: #FFA300 ; border:#FFA300; '>Ajouter une structure de Ess</button>
 								</a>
+								{% endif %}
 							</li>
 						</ul>
 
@@ -59,7 +61,7 @@
 										Déconnexion</button>
 								</a>
 
-								{# {% if 'ROLE_ADMIN' in app.user.roles %}
+								{# {% if app.user and 'ROLE_ADMIN' in app.user.role %}
 									<a class="dropdown-item" href="{{path('admin.index') }}">
 										administration</a>
 								{% endif %} #}

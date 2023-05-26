@@ -101,7 +101,7 @@ class EssFormType extends AbstractType
                     new length([
                         'min' => 14,
                         'max' => 14,
-                        
+
                     ]),
                     new Regex([
                         'pattern' => '/^[0-9]{14}$/',
@@ -123,7 +123,7 @@ class EssFormType extends AbstractType
                 ],
                 'constraints' => [
                     new Assert\NotBlank(),
-                    new Assert\Email(),
+                    // new Assert\Email(),
                     new Assert\Length(['min' => 2, 'max' => 180]),
                 ],
             ])
@@ -148,7 +148,7 @@ class EssFormType extends AbstractType
                     'class' => 'form-label mt-4',
                 ],
 
-                 'expanded' => true,
+                'expanded' => true,
                 'multiple' => true,
             ])
             ->add('legalStatus', ChoiceType::class, [
@@ -358,21 +358,29 @@ class EssFormType extends AbstractType
             ])
             ->add('closingHoursSunday', TimeType::class, [
                 'label' => "fermé dimanche de   à",
+            ])
+            ->add('save', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-success mt-4',
+                    'style' => 'background-color: #25CCBF; border: none; border-radius: 15px;width: 300px;'
+                ],
+                'label' => 'Envoyer',
+
             ]);
-          
+        
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Ess::class,
-            'constraints' => [
-                new UniqueEntity([
-                    'fields' => ['email'],
+            // 'constraints' => [
+            //     new UniqueEntity([
+            //         'fields' => ['email'],
 
-                    'message' => 'cette adresse e-mail est déjà utilisée'
-                ])
-            ],
+            //         'message' => 'cette adresse e-mail est déjà utilisée'
+            //         ])
+            //     ],
         ]);
     }
 }
