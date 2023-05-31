@@ -35,11 +35,11 @@ class Image
     private ?\DateTimeImmutable $updated_At = null;
 
    
-    #[ORM\ManyToOne(inversedBy: 'image')]
+    #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Blog $blog = null;
 
-    #[ORM\ManyToOne(inversedBy: 'image')]
+    #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Articlespresse $articlepresse = null;
 

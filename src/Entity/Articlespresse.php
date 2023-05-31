@@ -64,18 +64,18 @@ class Articlespresse
     private ?\DateTimeImmutable $created_At = null;
 
 
-    #[ORM\OneToMany(mappedBy: 'articlespresse', targetEntity: Comments::class)]
+    #[ORM\OneToMany(mappedBy: 'articlepresse', targetEntity: Comments::class)]
     private Collection $comment;
 
-    #[ORM\ManyToOne(inversedBy: 'articlespresse')]
+    #[ORM\ManyToOne()]
     #[ORM\JoinColumn(nullable: false)]
     private ?Ess $ess = null;
 
-    #[ORM\OneToMany(mappedBy: 'articlespresse', targetEntity: ArticleCategories::class)]
+    #[ORM\OneToMany(mappedBy: 'articlepresse', targetEntity: ArticleCategories::class)]
     private Collection $articlescategories;
 
 
-    #[ORM\OneToMany(mappedBy: 'articlespresse', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist'])]
+    #[ORM\OneToMany(mappedBy: 'articlepresse', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $images;
 
 

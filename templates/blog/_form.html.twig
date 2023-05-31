@@ -1,0 +1,9 @@
+
+{% if app.user is not null %}
+<div class="w-full-width d-flex">
+	{{ form(form) }}
+</div>
+
+{% else %}
+<p> Vous devez être connecté(e) pour pouvoir ecrire un commentaire</p>
+{% endif %}

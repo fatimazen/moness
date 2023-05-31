@@ -60,7 +60,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'users', targetEntity: ContactMessages::class)]
     private Collection $contactMessage;
 
-    #[ORM\OneToMany(mappedBy: 'users', targetEntity: Comments::class)]
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Comments::class)]
     private Collection $comments;
 
     // #[ORM\OneToMany(mappedBy: 'users', targetEntity: NewsLetters::class)]
@@ -315,7 +315,7 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->comments->contains($comment)) {
             $this->comments->add($comment);
-            $comment->setUsers($this);
+            $comment->setAuthor($this);
         }
 
         return $this;
@@ -325,8 +325,8 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($comment->getUsers() === $this) {
-                $comment->setUsers(null);
+            if ($comment->getAuthor() === $this) {
+                $comment->setAuthor(null);
             }
         }
 
@@ -480,6 +480,10 @@ class Users implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isVerfied = $isVerfied;
 
         return $this;
+    }
+    public function __toString()
+    {
+        return $this->firstName.' '.$this->lastName;
     }
 
 }

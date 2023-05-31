@@ -147,6 +147,9 @@ class Ess
     #[ORM\Column(length: 255)]
     private ?string $activity = null;
 
+    #[ORM\OneToOne(mappedBy: 'ess', cascade: ['persist', 'remove'])]
+    private ?GeoLocalisationEss $geoLocalisationEss = null;
+
 
  
 
@@ -665,6 +668,23 @@ class Ess
     public function setActivity(string $activity): self
     {
         $this->activity = $activity;
+
+        return $this;
+    }
+
+    public function getGeoLocalisationEss(): ?GeoLocalisationEss
+    {
+        return $this->geoLocalisationEss;
+    }
+
+    public function setGeoLocalisationEss(GeoLocalisationEss $geoLocalisationEss): self
+    {
+        // set the owning side of the relation if necessary
+        if ($geoLocalisationEss->getEss() !== $this) {
+            $geoLocalisationEss->setEss($this);
+        }
+
+        $this->geoLocalisationEss = $geoLocalisationEss;
 
         return $this;
     }

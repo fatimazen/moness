@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{articleBlog.title}}
+{% endblock %}
+
+{% block body %}
+
+
+	<section class="container">
+
+		<div
+			class="row g-5">
+			{# <div class="col-md-8"> #}
+			<h1 class="pb-4 mb-4 fst-italic border-bottom">{{articleBlog.title}}</h1>
+
+
+			<div class="d-flex justify-content-center">
+				<img src="{{ vich_uploader_asset(articleBlog, 'imageFile') }}" alt="{{articleBlog.image}}" class="rounded mt-5 w-100 " style="height: 450px;">
+			</div>
+
+			<div class="col-lg-7 mx-auto">
+				<p>{{articleBlog.content | raw}}
+				</p>
+				<hr class="my-4">
+				<p>Publié par:
+					<a href="#">{{articleBlog.author}}</a>
+					le:
+					{{articleBlog.createdAt? articleBlog.createdAt|date('d/m/Y') : '' }}
+				</p>
+				<!-- ajouter à la place du hashtag du href la route vers le profil utilisateur-->
+			</div>
+
+
+			{% include "blog/_comments.html.twig" with  {'comments': articleBlog.comments} %}
+            {% include "blog/_form.html.twig"%}
+
+		</div>
+	</section>
+{% endblock %}

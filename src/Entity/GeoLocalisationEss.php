@@ -24,6 +24,8 @@ class GeoLocalisationEss
     #[ORM\JoinColumn(nullable: false)]
     private ?Ess $ess = null;
 
+   
+
     public function getId(): ?int
     {
         return $this->id;
@@ -64,4 +66,5 @@ class GeoLocalisationEss
 
         return $this;
     }
+
 }

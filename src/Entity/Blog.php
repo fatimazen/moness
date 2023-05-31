@@ -66,10 +66,6 @@ class Blog
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $created_At = null;
 
-
-    #[ORM\OneToMany(mappedBy: 'blog', targetEntity: Comments::class)]
-    private Collection $comments;
-
     #[ORM\ManyToOne(inversedBy: 'blog')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Users $users = null;
@@ -80,17 +76,17 @@ class Blog
     #[ORM\OneToMany(mappedBy: 'blog', targetEntity: Image::class, orphanRemoval: true, cascade: ['persist'])]
     private Collection $images;
 
-
-
-
+    #[ORM\OneToMany(mappedBy: 'blog', targetEntity: Comments::class, orphanRemoval: true)]
+    private Collection $comments;
 
     public function __construct()
     {
-        $this->comments = new ArrayCollection();
+
         $this->articlesCategories = new ArrayCollection();
         $this->images = new ArrayCollection();
         $this->updated_At = new \DateTimeImmutable();
         $this->created_At = new \DateTimeImmutable();
+        $this->comments = new ArrayCollection();
     }
     #[ORM\PrePersist]
     public function prePersist()
@@ -200,7 +196,8 @@ class Blog
         // otherwise the event listeners won't be called and the file is lost
         if ($image) {
             // if 'updatedAt' is not defined in your entity, use another property
-            $this->updated_At= new \DateTimeImmutable();        }
+            $this->updated_At = new \DateTimeImmutable();
+        }
     }
 
     public function getContent(): string
@@ -245,35 +242,7 @@ class Blog
         return $this->title;
     }
 
-    /**
-     * @return Collection<int, Comments>
-     */
-    public function getComments(): Collection
-    {
-        return $this->comments;
-    }
 
-    public function addComment(Comments $comment): self
-    {
-        if (!$this->comments->contains($comment)) {
-            $this->comments->add($comment);
-            $comment->setBlog($this);
-        }
-
-        return $this;
-    }
-
-    public function removeComment(Comments $comment): self
-    {
-        if ($this->comments->removeElement($comment)) {
-            // set the owning side to null (unless already changed)
-            if ($comment->getBlog() === $this) {
-                $comment->setBlog(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getUsers(): ?Users
     {
@@ -341,6 +310,36 @@ class Blog
             // set the owning side to null (unless already changed)
             if ($image->getBlog() === $this) {
                 $image->setBlog(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comments>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comments $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setBlog($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comments $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getBlog() === $this) {
+                $comment->setBlog(null);
             }
         }
 
