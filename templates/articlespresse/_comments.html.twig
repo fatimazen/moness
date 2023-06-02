@@ -1,0 +1,57 @@
+<div class="comment flex justify-start mb-4">
+	<div>
+		<div class="mt-5">
+			<h3 class="text-2xl mb-8">Commentaires</h3>
+
+			{% for comment in comments %}
+				{% if comment.approved  %}
+				
+						<div class="comment flex justify-start mb-4 relative">
+							<div class="block p-6 rounded-lg shadow-lg bg-white">
+								<div class="md:flex md:flex-row">
+									<div class="comment flex justify-start mb-4">
+										<div class="md:ml-6">
+											<p class="text-gray-500 font-light mb-6">
+												Auteur:{{comment.author}}
+											</p>
+											<p>
+												{{comment.comment}}
+											</p>
+											<p>publié le :
+												{{comment.createdAt|date('d/m/Y')}}</p>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</div>
+					{% endif %}
+
+					{% if not comment.approved and app.user == comment.author %}
+						<div class="block p-6 rounded-lg shadow-lg bg-red-500 text-white">
+							<div class="md:flex md:flex-row">
+								<div class="comment flex justify-start mb-4">
+									<div class="md:ml-6">
+										<p class="text-gray-500 font-light mb-6">
+											Auteur:
+											{{ comment.author }}
+										</p>
+										<p>
+											{{ comment.comment }}
+										</p>
+										<p>publié le:
+											{{ comment.createdAt|date('d/m/Y') }}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					{% endif %}
+
+					{# TODO: ajouter un if pour dire que le commentaire n as pas etait approuvé if not comment.approuved #}
+				{% endfor %}
+
+
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,25 +1,24 @@
- {% extends 'base.html.twig' %} 
+{% extends 'base.html.twig' %}
 {# {% set cancel_route =  'ess.edit' %}
 {% set title = 'Modifier ess' %} #}
 
 {% block body %}
 
-<h1 class="mt-4">Modifier de mon   Ess</h1>
-  {% for flashMessage in app.flashes('success') %}
-            <div class=" alert alert-success mt-4">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
+	<h1 class="mt-4">Modifier de mon   Ess</h1>
+	{% for flashMessage in app.flashes('success') %}
+		<div class=" alert alert-success mt-4">
+			{{ flashMessage }}
+		</div>
+	{% endfor %}
 
-    
-        
- {% for flashMessage in app.flashes('warning') %}
-            <div class="alert alert-warning">
-                {{ flashMessage }}
-            </div>
-        {% endfor %}
 
-{{form(essForm)}}
+	{% for flashMessage in app.flashes('warning') %}
+		<div class="alert alert-warning">
+			{{ flashMessage }}
+		</div>
+	{% endfor %}
 
-</div>
+	{{form(essForm)}}
+
+	</div>
 {% endblock %}

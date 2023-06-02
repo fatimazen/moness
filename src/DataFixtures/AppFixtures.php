@@ -168,8 +168,10 @@ class AppFixtures extends Fixture
             $comment = new Comments();
             $comment
                 ->setComment($faker->text())
+                ->setActive($faker->boolean())
+                ->setApproved(random_int(0, 3) === 0 ? false : true)
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
-                ->setUsers($faker->randomElement($users))
+                ->setAuthor($users[mt_rand(0,count($users)-1)])
                 ->setArticlepresse($faker->randomElement($articlespresses))
                 ->setEss($faker->randomElement($essS))
                 ->setBlog($faker->randomElement($blogs));

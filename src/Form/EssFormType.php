@@ -67,8 +67,10 @@ class EssFormType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label mt-4',
                 ],
+                'expanded' => true,
+                'multiple' => true,
             ])
-            ->add('activity', TextType::class, [
+            ->add('activity', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],
@@ -76,6 +78,8 @@ class EssFormType extends AbstractType
                 'label_attr' => [
                     'class' => 'form-label mt-4',
                 ],
+                'expanded' => true,
+                'multiple' => true,
             ])
 
             ->add('description', TextareaType::class, [
@@ -232,13 +236,6 @@ class EssFormType extends AbstractType
                 ],
                 'label' => "Adresse complète",
             ])
-            ->add('region', TextType::class, [
-                'attr' => [
-                    'class' => 'form-label mt-4',
-                ],
-                'label' => 'Région',
-            ])
-
 
             ->add('phoneNumber', TelType::class, [
                 'attr' => [
@@ -270,7 +267,7 @@ class EssFormType extends AbstractType
             ])
 
             ->add('webSite', TextType::class, [
-                'label' => 'facebook',
+                'label' => 'site-web',
 
             ])
             ->add('lastName', TextType::class, [
