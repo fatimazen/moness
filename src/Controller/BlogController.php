@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Comments;
 use App\Form\CommentsFormType;
 use App\Repository\BlogRepository;
+use App\Repository\CommentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -41,6 +42,7 @@ class BlogController extends AbstractController
             $manager->persist($comment);
             $manager->flush();
 
+            $this->addFlash('success', 'Votre commentaire à bien été enregistré il sera soumis a modération très rapidement');
             return $this->redirectToRoute('blog.show', [
                 "id" => $id,
             ]);
@@ -50,4 +52,5 @@ class BlogController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    
 }

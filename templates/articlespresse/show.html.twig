@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	{{articleBlog.title}}
+	{{articlePresse.title}}
 {% endblock %}
 
 {% block body %}
@@ -12,32 +12,33 @@
 			<div class=" alert alert-success mt-4">
 				{{ flashMessage }}
 			</div>
+
 		{% endfor %}
 		<div
 			class="row g-5">
 			{# <div class="col-md-8"> #}
-			<h1 class="pb-4 mb-4 fst-italic border-bottom">{{articleBlog.title}}</h1>
-
+			<h1 class="pb-4 mb-4 fst-italic border-bottom">{{articlePresse.title}}</h1>
 
 			<div class="d-flex justify-content-center">
-				<img src="{{ vich_uploader_asset(articleBlog, 'imageFile') }}" alt="{{articleBlog.image}}" class="rounded mt-5 w-100 " style="height: 450px;">
+				<img src="{{ vich_uploader_asset(articlePresse, 'imageFile') }}" alt="{{articlePresse.image}}" class="rounded mt-5 w-100 " style="height: 450px;">
 			</div>
 
 			<div class="col-lg-7 mx-auto">
-				<p>{{articleBlog.content | raw}}
+				<p>{{articlePresse.content | raw}}
 				</p>
 				<hr class="my-4">
 				<p>Publié par:
-					<a href="#">{{articleBlog.author}}</a>
+					<a href="#">{{articlePresse.author}}</a>
 					le:
-					{{articleBlog.createdAt? articleBlog.createdAt|date('d/m/Y') : '' }}
+					{{articlePresse.createdAt? articlePresse.createdAt|date('d/m/Y') : '' }}
 				</p>
 				<!-- ajouter à la place du hashtag du href la route vers le profil utilisateur-->
 			</div>
 
 
-			{% include "blog/_comments.html.twig" with  {'comments': articleBlog.comments} %}
-			{% include "blog/_form.html.twig"%}
+			{% include "blog/_comments.html.twig" with  {'comments': articlePresse.comment} %}
+
+            {% include "blog/_form.html.twig"%}
 
 		</div>
 	</section>

@@ -2,10 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Comments;
+use App\Form\CommentsFormType;
+use App\Repository\CommentsRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\ArticlespresseRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class ArticlespresseController extends AbstractController
 {
@@ -13,12 +18,44 @@ class ArticlespresseController extends AbstractController
     // #[Route('/', name: 'index', methods: ['GET'])]
     public function index(ArticlespresseRepository $articlespresseRepository): Response
     {
-        $articlespresses = $articlespresseRepository->findPublished();
+        $articlespresse = $articlespresseRepository->findPublished();
 
 
         return $this->render('articlespresse/index.html.twig', [
-            'controller_name' => 'ArticlespresseController',
-            'articlespresses' => $articlespresses
+            'articlespresses' => $articlespresse
         ]);
+    }
+    #[Route('/news/{id}', name: 'articlespresse.show')]
+    public function show(ArticlespresseRepository $articlespresseRepository, int $id, Request $request, EntityManagerInterface $manager): Response
+    {
+        $articlespresse = $articlespresseRepository->findOneBy(["id" => $id]);
+
+        $comment = new Comments();
+        $form = $this->createForm(CommentsFormType::class, $comment);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $comment->setArticlepresse($articlespresse);
+            $user = $this->getUser();
+            $comment->setAuthor($user);
+            $manager->persist($comment);
+            $manager->flush();
+
+            $this->addFlash('success', 'Votre commentaire à bien été enregistré il sera soumis a modération très rapidement');
+            return $this->redirectToRoute('articlespresse.show', [
+                "id" => $id,
+            ]);
+        }
+
+        return $this->render('articlespresse/show.html.twig', [
+            'articlePresse' => $articlespresse,
+            'form' => $form->createView(),
+        ]);
+    }
+    #[Route('/comments/{id}', name: 'comments.delete', methods: ['POST'])]
+    public function delete(Request $request, Comments $comments, CommentsRepository $commentsRepository): Response
+    {
+
+        return $this->redirectToRoute('articlespresse/_form.html.twig', []);
     }
 }
