@@ -4583,6 +4583,11 @@
   "resolved" "https://registry.npmjs.org/select-hose/-/select-hose-2.0.0.tgz"
   "version" "2.0.0"
 
+"select2@^4.1.0-rc.0":
+  "integrity" "sha512-Hr9TdhyHCZUtwznEH2CBf7967mEM0idtJ5nMtjvk3Up5tPukOLXbHUNmh10oRfeNIhj+3GD3niu+g6sVK+gK0A=="
+  "resolved" "https://registry.npmjs.org/select2/-/select2-4.1.0-rc.0.tgz"
+  "version" "4.1.0-rc.0"
+
 "selfsigned@^2.1.1":
   "integrity" "sha512-GSL3aowiF7wa/WtSFwnUrludWFoNhftq8bUkH9pkzjpN2XSPOAYEgg6e0sS9s0rZwgJzJiQRPU18A6clnoW5wQ=="
   "resolved" "https://registry.npmjs.org/selfsigned/-/selfsigned-2.1.1.tgz"

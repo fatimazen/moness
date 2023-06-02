@@ -6,19 +6,20 @@ use App\Entity\Ess;
 use Symfony\Component\Form\AbstractType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Validator\Constraints as Assert;
 
 
 
@@ -62,6 +63,7 @@ class EssFormType extends AbstractType
                     ' Autres activités de services' => 'Autres activités de services',
                     'Activités des ménages en tant qu\'employeurs ; activités indifférenciées des ménages en tant que producteurs de biens et services pour usage propre' => 'Activités des ménages en tant qu\'employeurs ;activités indifférenciées des ménages en tant que producteurs de biens et services pour usage propre',
                     ' Activités extra-territoriales' => 'Activités extra-territoriales',
+
                 ],
                 'label' => 'Secteur d\'activité',
                 'label_attr' => [
@@ -71,15 +73,35 @@ class EssFormType extends AbstractType
                 'multiple' => true,
             ])
             ->add('activity', ChoiceType::class, [
+            
                 'attr' => [
-                    'class' => 'form-control',
+                    'class' => 'form-control select2', // Remplace "select2" par la classe CSS correspondante pour Select2
                 ],
                 'label' => 'Activité',
                 'label_attr' => [
                     'class' => 'form-label mt-4',
                 ],
-                'expanded' => true,
                 'multiple' => true,
+                'expanded'=>true,
+                'choices' => [
+                    'Restauration' => [
+                        'Restaurant' => 'restaurant',
+                        'Restaurant collectif' => 'restaurant_collectif',
+                        'Snack' => 'snack',
+                        'Traiteur' => 'traiteur',
+                        'Restaurant végétalien' => 'restaurant_vegetalien',
+                    ],
+                    'Formation' => [
+                        'Formation professionnelle' => 'formation_professionnelle',
+                        'Formation continue' => 'formation_continue',
+                        'Formation en ligne' => 'formation_en_ligne',
+                    ],
+                    'Distribution et vente' => [
+                        'Vente au détail' => 'vente_detail',
+                        'Distribution en gros' => 'distribution_gros',
+                        'Commerce équitable' => 'commerce_equitable',
+                    ],
+                ],
             ])
 
             ->add('description', TextareaType::class, [
@@ -168,14 +190,17 @@ class EssFormType extends AbstractType
                     'Société en nom collectif (SNC)' => 'Société en nom collectif (SNC)',
                     'Société coopérative de production (SCOP)' => 'Société coopérative de production (SCOP)',
                     'Société en commandite par actions (SCA) et société en commandite simple (SCS)' => 'Société en commandite par actions (SCA) et société en commandite simple (SCS)',
+                    'Économie sociale et solidaire' => 'Économie sociale et solidaire',
+                    'Entreprise à mission' => 'Entreprise à mission',
                 ],
                 'label' => 'Statut juridique',
                 'label_attr' => [
                     'class' => 'form-label mt-4',
                 ],
-                'expanded' => false,
-                'required' => true,
+                'expanded' => true,
+                'multiple' => true,
             ])
+            
             ->add('imageFile', VichFileType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -192,15 +217,6 @@ class EssFormType extends AbstractType
                 'asset_helper' => true,
             ])
 
-            // ->add('economieSocialeEtSolidaire', CheckboxType::class, [
-            //     'label' => 'Entreprise économique sociale et solidaire',
-
-            // ])
-            // ->add('entrepriseAMission', CheckboxType::class, [
-            //     'label' => 'Entreprise à mission',
-
-
-            // ])
 
             ->add('city', TextType::class, [
                 'attr' => [
