@@ -144,11 +144,14 @@ class Ess
     private Collection $favoris;
 
 
-    #[ORM\Column(length: 255)]
-    private ?string $activity = null;
+  
 
     #[ORM\OneToOne(mappedBy: 'ess', cascade: ['persist', 'remove'])]
     private ?GeoLocalisationEss $geoLocalisationEss = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ess')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Activity $activity = null;
 
 
  
@@ -659,19 +662,6 @@ class Ess
     }
 
 
-
-    public function Activity(): ?string
-    {
-        return $this->activity;
-    }
-
-    public function setActivity(string $activity): self
-    {
-        $this->activity = $activity;
-
-        return $this;
-    }
-
     public function getGeoLocalisationEss(): ?GeoLocalisationEss
     {
         return $this->geoLocalisationEss;
@@ -685,6 +675,18 @@ class Ess
         }
 
         $this->geoLocalisationEss = $geoLocalisationEss;
+
+        return $this;
+    }
+
+    public function getActivity(): ?Activity
+    {
+        return $this->activity;
+    }
+
+    public function setActivity(?Activity $activity): self
+    {
+        $this->activity = $activity;
 
         return $this;
     }
