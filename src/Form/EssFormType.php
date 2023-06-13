@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Ess;
+use App\Entity\Activity;
+use App\Repository\ActivityRepository;
 use Symfony\Component\Form\AbstractType;
 use Vich\UploaderBundle\Form\Type\VichFileType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -72,37 +74,22 @@ class EssFormType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
             ])
-            ->add('activity', ChoiceType::class, [
-            
-                'attr' => [
-                    'class' => 'form-control select2', // Remplace "select2" par la classe CSS correspondante pour Select2
-                ],
+            ->add('activity', EntityType::class, [
+                'class' => Activity::class,
+                'choice_label' => 'name',
                 'label' => 'Activité',
+                'group_by' => 'parent.name',
+                'query_builder' => function (ActivityRepository $cr) {
+                    return $cr->createQueryBuilder('a')
+                        ->Where('a.parent IS NOT NULL')
+                        ->orderBy('a.name', 'ASC');
+                },
+
                 'label_attr' => [
                     'class' => 'form-label mt-4',
                 ],
-                'multiple' => true,
-                'expanded'=>true,
-                'choices' => [
-                    'Restauration' => [
-                        'Restaurant' => 'restaurant',
-                        'Restaurant collectif' => 'restaurant_collectif',
-                        'Snack' => 'snack',
-                        'Traiteur' => 'traiteur',
-                        'Restaurant végétalien' => 'restaurant_vegetalien',
-                    ],
-                    'Formation' => [
-                        'Formation professionnelle' => 'formation_professionnelle',
-                        'Formation continue' => 'formation_continue',
-                        'Formation en ligne' => 'formation_en_ligne',
-                    ],
-                    'Distribution et vente' => [
-                        'Vente au détail' => 'vente_detail',
-                        'Distribution en gros' => 'distribution_gros',
-                        'Commerce équitable' => 'commerce_equitable',
-                    ],
-                ],
             ])
+
 
             ->add('description', TextareaType::class, [
                 'attr' => [
@@ -200,7 +187,7 @@ class EssFormType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
             ])
-            
+
             ->add('imageFile', VichFileType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -308,7 +295,8 @@ class EssFormType extends AbstractType
             ])
 
             ->add('openingHoursMonday', TimeType::class, [
-                'label' => "ouvert le lundi de à",
+                'label' => "ouvert le lundi à",
+                'input'=>'datetime',
 
             ])
             ->add('closingHoursMonday', TimeType::class, [
@@ -380,7 +368,6 @@ class EssFormType extends AbstractType
                 'label' => 'Envoyer',
 
             ]);
-        
     }
 
     public function configureOptions(OptionsResolver $resolver): void

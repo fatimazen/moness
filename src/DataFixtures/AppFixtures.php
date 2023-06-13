@@ -2,25 +2,30 @@
 
 namespace App\DataFixtures;
 
-use DateTimeImmutable;
 use Faker\Factory;
-use App\Entity\Users;
 use App\Entity\Ess;
-use App\Entity\Articlespresse;
 use App\Entity\Blog;
+use App\Entity\Users;
+use DateTimeImmutable;
 use App\Entity\Comments;
+use App\Entity\NewsLetters;
+use App\Entity\Articlespresse;
 use App\Entity\ContactMessages;
 use App\Entity\GeoLocalisationEss;
-use App\Entity\NewsLetters;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
-    public function __construct(private UserPasswordHasherInterface $passwordEncoder)
+
+    private UserPasswordHasherInterface $passwordEncoder;
+
+    public function __construct(UserPasswordHasherInterface $passwordEncoder)
     {
+        $this->passwordEncoder = $passwordEncoder;
     }
+
     public function load(ObjectManager $manager): void
     {
 
@@ -70,7 +75,7 @@ class AppFixtures extends Fixture
 
 
         $essS = [];
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 1; $i < 30; $i++) {
 
             $ess = new Ess();
             $ess
@@ -88,26 +93,32 @@ class AppFixtures extends Fixture
                 ->setImage($faker->imageUrl(640, 480, 'company', true))
                 ->setWebSite($faker->url())
                 ->setSocialNetworks($faker->url())
-                ->setActivity($faker->randomElement([1, 2, 3, 4, 5]))
-                ->setOpeningHoursMonday(new \Datetime($faker->time('H:i:s')))
-                ->setClosingHoursMonday(new \Datetime($faker->time('H:i:s')))
-                ->setOpeningHoursTuesday(new \Datetime($faker->time('H:i:s')))
-                ->setClosingHoursTuesday(new \Datetime($faker->time('H:i:s')))
-                ->setOpeningHoursWednesday(new \Datetime($faker->time('H:i:s')))
-                ->setClosingHoursWednesday(new \Datetime($faker->time('H:i:s')))
-                ->setOpeningHoursThursday(new \Datetime($faker->time('H:i:s')))
-                ->setClosingHoursThursday(new \Datetime($faker->time('H:i:s')))
-                ->setOpeningHoursFriday(new \Datetime($faker->time('H:i:s')))
-                ->setClosingHoursFriday(new \Datetime($faker->time('H:i:s')))
-                ->setOpeningHoursSaturday(new \Datetime($faker->time('H:i:s')))
-                ->setClosingHoursSaturday(new \Datetime($faker->time('H:i:s')))
-                ->setOpeningHoursSunday(new \Datetime($faker->time('H:i:s')))
-                ->setClosingHoursSunday(new \Datetime($faker->time('H:i:s')))
+                ->setOpeningHoursMonday(new \DateTime($faker->time('H:i:s')))
+                ->setClosingHoursMonday(new \DateTime($faker->time('H:i:s')))
+                ->setOpeningHoursTuesday(new \DateTime($faker->time('H:i:s')))
+                ->setClosingHoursTuesday(new \DateTime($faker->time('H:i:s')))
+                ->setOpeningHoursWednesday(new \DateTime($faker->time('H:i:s')))
+                ->setClosingHoursWednesday(new \DateTime($faker->time('H:i:s')))
+                ->setOpeningHoursThursday(new \DateTime($faker->time('H:i:s')))
+                ->setClosingHoursThursday(new \DateTime($faker->time('H:i:s')))
+                ->setOpeningHoursFriday(new \DateTime($faker->time('H:i:s')))
+                ->setClosingHoursFriday(new \DateTime($faker->time('H:i:s')))
+                ->setOpeningHoursSaturday(new \DateTime($faker->time('H:i:s')))
+                ->setClosingHoursSaturday(new \DateTime($faker->time('H:i:s')))
+                ->setOpeningHoursSunday(new \DateTime($faker->time('H:i:s')))
+                ->setClosingHoursSunday(new \DateTime($faker->time('H:i:s')))
                 ->setRegion($faker->randomElement(['occitanie', 'PACA', 'Rhônes Alpes']))
                 ->setLabel([$faker->randomElement(['L’AFNOR ', 'ESUS', 'Lucie', 'ISR'])])
-                ->setSiretNumber($faker->randomNumber())
+                ->setSiretNumber($faker->randomNumber(9) * pow(10, 5) + $faker->randomNumber(5))
                 ->setUpdatedAt((DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London"))))
                 ->setUsers($faker->randomElement($users));
+
+            // on va chercher une réference d' activité
+
+            $activity = $this->getReference('act-' . rand(1, 27));
+            $ess->setActivity($activity);
+            // // on va chercher une réference d' activité
+            // $this->setReference('i-' . $i, $ess);
 
             $essS[] = $ess;
             $manager->persist($ess);
@@ -116,19 +127,19 @@ class AppFixtures extends Fixture
 
         $contactsMessage = [];
         for ($i = 0; $i < 10; $i++) {
-
-            $contactMessage = new ContactMessages;
+            $contactMessage = new ContactMessages();
             $contactMessage
                 ->setFullName($faker->name())
                 ->setEmail($faker->safeEmail())
                 ->setMessage($faker->text(255))
-                ->setSujet($faker->randomElement(['demande n°' . ($i + 1)]))
-                ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
+                ->setSujet('demande n°' . ($i + 1))
+                ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTimeBetween('2014-06-20 11:45', 'now', 'Europe/London')))
                 ->setUsers($faker->randomElement($users));
 
             $contactsMessage[] = $contactMessage;
             $manager->persist($contactMessage);
         }
+
 
         $blogs = [];
         for ($i = 0; $i < 10; $i++) {
@@ -171,7 +182,7 @@ class AppFixtures extends Fixture
                 ->setActive($faker->boolean())
                 ->setApproved(random_int(0, 3) === 0 ? false : true)
                 ->setCreatedAt(DateTimeImmutable::createFromMutable($faker->dateTime("2014-06-20 11:45 Europe/London")))
-                ->setAuthor($users[mt_rand(0,count($users)-1)])
+                ->setAuthor($users[mt_rand(0, count($users) - 1)])
                 ->setArticlepresse($faker->randomElement($articlespresses))
                 ->setEss($faker->randomElement($essS))
                 ->setBlog($faker->randomElement($blogs));
@@ -203,8 +214,6 @@ class AppFixtures extends Fixture
             $manager->persist($geolocalisation);
             $geolocalisations[] = $geolocalisation;
         }
-
-
 
         $manager->flush();
     }

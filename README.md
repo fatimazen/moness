@@ -34,3 +34,6 @@ composer requier fakerphp/faker
 
 symfony console doctrine:fixtures:load
 
+### commande pour verifier ces erreurs dans notre code 
+ symfony console d:s:v
+
