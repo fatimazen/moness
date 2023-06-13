@@ -6,35 +6,26 @@
 
 
 {% block body %}
-	<!DOCTYPE html>
-	<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr">
-		<head>
-			<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
-			<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
-			<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css">
-			<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css">
-			<link rel="stylesheet" href="{{ asset('map.css') }}">
 
-		</head>
+	<div id="Carte"></div>
 
-		<body>
-			<div id="Carte"></div>
-			<!-- champs de recherche-->
-			<p>
-				<label for="champ-ville">Ville</label>
-				<input type="text" id="champ-ville">
-			</p>
-			<p>
-				<label for="champ-distance">Distance:</label>
-				<input type="range" min="1" max="200" id="champ-distance">
-			</p>
-			<p id="valeur-distance"></p>
+	{# </div>
+				<!-- champs de recherche-->
+				<p>
+					<label for="champ-ville">Ville</label>
+					<input type="text" id="champ-ville">
+				</p>
+				<p>
+					<label for="champ-distance">Distance:</label>
+					<input type="range" min="1" max="200" id="champ-distance">
+				</p>
+				<p id="valeur-distance"></p> #}
+	{% for ess in essData %}
+		<div>
+			<h2>{{ ess.nom }}</h2>
+			<p>{{ ess.description }}</p>
+			<!-- Affichez d'autres informations selon vos besoins -->
+		</div>
+	{% endfor %}
 
-			<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-			<script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
-			<script src="{{ asset('map.js')}}"></script>
-
-
-		</body>
-	</html>
 {% endblock %}

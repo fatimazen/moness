@@ -32,6 +32,7 @@ class EssController extends AbstractController
         $ess = $user->getEss();
 
         $essS = $repository->findBy(['users' => $user]);
+        
 
         return $this->render('ess/index.html.twig', [
             'user' => $user,
