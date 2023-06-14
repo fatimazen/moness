@@ -14,32 +14,32 @@
 			</div>
 
 		{% endfor %}
-		<div
-			class="row g-5">
-			{# <div class="col-md-8"> #}
-			<h1 class="pb-4 mb-4 fst-italic border-bottom">{{articlePresse.title}}</h1>
+		<div class="title">
 
-			<div class="d-flex justify-content-center">
-				<img src="{{ vich_uploader_asset(articlePresse, 'imageFile') }}" alt="{{articlePresse.image}}" class="rounded mt-5 w-100 " style="height: 450px;">
+			<h1 class="pb-3 mb-2 fst-italic border-bottom" style="font-size: 35px;">{{articlePresse.title}}</h1>
+
+			<div class="card m-0 ">
+				<img src="{{ vich_uploader_asset(articlePresse, 'imageFile') }}" alt="{{articlePresse.image}}" class="card-img-top w100" style="height: 450px;">
+				<div
+					class="card-body">
+
+					{# <div class="col-lg-7 mx-auto"> #}
+					<p>{{articlePresse.content | raw}}
+					</p>
+					<hr class="my-4">
+					<p>Publié par:
+						<a href="#">{{articlePresse.author}}</a>
+						le:
+						{{articlePresse.createdAt? articlePresse.createdAt|date('d/m/Y') : '' }}
+					</p>
+					<!-- ajouter à la place du hashtag du href la route vers le profil utilisateur-->
+				</div>
+
+
 			</div>
 
-			<div class="col-lg-7 mx-auto">
-				<p>{{articlePresse.content | raw}}
-				</p>
-				<hr class="my-4">
-				<p>Publié par:
-					<a href="#">{{articlePresse.author}}</a>
-					le:
-					{{articlePresse.createdAt? articlePresse.createdAt|date('d/m/Y') : '' }}
-				</p>
-				<!-- ajouter à la place du hashtag du href la route vers le profil utilisateur-->
-			</div>
+				{% include "blog/_comments.html.twig" with  {'comments': articlePresse.comment} %}
 
-
-			{% include "blog/_comments.html.twig" with  {'comments': articlePresse.comment} %}
-
-            {% include "blog/_form.html.twig"%}
-
-		</div>
-	</section>
-{% endblock %}
+				{% include "blog/_form.html.twig"%}
+		</section>
+	{% endblock %}

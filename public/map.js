@@ -19,7 +19,7 @@ carte.setView([46.603354, 1.888334], 6);
 new L.Control.Zoom({
   position: "topright"
 }).addTo(carte);
-// ajout slidmenu
+console.log(L);
 /* contents */
 const left = '<div class="header">Slide Menu (Left)</div>';
 const right = '<div class="header">Slide Menu (Right)</div>';

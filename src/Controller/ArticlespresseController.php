@@ -16,13 +16,13 @@ class ArticlespresseController extends AbstractController
 {
     #[Route('/news', name: 'articlespresse.index')]
     // #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(ArticlespresseRepository $articlespresseRepository): Response
+    public function index(ArticlespresseRepository $articlespresseRepository,Request $request): Response
     {
-        $articlespresse = $articlespresseRepository->findPublished();
+        $articlespresses = $articlespresseRepository->findPublished($request->query->getInt('page',1));
 
 
         return $this->render('articlespresse/index.html.twig', [
-            'articlespresses' => $articlespresse
+            'articlespresses' => $articlespresses
         ]);
     }
     #[Route('/news/{id}', name: 'articlespresse.show')]
