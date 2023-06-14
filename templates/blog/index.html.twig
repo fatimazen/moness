@@ -11,12 +11,12 @@
                 <h1 class="mb-0">Blog</h1>
             </div>
             {% for articleBlog in articleBlogs %}
-                <div class="card mb-4 shadow-light-lg lift lift-lg">
+                <div class="card mb-5 shadow-light-lg lift lift-lg">
                     <a class="card-img-top" href="#">
-                        <img src="{{ vich_uploader_asset(articleBlog, 'imageFile') }}" alt="{{ articleBlog.image }}" class="rounded mt-0 w-100" style="height: 350px;">
+                        <img src="{{ vich_uploader_asset(articleBlog, 'imageFile') }}" alt="{{ articleBlog.image }}" class="rounded mt-0 w-100" style="height: 300px;">
                     </a>
                     <div class="card-body">
-                        <a href="#!" class="card-title">
+                        <a href="{{ path('blog.show', {'id': articleBlog.id}) }}" class="card-title">
                             <h6 class="display-4 fw-light text-center my-4" style="font-size:20px">{{ articleBlog.title }}</h6>
                         </a>
                         <div class="card-text">

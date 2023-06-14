@@ -10,7 +10,7 @@
 <div class="container">
  <div class="row ">
 			<div class="col-12"> 
-		 	<h2 class="mb-0"> News </h2>
+		 	<h1 class="mb-0"> News </h1>
 			</div>
 	{% for articlespresse in articlespresses %}
 
@@ -19,7 +19,8 @@
 		<a class="card-img-top " href='#'> 
 				<img src="{{vich_uploader_asset(articlespresse, 'imageFile')}}" class="card-img-top" alt="..."> 
 		</a>
-		<a class="card-body" href="#!"> 
+		<a class="card-body" href="{{ path('articlespresse.show', {'id': articlespresse.id}) }}" class="card-title">
+
 		<h3>
 		{{articlespresse.title}}
 		</h3>
