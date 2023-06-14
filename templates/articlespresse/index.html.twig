@@ -7,48 +7,50 @@
 
 <section class="pt-7 pt-md-10"> 
 
-<div class="container">
- <div class="row ">
+	<div class="container">
+ 		<div class="row ">
 			<div class="col-12"> 
-		 	<h1 class="mb-0"> News </h1>
+		 		<h1 class="mb-0"> News </h1>
 			</div>
-	{% for articlespresse in articlespresses %}
+			{% for articlespresse in articlespresses %}
 
-		<div class=" col-md-4 d-flex"> 
-		<div class="card mb-0 shadow-light-lg lift lift-lg>" 
-		<a class="card-img-top " href='#'> 
+			<div class=" col-md-4 d-flex"> 
+			<div class="card mb-0 shadow-light-lg lift lift-lg>" 
+			<a class="card-img-top " href='#'> 
 				<img src="{{vich_uploader_asset(articlespresse, 'imageFile')}}" class="card-img-top" alt="..."> 
-		</a>
-		<a class="card-body" href="{{ path('articlespresse.show', {'id': articlespresse.id}) }}" class="card-title">
+			</a>
+			<a class="card-body" href="{{ path('articlespresse.show', {'id': articlespresse.id}) }}" class="card-title">
 
-		<h3>
-		{{articlespresse.title}}
-		</h3>
-		</a>
+			<h3>
+			{{articlespresse.title}}
+			</h3>
+			</a>
 			<p class="mb-0 text-muted">
 			{{articlespresse.content}}
 			</p>
-		<div class="card-meta mt-auto">
-		<hr class="card-meta-divider">
+			<div class="card-meta mt-auto">
+			<hr class="card-meta-divider">
 			<p class="articlespresse">
 			{{articlespresse.author}}
 			</p>
 			<p class="h7 text-uppercase text muted mb-0 ms auto">
 				<time>Ajoutée le {{articlespresse.createdAt? articlespresse.createdAt|date('d/m/Y') : ''}}</time>
 			</p>
-		</div>
-	</div>
+			</div>
+			</div>
 
-	</div>
+			</div>
 
-		{% endfor %}
+				{% endfor %}
 
 					
-</div>
-</div>
-<div class="navigation flex justify-center mb-8">
+				</div>
+		</div>
+	
+	</div>
+            <div class="navigation flex justify-center mb-8">
 					{% do articlespresses.setpageRange(2) %}
 					{{knp_pagination_render(articlespresses,'_base/pagination.html.twig')}}
-					</div>
+		</div>
 </section> 
 {% endblock %}
