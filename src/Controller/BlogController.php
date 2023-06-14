@@ -7,6 +7,7 @@ use App\Form\CommentsFormType;
 use App\Repository\BlogRepository;
 use App\Repository\CommentsRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,12 +17,14 @@ class BlogController extends AbstractController
 {
     #[Route('/blog', name: 'blog.index')]
     // #[Route('/', name: 'index', methods:['GET'])]
-    public function index(BlogRepository $blogRepository): Response
+    public function index(BlogRepository $blogRepository, Request $request): Response
     {
-        $articleBlog = $blogRepository->findPublished();
+        $articleBlogs = $blogRepository->findPublished($request->query->getInt('page',1));
+       
+
 
         return $this->render('blog/index.html.twig', [
-            'articleBlogs' => $articleBlog,
+            'articleBlogs' => $articleBlogs,
         ]);
     }
 

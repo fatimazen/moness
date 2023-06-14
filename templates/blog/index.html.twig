@@ -29,12 +29,18 @@
 					<!-- ajouter à la place du hashtag du href la route vers le profil utilisateur-->
 				</div>
 
-
-				{% include "blog/_comments.html.twig" with  {'comments': articleBlog.comments} %}
+				{# {% include "blog/_comments.html.twig" with  {'comments': articleBlog.comments} %} #}
 
 
 			{% endfor %}
+
+			
+				<div class="navigation flex justify-center mb-8">
+					{% do articleBlogs.setpageRange(2) %}
+					{{knp_pagination_render(articleBlogs, '_base/pagination.html.twig')}}
+					</div>
 		</div>
+		
 
 
 	</section>

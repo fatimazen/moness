@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Blog;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 
 /**
  * @extends ServiceEntityRepository<Blog>
@@ -16,25 +18,27 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class BlogRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    public function __construct(ManagerRegistry $registry,private PaginatorInterface $paginatorInterface)
     {
         parent::__construct($registry, Blog::class);
     }
 
-    public function findPublished():array
+    public function findPublished(int $page):PaginationInterface
     {
         /**
          * GET published blog (publications)
-         * 
-         * @return array
+         * @param int $page
+         * @return PaginationInterface
          */
 
-        return $this->createQueryBuilder('b')
+        $data= $this->createQueryBuilder('b')
                 ->where('b.state LIKE :state')
                 ->setParameter('state', '%STATE_PUBLISHED%')
                 ->addOrderBy('b.created_At', 'DESC')
                 ->getQuery()
                 ->getResult();
+                $articleBlogs=$this->paginatorInterface->paginate($data, $page, 4);
+                return $articleBlogs;
     }
 
 //    /**
