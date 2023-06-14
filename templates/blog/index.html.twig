@@ -1,47 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Blog!
+{% block title %}
+    Blog!
 {% endblock %}
 
 {% block body %}
+    <section class="pt-7 pt-md-10">
+        <div class="container">
+            <div class="col-md-10">
+                <h1 class="mb-0">Blog</h1>
+            </div>
+            {% for articleBlog in articleBlogs %}
+                <div class="card mb-4 shadow-light-lg lift lift-lg">
+                    <a class="card-img-top" href="#">
+                        <img src="{{ vich_uploader_asset(articleBlog, 'imageFile') }}" alt="{{ articleBlog.image }}" class="rounded mt-0 w-100" style="height: 350px;">
+                    </a>
+                    <div class="card-body">
+                        <a href="#!" class="card-title">
+                            <h6 class="display-4 fw-light text-center my-4" style="font-size:20px">{{ articleBlog.title }}</h6>
+                        </a>
+                        <div class="card-text">
+                            <p>{{ articleBlog.content | raw }}</p>
+                            <hr class="my-4">
+                            <p>
+                                Publié par:
+                                <a href="#">{{ articleBlog.author }}</a>
+                                le:
+                                {{ articleBlog.createdAt ? articleBlog.createdAt|date('d/m/Y') : '' }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
 
-	<section class="container">
-
-		<div
-			class="row g-5">
-			{# <div class="col-md-8"> #}
-			<h1 class="pb-4 mb-4 fst-italic border-bottom">Blog</h1>
-			{% for articleBlog in articleBlogs %}
-
-				<div class="d-flex justify-content-center">
-					<img src="{{ vich_uploader_asset(articleBlog, 'imageFile') }}" alt="{{articleBlog.image}}" class="rounded mt-5 w-100 " style="height: 450px;">
-				</div>
-				<h2 class="display-6 fw-bold text-center my-4">{{articleBlog.title}}</h2>
-				<div class="col-lg-7 mx-auto">
-					<p>{{articleBlog.content | raw}}
-					</p>
-					<hr class="my-4">
-					<p>Publié par:
-						<a href="#">{{articleBlog.author}}</a>
-						le:
-						{{articleBlog.createdAt? articleBlog.createdAt|date('d/m/Y') : '' }}
-					</p>
-					<!-- ajouter à la place du hashtag du href la route vers le profil utilisateur-->
-				</div>
-
-				{# {% include "blog/_comments.html.twig" with  {'comments': articleBlog.comments} %} #}
-
-
-			{% endfor %}
-
-			
-				<div class="navigation flex justify-center mb-8">
-					{% do articleBlogs.setpageRange(2) %}
-					{{knp_pagination_render(articleBlogs, '_base/pagination.html.twig')}}
-					</div>
-		</div>
+            <div class="navigation flex justify-center mb-8">
+                {% do articleBlogs.setPageRange(10) %}
+                {{ knp_pagination_render(articleBlogs, '_base/pagination.html.twig') }}
+            </div>
+        </div>
 		
-
-
-	</section>
+    </section>
 {% endblock %}

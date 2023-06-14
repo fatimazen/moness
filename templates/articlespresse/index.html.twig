@@ -15,7 +15,7 @@
 	{% for articlespresse in articlespresses %}
 
 		<div class=" col-md-4 d-flex"> 
-		<div class="card mb-4 shadow-light-lg lift lift-lg>" 
+		<div class="card mb-0 shadow-light-lg lift lift-lg>" 
 		<a class="card-img-top " href='#'> 
 				<img src="{{vich_uploader_asset(articlespresse, 'imageFile')}}" class="card-img-top" alt="..."> 
 		</a>
@@ -40,7 +40,6 @@
 
 	</div>
 
-{# {% include "articlespresse/_comments.html.twig" with  {'comments': articlespresse.comment} %} #}
 		{% endfor %}
 
 					

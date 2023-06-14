@@ -1,21 +1,18 @@
 {% if app.user is not null %}
-<div class="w-full-width d-flex">
-	{{ form(form) }}
-	
-</div>
-	{% if app.users == comment.author %}
-
-						<div class='comment__delete absolute right-0'>
-							<form name="comment[delete]" method="post" action="{{ path('comment_delete', {'id': comment.id}) }}">
-								<input type="hidden" name="methode" value="DELETE">
-								<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
-								<button class="btn">
-									<i class="fa-solid fa-trash-can"></i>
-								</button>
-							</form>
-						</div>
-
-
+    <div class="w-full-width d-flex">
+        {{ form(form) }}
+    </div>
+    {# {% if app.user == comment.author %}
+        <div class='comment__delete absolute right-0'>
+            <form name="comment[delete]" method="post" action="{{ path('comment_delete', {'id': comment.id}) }}">
+                <input type="hidden" name="methode" value="DELETE">
+                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ comment.id) }}">
+                <button class="btn">
+                    <i class="fa-solid fa-trash-can"></i>
+                </button>
+            </form>
+        </div>
+    {% endif %} #}
 {% else %}
-<p> Vous devez être connecté(e) pour pouvoir ecrire un commentaire</p>
+    <p>Vous devez être connecté(e) pour pouvoir écrire un commentaire.</p>
 {% endif %}
