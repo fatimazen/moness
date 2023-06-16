@@ -35,8 +35,8 @@ class MapController extends AbstractController
                     // Ajouter d'autres informations que vous souhaitez afficher dans la carte
                     // par exemple : 'nom' => $ess->getNom(), 'description' => $ess->getDescription(), etc.
                 ];
+                return new JsonResponse($bldgData);
             }
-            return new JsonResponse($bldgData);
         }
 
         // Répondre avec les données 

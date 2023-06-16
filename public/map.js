@@ -66,8 +66,16 @@ searchButton.addEventListener('click', function() {
   // Effectue la requête AJAX en utilisant Symfony
   fetch(`https://nominatim.openstreetmap.org/search?q=${searchInput.value}&format=json&addressdetails=[0|1]&number=1polygon_svg=1`)
     .then(response => response.json())
-    .then(ess => {
-      console.log(ess);
+    .then(bldgData => {
+
+ // on stock les coordonnées dans ess      
+      let latitude = bldgData[0].lat;
+      let longitude = bldgData[0].lon;
+      let essdata = [latitude,longitude];
+
+      // on centre la carte sur ess 
+      carte.panTo(essdata)
+
     })
     // .catch(error => {
     //   // Gérez les erreurs éventuelles
