@@ -87,7 +87,6 @@ L.Control.SlideMenu = L.Control.extend({
             else {
                 closeButton.style.float = 'left';
                 L.DomUtil.addClass(closeButton, this.options.icon_close.class_right);
-                console.log(closeButton);
             }
         }
         else {
@@ -123,9 +122,6 @@ L.Control.SlideMenu = L.Control.extend({
         }, this)
         .on(closeButton, 'click', L.DomEvent.stopPropagation)
         .on(closeButton, 'click', function () {
-                console.log(animate)
-                // Close 
-                console.log(this);
                 this._animate(this._menu, 0, frominit, false, ispx, unit);
             }, this);
         L.DomEvent.on(this._menu, 'mouseover', function () {
