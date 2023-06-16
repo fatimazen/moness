@@ -15,7 +15,7 @@ class MapController extends AbstractController
      * @Route("/getEssData", name="get_ess_data", methods={"GET"})
      */
     
-    public function getEssData( EntityManagerInterface $entityManager, EssRepository $essRepository,Request $request): array
+    public function getEssData( EntityManagerInterface $entityManager, EssRepository $essRepository,Request $request): JsonResponse
     {
         // Récupérer les données ESS avec les informations de géolocalisation
         $essData = $essRepository->findAll();
@@ -31,11 +31,12 @@ class MapController extends AbstractController
                 $bldgData[] = [
                     'latitude' => $geoLocalisation->getLatitude(),
                     'longitude' => $geoLocalisation->getLongitude(),
+                    
                     // Ajouter d'autres informations que vous souhaitez afficher dans la carte
                     // par exemple : 'nom' => $ess->getNom(), 'description' => $ess->getDescription(), etc.
                 ];
-                return $bldgData;
             }
+            return new JsonResponse($bldgData);
         }
 
         // Répondre avec les données 

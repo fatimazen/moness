@@ -28,6 +28,7 @@ L.Control.SlideMenu = L.Control.extend({
             this.options.menuposition == 'topright' ? true : false;
         this._isHorizontal = this.options.direction == 'horizontal' ? true : false;
     },
+    
 
     onAdd: function (map) {
         this._container = L.DomUtil.create('div', 'leaflet-control-slidemenu leaflet-bar leaflet-control');
@@ -194,3 +195,4 @@ L.Control.SlideMenu = L.Control.extend({
 L.control.slideMenu = function (innerHTML, options) {
     return new L.Control.SlideMenu(innerHTML, options);
 };
+

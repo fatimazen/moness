@@ -7,7 +7,11 @@
 
 {% block body %}
 
+<div id="slide-menu" class="leaflet-control-slide-menu">
+
+</div>
 	<div id="Carte"></div>
+
 
 	{# </div>
 				<!-- champs de recherche-->
@@ -22,8 +26,10 @@
 				<p id="valeur-distance"></p> #}
 	{% for ess in essData %}
 		<div>
-			<h2>{{ ess.nom }}</h2>
-			<p>{{ ess.description }}</p>
+			<p>{{ ess.nameStructure }}</p>
+			<p>{{ ess.city }}</p>
+			<p>{{ ess.adress }}</p>
+			<p>{{ ess.zip_code }}</p>
 			<!-- Affichez d'autres informations selon vos besoins -->
 		</div>
 	{% endfor %}

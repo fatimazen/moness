@@ -1,63 +1,137 @@
-let ville;
+
 let distance;
 let carte;
-
-// $(window).on('load', function () {
-
+let recherche;
+/*---------------------------------
+----------------------------------
+        ON INTERGRE LA CARTE
+------------------------------------
+------------------------------/** */
 carte = L.map('Carte', {
   zoomControl: false
-
 });
+/*---------------------------------
+----------------------------------
+      ON INITIALISE LA CARTE
+------------------------------------
+------------------------------/** */
+
 var carteTiples = L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
   maxZoom: 6,
   minZoom: 5,
-  attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
-}
-);
+  attribution: 'données © <a href="//openstreetmap.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
+});
+
 carteTiples.addTo(carte);
-carte.setView([46.603354, 1.888334], 6);
+carte.setView([46.603354, 1.888334], 8
+  );
 new L.Control.Zoom({
   position: "topright"
 }).addTo(carte);
-console.log(L);
-/* contents */
-const left = '<div class="header">Slide Menu (Left)</div>';
-const right = '<div class="header">Slide Menu (Right)</div>';
-let contents = `
-<div class="content">
-    <div class="title">Read Me</div>
-    <p>A simple slide menu for Leaflet.<br>
-    When you click the menu button and the menu is displayed to slide.<br>
-    Please set the innerHTML to slide menu.</p>
-    <div class="title">Usage</div>
-    <p>L.control.slideMenu("&lt;p&gt;test&lt;/p&gt;").addTo(map);</p>
-    <div class="title">Arguments</div>
-    <p>L.control.slideMenu(&lt;String&gt;innerHTML, &lt;SlideMenu options&gt;options?)</p>
-    <div class="title">Options</div>
-    <p>position<br>
-    menuposition<br>
-    width<br>
-    height<br>
-    direction<br>
-    changeperc<br>
-    delay<br>
-    icon<br>
-    hidden</p>
-    <div class="title">Methods</div>
-    <p>setContents(&lt;String&gt;innerHTML)</p>
-    <div class="bottom">
-        <span>License <span style="font-weight: bold">MIT</span></span>
-    </div>
-</div>`;
-/* left */
-L.control.slideMenu(left + contents).addTo(carte);
-console.log(L.control);
+/*---------------------------------
+----------------------------------
+        ON INTERGRE LES MARKER
+------------------------------------
+------------------------------/** */
+
+var singleMaker = L.marker([46.603354, 1.888334]);
+var popup = singleMaker.bindPopup('this is ').openPopup()
+
+popup.addTo(carte);
+
+/*---------------------------------
+----------------------------------
+        ON INTERGRE LA SLIDMENU
+------------------------------------
+------------------------------/** */
+
+const slideMenu = L.control.slideMenu('<div id="searchBar"><input type="text" id="search-input" placeholder="Recherche..."><button id="search-button">Rechercher</button></div>');
+slideMenu.addTo(carte);
+
+/*---------------------------------
+----------------------------------
+        ON INTERGRE LA CARTE
+------------------------------------
+------------------------------/** */
+// Ajoutez une variable pour stocker la référence à la barre de recherche
+const searchBar = document.getElementById('searchbar');
+
+// Récupère les éléments de la barre de recherche
+const searchButton =document.getElementById('search-button');
+const searchInput = document.getElementById('search-input');
+const ess = searchInput.value;
+
+// Ajoute un gestionnaire d'événement lorsqu'on clique sur le bouton de recherche
+searchButton.addEventListener('click', function() {
+  // Effectue la requête AJAX en utilisant Symfony
+  fetch(`https://nominatim.openstreetmap.org/search?q=${searchInput.value}&format=json&addressdetails=[0|1]&number=1polygon_svg=1`)
+    .then(response => response.json())
+    .then(ess => {
+      console.log(ess);
+    })
+    // .catch(error => {
+    //   // Gérez les erreurs éventuelles
+    //   console.error(error);
+    // });
+
+});
+
+/**
+ * Cette fonction effectue un appel Ajax vers une url et retourne une promesse
+ * @param {string} url 
+ */
+
+function ajaxGet(url) {
+  return new Promise(function(resolve, reject) {
+    // Nous allons gérer la promesse
+    let xmlhttp = new XMLHttpRequest();
+
+    xmlhttp.onreadystatechange = function() {
+      // Si le traitement est terminé
+      if (xmlhttp.readyState == 4) {
+        // Si le traitement est un succès
+        if (xmlhttp.status == 200) {nameSturcture
+          try {
+            // Parse la réponse JSON
+            const response = JSON.parse(xmlhttp.responseText);
+            // On résoud la promesse et on renvoie la réponse
+            resolve(response);
+          } catch (error) {
+            // En cas d'erreur de parsing JSON, on rejette la promesse avec l'erreur
+            reject(error);
+          }
+        } else {
+          // On résoud la promesse et on envoie l'erreur
+          reject(xmlhttp);
+        }
+      }
+    };
+
+    // Si une erreur est survenue
+    xmlhttp.onerror = function(error) {
+      // On résoud la promesse et on envoie l'erreur
+      reject(error);
+    };
+
+    // On ouvre la requête
+    xmlhttp.open('GET', url, true);
+
+    // On ajoute un en-tête pour spécifier que nous attendons une réponse JSON
+    xmlhttp.setRequestHeader('Accept', 'application/json');
+
+    // On envoie la requête
+    xmlhttp.send(null);
+  });
+}
 
 
 
-  // let champVille = $('#champ-ville');
+
+
+
+
   // let champDistance = $('#champ-distance');
-  // let valeurDistance = $('#valeur-distance');
+  //  let valeurDistance = $('#valeur-distance');
 
   // champVille.on('change', function () {
   //   $.ajax({
@@ -104,9 +178,6 @@ console.log(L.control);
   //         bounds = circle.getBounds();
   //         carte.fitBounds(bounds);
   //       }
-  //     });
-  //   }
-  // });
-// });
+
 
 
