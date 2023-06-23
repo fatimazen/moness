@@ -24,14 +24,8 @@
 					<input type="range" min="1" max="200" id="champ-distance">
 				</p>
 				<p id="valeur-distance"></p> #}
+				
 	{% for ess in essData %}
-		<div>
-			<p>{{ ess.nameStructure }}</p>
-			<p>{{ ess.city }}</p>
-			<p>{{ ess.adress }}</p>
-			<p>{{ ess.zip_code }}</p>
-			<!-- Affichez d'autres informations selon vos besoins -->
-		</div>
 	{% endfor %}
 
 {% endblock %}

@@ -73,7 +73,6 @@ class AppFixtures extends Fixture
         }
 
 
-
         $essS = [];
         for ($i = 1; $i < 30; $i++) {
 

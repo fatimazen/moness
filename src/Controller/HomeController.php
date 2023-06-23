@@ -24,8 +24,8 @@ class HomeController extends AbstractController
     public function index(Request $request, EntityManagerInterface $entityManager, EssRepository $essRepository): Response
     {
     
-        $responseData = $this->mapController->getEssData($entityManager, $essRepository, $request);
-         $essData = new JsonResponse($responseData);
+        $essData = $this->mapController->getEssData($entityManager, $essRepository, $request);
+         $essData = new JsonResponse($essData);
          
         return $this->render('home/index.html.twig', [
             'essData' => $essData->getContent(),
@@ -33,5 +33,3 @@ class HomeController extends AbstractController
         ]);
     }
 }
-
-

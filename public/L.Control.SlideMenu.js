@@ -28,7 +28,7 @@ L.Control.SlideMenu = L.Control.extend({
             this.options.menuposition == 'topright' ? true : false;
         this._isHorizontal = this.options.direction == 'horizontal' ? true : false;
     },
-    
+
 
     onAdd: function (map) {
         this._container = L.DomUtil.create('div', 'leaflet-control-slidemenu leaflet-bar leaflet-control');
@@ -37,6 +37,7 @@ L.Control.SlideMenu = L.Control.extend({
         L.DomUtil.create('span', this.options.icon, link);
 
         this._menu = L.DomUtil.create('div', 'leaflet-menu', map._container);
+
 
         this._menu.style.width = this.options.width;
         this._menu.style.height = this.options.height;
@@ -73,6 +74,7 @@ L.Control.SlideMenu = L.Control.extend({
                 this._menu.style.bottom = '-' + this.options.height;
             }
         }
+
 
         var closeButton = L.DomUtil.create('button', 'leaflet-menu-close-button', this._menu);
 
@@ -117,13 +119,13 @@ L.Control.SlideMenu = L.Control.extend({
 
         L.DomEvent.disableClickPropagation(this._menu);
         L.DomEvent
-        .on(link, 'click', L.DomEvent.stopPropagation)
-        .on(link, 'click', function () {
-            // Open
-            this._animate(this._menu, frominit, 0, true, ispx, unit);
-        }, this)
-        .on(closeButton, 'click', L.DomEvent.stopPropagation)
-        .on(closeButton, 'click', function () {
+            .on(link, 'click', L.DomEvent.stopPropagation)
+            .on(link, 'click', function () {
+                // Open
+                this._animate(this._menu, frominit, 0, true, ispx, unit);
+            }, this)
+            .on(closeButton, 'click', L.DomEvent.stopPropagation)
+            .on(closeButton, 'click', function () {
                 console.log(animate)
                 // Close 
                 console.log(this);
@@ -139,6 +141,88 @@ L.Control.SlideMenu = L.Control.extend({
         if (this.options.hidden) {
             this.hide();
         }
+
+        var regionLabel = L.DomUtil.create('label', 'leaflet-menu-filter-label', this._contents);
+        regionLabel.innerHTML = 'Région';
+        regionLabel.setAttribute('for', 'region-filter');
+
+        var regionSelect = L.DomUtil.create('select', 'leaflet-menu-filter', this._contents);
+        regionSelect.id = 'region-filter';
+        // Ajouter les options du menu déroulant pour la région
+        var regionOptions = [
+            { value: 'region1', label: 'Auvergne-Rhône-Alpes' },
+            { value: 'region2', label: 'Bourgogne-Franche-Comté' },
+            { value: 'region3', label: 'Bretagne' },
+            { value: 'region4', label: 'Centre Val de Loir' },
+            { value: 'region5', label: 'Centre Val de Loire' },
+            { value: 'region6', label: 'Corse' },
+            { value: 'region7', label: 'Grand Est' },
+            { value: 'region8', label: 'Hauts-de-France' },
+            { value: 'region9', label: 'Île-de-France' },
+            { value: 'region10', label: 'Normandie' },
+            { value: 'region11', label: 'Nouvelle Aquitaine' },
+            { value: 'region12', label: 'Pays de la Loire' },
+
+            // Ajoutez d'autres régions si nécessaire
+
+        ];
+        regionOptions.forEach(function (option) {
+            var regionOption = L.DomUtil.create('option', '', regionSelect);
+            regionOption.value = option.value;
+            regionOption.text = option.label;
+        });
+        // Ajouter les filtres à coche
+        var activityFilter = L.DomUtil.create('div', 'leaflet-menu-filter', this._contents);
+
+        var activityLabel = L.DomUtil.create('label', 'leaflet-menu-filter-label', activityFilter);
+        activityLabel.innerHTML = 'Secteur-activité';
+
+
+
+        var activitySelect = L.DomUtil.create('select', 'leaflet-menu-filter-select', activityFilter);
+        activitySelect.id = 'secteur-activity-filter';
+        activitySelect.innerHTML = '<option value=""> Agriculture, sylviculture et pêche</option>' +
+            '<option value="activity1">Industries extractives</option>' +
+            '<option value="activity2">Industrie manufacturière</option>' +
+            '<option value="activity3">Production et distribution d\'électricité, de gaz, de vapeur et d\'air conditionné</option>'+
+        '<option value="activity3"> Production et distribution d\'eau; assainissement, gestion des déchets et dépollution</option>'+
+        '<option value="activity3">Commerce ; réparation d\'automobiles et de motocycles</option>'+
+        '<option value="activity3">Transports et entreposage</option>'+
+        '<option value="activity3">Hébergement et restauration</option>'+
+        '<option value="activity3">Information et communication</option>'+
+        '<option value="activity3">Activités financières et d\'assurance</option>'+
+        '<option value="activity3">Activités immobilières</option>'+
+        '<option value="activity3">Activités spécialisées, scientifiques et techniques</option>'+
+        '<option value="activity3">Activités de services administratifs et de soutien</option>'+
+        '<option value="activity3">Administration publique</option>'+
+        '<option value="activity3">Enseignement</option>'+
+        '<option value="activity3">Santé humaine et action sociale</option>'+
+        '<option value="activity3">Arts,spectacles et activités récréatives</option>'+
+        '<option value="activity3">Arts,spectacles et activités récréatives</option>'+
+        '<option value="activity3">Arts,spectacles et activités récréatives</option>'+
+        '<option value="activity3">Autres activités de services</option>'+
+        '<option value="activity3">Activités des ménages en tant qu\'employeurs ; activités indifférenciées des ménages en tant que producteurs de biens et services pour usage propre</option>'+
+        '<option value="activity3">Activités extra-territoriales</option>';
+
+
+        var activityFilter = L.DomUtil.create('div', 'leaflet-menu-filter', this._contents);
+        
+        var activityLabel = L.DomUtil.create('label', 'leaflet-menu-filter-label', activityFilter);
+        activityLabel.innerHTML = 'Activité';
+
+        var activitySelect = L.DomUtil.create('select', 'leaflet-menu-filter-select', activityFilter);
+        activitySelect.id = 'activity-filter';
+        activitySelect.innerHTML = '<option value="">Restauration</option>'+
+            '<option value="activity1">Snack</option>'+
+            '<option value="activity2">Traiteur</option>'+
+            '<option value="activity3">Collectivité</option>'+
+            '<option value="activity4">Collectivité</option>'+
+            '<option value="activity5">Collectivité</option>'+
+            '<option value="activity6">Collectivité</option>'+
+            '<option value="activity7">Collectivité</option>'+
+            '<option value="activity8">Collectivité</option>'+
+            '<option value="activity9">Collectivité</option>';
+
 
         return this._container;
     },
@@ -195,4 +279,3 @@ L.Control.SlideMenu = L.Control.extend({
 L.control.slideMenu = function (innerHTML, options) {
     return new L.Control.SlideMenu(innerHTML, options);
 };
-

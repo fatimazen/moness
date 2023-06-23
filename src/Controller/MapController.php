@@ -31,7 +31,12 @@ class MapController extends AbstractController
                 $bldgData[] = [
                     'latitude' => $geoLocalisation->getLatitude(),
                     'longitude' => $geoLocalisation->getLongitude(),
-                    
+                    'nameStructure'=>$ess->getNameStructure(),
+                    'city'=>$ess->getCity(),
+                    'zipCode'=>$ess->getZipCode(),
+                    'sectorActivity'=>$ess->getSectorActivity(),
+                    'activity'=>$ess->getActivity(),
+                    'adresse'=>$ess->getAdress(),
                     // Ajouter d'autres informations que vous souhaitez afficher dans la carte
                     // par exemple : 'nom' => $ess->getNom(), 'description' => $ess->getDescription(), etc.
                 ];
@@ -41,5 +46,8 @@ class MapController extends AbstractController
 
         // Répondre avec les données 
         return $this->render('home/index.html.twig', [
-            'bldgData' => json_encode($bldgData),         ]);    }
+            'bldgData' => json_encode($bldgData),  
+            'essData'=> $essData
+         ]);    
+        }
 }
