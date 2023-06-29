@@ -2,7 +2,7 @@ let distance;
 let carte;
 let recherche;
 var markerClusters = L.markerClusterGroup();
-var iconBase = "image/marker.png";
+// var iconBase = "image/marker.png";
 var markers = [];
 var essData = { latitude: 0, longitude: 0, nameStructure: "" };
 
@@ -20,6 +20,7 @@ var carteTiles = L.tileLayer(
     minZoom: 1,
     maxZoom: 20,
     name: "tiles",
+  
   }
 );
 
@@ -71,7 +72,7 @@ searchButton.addEventListener("click", function () {
     });
 });
 
-champDistance.addEventListener("click", function () {
+champDistance.addEventListener("click", function (a) {
 
   distance = champDistance.value;
   valeurDistance.textContent = distance + "Km";
@@ -79,8 +80,8 @@ champDistance.addEventListener("click", function () {
   if (essData.latitude !== 0 && essData.longitude !== 0) {
 
     fetch(
-      `http://127.0.0.1:8000/getEssData?latitude=${essData.latitude}&longitude=${essData.longitude}&distance=${distance}`
-    )
+      `http://127.0.0.1:8000/getEssData?latitude=${essData.latitude}&longitude=${essData.longitude}&distance=${distance}`)
+
       .then((response) => response.json())
       .then((bldgData) => {
         console.log("response", bldgData);
@@ -99,21 +100,22 @@ champDistance.addEventListener("click", function () {
         var icone = L.icon({
           iconUrl: "image/marker.png",
           iconSize: [50, 50],
-          iconAnchor: [25, 50],
+          iconAnchor: [50, 50],
           popupAnchor: [-3, -76],
         });
 
-        Object.entries(bldgData).forEach(Element => {
-          console.log("maker", Element[1]);
-          var marker = L.marker([Element[1].latitude, Element[1].longitude], { icon: icone });
-          marker.bindPopup(Element[1].nameStructure);
-          markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
-          markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
-          // console.log(marker);
+        (bldgData).forEach(Element => {
+          // console.log("maker", Element[1]);
+          var marker = L.marker([Element.latitude, Element.longitude]).addTo(carte);
+          marker.bindPopup(Element.nameStructure);
+          console.log(marker);
+          // markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
+          // markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
+          // // console.log(marker);
         })
-        var group = new L.featureGroup(markers); // Nous créons le groupe des marqueurs pour adapter le zoom
-        carte.fitBounds(group.getBounds().pad(0.5)); // Nous demandons à ce que tous les marqueurs soient visibles, et ajoutons un padding (pad(0.5)) pour que les marqueurs ne soient pas coupés
-        carte.addLayer(markerClusters);
+        // var group = new L.featureGroup(markers); // Nous créons le groupe des marqueurs pour adapter le zoom
+        // carte.fitBounds(group.getBounds().pad(0.5)); // Nous demandons à ce que tous les marqueurs soient visibles, et ajoutons un padding (pad(0.5)) pour que les marqueurs ne soient pas coupés
+        // carte.addLayer(markerClusters);
         // On centre et on zoome sur le cercle
         bounds = circle.getBounds();
         carte.fitBounds(bounds);
@@ -122,7 +124,7 @@ champDistance.addEventListener("click", function () {
       .catch((error) => {
         console.error(error);
       });
-  }
+}
 });
 
 function ajaxGet(url) {
