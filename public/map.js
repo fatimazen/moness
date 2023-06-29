@@ -2,7 +2,7 @@ let distance;
 let carte;
 let recherche;
 var markerClusters = L.markerClusterGroup();
-var iconBase = "/image/marker.png";
+// var iconBase = "image/marker.png";
 var markers = [];
 var essData = { latitude: 0, longitude: 0, nameStructure: "" };
 
@@ -20,6 +20,7 @@ var carteTiles = L.tileLayer(
     minZoom: 1,
     maxZoom: 20,
     name: "tiles",
+
   }
 );
 
@@ -41,27 +42,30 @@ const searchButton = document.getElementById("search-button");
 const searchInput = document.getElementById("search-input");
 const champDistance = document.getElementById("champ-distance");
 const valeurDistance = document.getElementById("valeur-distance");
+let regionFiltre = document.getElementById('region-filter').value;
+let sectorActivity = document.getElementById('activity-filter').value;
 
 searchButton.addEventListener("click", function () {
   var ess = searchInput.value;
-
+  // On envoie la requête ajax vers nominatim et on traite la réponse
   fetch(
-    `https://nominatim.openstreetmap.org/search?q=${searchInput.value}&format=json&addressdetails=[0|1]&number=1polygon_svg=1`
-  )
+    `https://nominatim.openstreetmap.org/search?q=${searchInput.value}&format=json&addressdetails=[0|1]&countrycodes=fr&limit=1&polygon_svg=1`)
     .then((reponse) => reponse.json())
     .then((bldgData) => {
       console.log("bldgdata", bldgData);
-      console.log("ville", ess);
+      // console.log("ville", ess);
+      // On stocke la latitude et la longitude dans les variables  
       let latitude = bldgData[0].lat;
       let longitude = bldgData[0].lon;
       essData.latitude = latitude;
       essData.longitude = longitude;
       essData.nameStructure = ess;
-
+      // On centre la carte sur la ville
       carte.panTo([essData.latitude, essData.longitude]);
-
+//  on affiche l icones de la variable essData
       var marker = L.marker([essData.latitude, essData.longitude]).addTo(carte);
-      marker.bindPopup(essData.nameStructure);
+      //  on utilise la propriété display_name du premier résultat de la recherche (bldgData[0]) pour afficher le nom complet de la ville dans le popup.
+      marker.bindPopup(bldgData[0].display_name);
 
     })
     .catch((error) => {
@@ -69,16 +73,17 @@ searchButton.addEventListener("click", function () {
     });
 });
 
-champDistance.addEventListener("change", function () {
-
+champDistance.addEventListener("click", function () {
+  // On récupère la distance choisie
   distance = champDistance.value;
   valeurDistance.textContent = distance + "Km";
 
+  // On vérifie si une ville a été saisie
   if (essData.latitude !== 0 && essData.longitude !== 0) {
 
     fetch(
-      `http://127.0.0.1:8000/getEssData?latitude=${essData.latitude}&longitude=${essData.longitude}&distance=${distance}`
-    )
+      `http://127.0.0.1:8000/getEssData?latitude=${essData.latitude}&longitude=${essData.longitude}&distance=${distance}`)
+
       .then((response) => response.json())
       .then((bldgData) => {
         console.log("response", bldgData);
@@ -94,17 +99,12 @@ champDistance.addEventListener("change", function () {
           fillOpacity: 0.3,
           radius: distance * 1000,
         }).addTo(carte);
-        var icone = L.icon({
-          iconUrl: iconBase ,
-          iconSize: [50, 50],
-          iconAnchor: [25, 50],
-          popupAnchor: [-3, -76],
-        });
 
-        Object.entries(bldgData).forEach(Element => {
-          // console.log("maker",Element[1]);
-          var marker = L.marker([Element[1].latitude, Element[1].longitude],{icon:icone});
-          marker.bindPopup(Element);
+                    // On boucle sur les données 
+        (bldgData).forEach(Element => {
+          // console.log("maker", Element[1]);
+          var marker = L.marker([Element.latitude, Element.longitude])
+          marker.bindPopup(Element.nameStructure);
           markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
           markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
           // console.log(marker);

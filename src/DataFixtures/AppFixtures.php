@@ -206,8 +206,8 @@ class AppFixtures extends Fixture
 
             $geolocalisation = new GeoLocalisationEss();
             $geolocalisation
-                ->setLatitude($faker->latitude(-90, 90))
-                ->setLongitude($faker->longitude(-180, 180))
+                ->setLatitude($faker->latitude(44, 47))
+                ->setLongitude($faker->longitude(-1,5))
                 ->setEss($ess);
 
             $manager->persist($geolocalisation);

@@ -14,22 +14,13 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class HomeController extends AbstractController
 {
-    private $mapController;
 
-    public function __construct(MapController $mapController)
-{
-    $this->mapController = $mapController;
-}
     #[Route('/', name: 'home.index')]
     public function index(Request $request, EntityManagerInterface $entityManager, EssRepository $essRepository): Response
     {
-    
-        $essData = $this->mapController->getEssData($entityManager, $essRepository, $request);
-         $essData = new JsonResponse($essData);
-         
-        return $this->render('home/index.html.twig', [
-            'essData' => $essData->getContent(),
 
+        return $this->render('home/index.html.twig', [
+    
         ]);
     }
 }
