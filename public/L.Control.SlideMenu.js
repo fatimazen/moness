@@ -177,9 +177,9 @@ L.Control.SlideMenu = L.Control.extend({
 
 
 
-        var activitySelect = L.DomUtil.create('select', 'leaflet-menu-filter-select', activityFilter);
-        activitySelect.id = 'secteur-activity-filter';
-        activitySelect.innerHTML = '<option value=""> Agriculture, sylviculture et pêche</option>' +
+        var sectorActivity = L.DomUtil.create('select', 'leaflet-menu-filter-select', activityFilter);
+        sectorActivity.id = 'secteur-activity-filter';
+        sectorActivity.innerHTML = '<option value=""> Agriculture, sylviculture et pêche</option>' +
             '<option value="activity1">Industries extractives</option>' +
             '<option value="activity2">Industrie manufacturière</option>' +
             '<option value="activity3">Production et distribution d\'électricité, de gaz, de vapeur et d\'air conditionné</option>'+
