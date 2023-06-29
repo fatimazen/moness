@@ -20,7 +20,7 @@ var carteTiles = L.tileLayer(
     minZoom: 1,
     maxZoom: 20,
     name: "tiles",
-  
+
   }
 );
 
@@ -47,21 +47,22 @@ let sectorActivity = document.getElementById('activity-filter').value;
 
 searchButton.addEventListener("click", function () {
   var ess = searchInput.value;
-
+  // On envoie la requête ajax vers nominatim et on traite la réponse
   fetch(
     `https://nominatim.openstreetmap.org/search?q=${searchInput.value}&format=json&addressdetails=[0|1]&countrycodes=fr&limit=1&polygon_svg=1`)
     .then((reponse) => reponse.json())
     .then((bldgData) => {
       console.log("bldgdata", bldgData);
-      console.log("ville", ess);
+      // console.log("ville", ess);
+      // On stocke la latitude et la longitude dans les variables  
       let latitude = bldgData[0].lat;
       let longitude = bldgData[0].lon;
       essData.latitude = latitude;
       essData.longitude = longitude;
       essData.nameStructure = ess;
-
+      // On centre la carte sur la ville
       carte.panTo([essData.latitude, essData.longitude]);
-
+//  on affiche l icones de la variable essData
       var marker = L.marker([essData.latitude, essData.longitude]).addTo(carte);
       //  on utilise la propriété display_name du premier résultat de la recherche (bldgData[0]) pour afficher le nom complet de la ville dans le popup.
       marker.bindPopup(bldgData[0].display_name);
@@ -72,11 +73,12 @@ searchButton.addEventListener("click", function () {
     });
 });
 
-champDistance.addEventListener("click", function (a) {
-
+champDistance.addEventListener("click", function () {
+  // On récupère la distance choisie
   distance = champDistance.value;
   valeurDistance.textContent = distance + "Km";
 
+  // On vérifie si une ville a été saisie
   if (essData.latitude !== 0 && essData.longitude !== 0) {
 
     fetch(
@@ -97,25 +99,19 @@ champDistance.addEventListener("click", function (a) {
           fillOpacity: 0.3,
           radius: distance * 1000,
         }).addTo(carte);
-        var icone = L.icon({
-          iconUrl: "image/marker.png",
-          iconSize: [50, 50],
-          iconAnchor: [50, 50],
-          popupAnchor: [-3, -76],
-        });
 
+                    // On boucle sur les données 
         (bldgData).forEach(Element => {
           // console.log("maker", Element[1]);
-          var marker = L.marker([Element.latitude, Element.longitude]).addTo(carte);
+          var marker = L.marker([Element.latitude, Element.longitude])
           marker.bindPopup(Element.nameStructure);
-          console.log(marker);
-          // markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
-          // markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
-          // // console.log(marker);
+          markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
+          markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
+          // console.log(marker);
         })
-        // var group = new L.featureGroup(markers); // Nous créons le groupe des marqueurs pour adapter le zoom
-        // carte.fitBounds(group.getBounds().pad(0.5)); // Nous demandons à ce que tous les marqueurs soient visibles, et ajoutons un padding (pad(0.5)) pour que les marqueurs ne soient pas coupés
-        // carte.addLayer(markerClusters);
+        var group = new L.featureGroup(markers); // Nous créons le groupe des marqueurs pour adapter le zoom
+        carte.fitBounds(group.getBounds().pad(0.5)); // Nous demandons à ce que tous les marqueurs soient visibles, et ajoutons un padding (pad(0.5)) pour que les marqueurs ne soient pas coupés
+        carte.addLayer(markerClusters);
         // On centre et on zoome sur le cercle
         bounds = circle.getBounds();
         carte.fitBounds(bounds);
@@ -124,7 +120,7 @@ champDistance.addEventListener("click", function (a) {
       .catch((error) => {
         console.error(error);
       });
-}
+  }
 });
 
 function ajaxGet(url) {
