@@ -38,5 +38,51 @@
     color: #0443a8;
 }
 
-
+/* Style du menu déroulant */
+.leaflet-menu-filter {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+  }
+  
+  /* Style de l'étiquette du filtre */
+  .leaflet-menu-filter-label {
+    display: block;
+    margin-bottom: 3px;
+    font-weight: bold;
+  }
+  
+  /* Style du menu déroulant */
+  .leaflet-menu-filter select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+  
+  /* Style des options du menu déroulant */
+  .leaflet-menu-filter select option {
+    padding: 5px;
+  }
+  .leaflet-menu-filter {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+  }
+  
+  .leaflet-menu-filter-label {
+    display: block;
+    margin-bottom: 3px;
+    font-weight: bold;
+  }
+  
+  .leaflet-menu-filter-select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+  }
+  
 
