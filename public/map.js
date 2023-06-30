@@ -42,18 +42,22 @@ const searchButton = document.getElementById("search-button");
 const searchInput = document.getElementById("search-input");
 const champDistance = document.getElementById("champ-distance");
 const valeurDistance = document.getElementById("valeur-distance");
-let regionFiltre = document.getElementById('region-filter').value;
-let sectorActivity = document.getElementById('activity-filter').value;
+// let regionFiltre = document.getElementById('region-filter').value;
+// let sectorActivity = document.getElementById('activity-filter').value;
 
 searchButton.addEventListener("click", function () {
   var ess = searchInput.value;
+  valeurDistance.textContent = 1 + "Km";
+  champDistance.value = 1;
+
   // On envoie la requête ajax vers nominatim et on traite la réponse
   fetch(
     `https://nominatim.openstreetmap.org/search?q=${searchInput.value}&format=json&addressdetails=[0|1]&countrycodes=fr&limit=1&polygon_svg=1`)
     .then((reponse) => reponse.json())
     .then((bldgData) => {
       console.log("bldgdata", bldgData);
-      // console.log("ville", ess);
+      // on efface les markers 
+      eraseMarkers();
       // On stocke la latitude et la longitude dans les variables  
       let latitude = bldgData[0].lat;
       let longitude = bldgData[0].lon;
@@ -62,7 +66,8 @@ searchButton.addEventListener("click", function () {
       essData.nameStructure = ess;
       // On centre la carte sur la ville
       carte.panTo([essData.latitude, essData.longitude]);
-//  on affiche l icones de la variable essData
+
+      //  on affiche l icones de la variable essData
       var marker = L.marker([essData.latitude, essData.longitude]).addTo(carte);
       //  on utilise la propriété display_name du premier résultat de la recherche (bldgData[0]) pour afficher le nom complet de la ville dans le popup.
       marker.bindPopup(bldgData[0].display_name);
@@ -72,6 +77,29 @@ searchButton.addEventListener("click", function () {
       console.error(error);
     });
 });
+// Définition de la fonction handleMarkerClick en dehors de la boucle forEach
+function handleMarkerClick(event) {
+  const marker = event.target;
+
+
+  // Récupérez les informations de l'entreprise à partir du marqueur
+  const ess = marker.ess;
+
+  // Affichez les informations dans un conteneur d'informations spécifié dans votre page HTML
+  const container = document.getElementById("ess-info");
+  container.innerHTML = `
+    <h3>${ess.nom}</h3>
+    <p>${ess.adresse}</p>
+    <p>${ess.telephone}</p>
+  `;
+  console.log(container);
+}
+function eraseMarkers() {
+  carte.eachLayer(function (layer) {
+    if (layer.options.name != "tiles") carte.removeLayer(layer);
+  });
+
+}
 
 champDistance.addEventListener("click", function () {
   // On récupère la distance choisie
@@ -89,9 +117,8 @@ champDistance.addEventListener("click", function () {
         console.log("response", bldgData);
         // console.log("ess", essData);
 
-        carte.eachLayer(function (layer) {
-          if (layer.options.name != "tiles") carte.removeLayer(layer);
-        });
+        eraseMarkers();
+
         // On trace le cercle de rayon "distance"
         let circle = L.circle([essData.latitude, essData.longitude], {
           color: '#4471C4',
@@ -100,13 +127,33 @@ champDistance.addEventListener("click", function () {
           radius: distance * 1000,
         }).addTo(carte);
 
-                    // On boucle sur les données 
+        // On boucle sur les données 
         (bldgData).forEach(Element => {
           // console.log("maker", Element[1]);
           var marker = L.marker([Element.latitude, Element.longitude])
-          marker.bindPopup(Element.nameStructure);
-          markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
-          markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
+
+          // Associez les informations de l'entreprise au marqueur
+          marker.ess = {
+            nom: Element.nameStructure,
+            adresse: Element.adress,
+            description: Element.description,
+            // email: Element.email,
+            // telephone: Element.telephone,
+          };
+          // Ajoutez l'événement de clic au marqueur
+          marker.on("click", handleMarkerClick);
+          // Afficher les informations de l'entreprise dans une carte ou une boîte de dialogue
+          marker.bindPopup(`
+              <h3>${Element.nameStructure}</h3>
+              <p>${Element.adresse}</p>
+              <p>${Element.description}</p>
+          
+              `);
+
+          // Nous ajoutons le marqueur aux groupes
+          markerClusters.addLayer(marker);
+          // Nous ajoutons le marqueur à la liste des marqueurs
+          markers.push(marker);
           // console.log(marker);
         })
         var group = new L.featureGroup(markers); // Nous créons le groupe des marqueurs pour adapter le zoom
