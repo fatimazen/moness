@@ -56,7 +56,6 @@ class ActivityFixtures extends Fixture
         $this->createActivity('Orpaillage', $parent, $manager);
         $this->createActivity('Preparation des sites et terrassement', $parent, $manager);
         $this->createActivity('Travaux d\'installation électrique et d\'isolation', $parent, $manager);
-        $this->createActivity('Ramonage,nettoyage,entretient de fosse septique et désinsectissation', $parent, $manager);
         $this->createActivity('Traveaux sous-marins de forage', $parent, $manager);
 
         $manager->flush();

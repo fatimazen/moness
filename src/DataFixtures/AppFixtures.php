@@ -85,8 +85,8 @@ class AppFixtures extends Fixture
                 ->setAdress($faker->address())
                 ->setCity($faker->city())
                 ->setZipCode(str_replace(' ', '', $faker->postcode))
-                ->setSectorActivity($faker->jobTitle())
-                ->setLegalStatus($faker->randomElement(['SARL', 'SA', 'EURL', 'SASU', 'SAS']))
+                ->setSectorActivity([$faker->jobTitle()])
+                ->setLegalStatus([$faker->randomElement(['SARL', 'SA', 'EURL', 'SASU', 'SAS'])])
                 ->setDescription($faker->text(255))
                 ->setPhoneNumber(substr($faker->phoneNumber(), 0, 10))
                 ->setImage($faker->imageUrl(640, 480, 'company', true))
@@ -114,7 +114,7 @@ class AppFixtures extends Fixture
 
             // on va chercher une réference d' activité
 
-            $activity = $this->getReference('act-' . rand(1, 27));
+            $activity = $this->getReference('act-' . rand(1, 26));
             $ess->setActivity($activity);
             // // on va chercher une réference d' activité
             // $this->setReference('i-' . $i, $ess);

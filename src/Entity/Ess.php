@@ -47,11 +47,11 @@ class Ess
     #[ORM\Column(length: 5)]
     private ?string $zipCode = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $sectorActivity = null;
+    #[ORM\Column(length: 255, type:'json')]
+    private ?array $sectorActivity = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $legalStatus = null;
+    #[ORM\Column(length: 255, type:'json')]
+    private ?array $legalStatus = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
@@ -125,7 +125,7 @@ class Ess
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $closingHoursSunday = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255,nullable:true)]
     private ?string $region = null;
 
     #[ORM\Column(type: 'json', nullable: true)]
@@ -254,24 +254,24 @@ class Ess
         return $this;
     }
 
-    public function getSectorActivity(): ?string
+    public function getSectorActivity(): ?array
     {
         return $this->sectorActivity;
     }
 
-    public function setSectorActivity(string $sectorActivity): self
+    public function setSectorActivity(array $sectorActivity): self
     {
         $this->sectorActivity = $sectorActivity;
 
         return $this;
     }
 
-    public function getLegalStatus(): ?string
+    public function getLegalStatus(): ?array
     {
         return $this->legalStatus;
     }
 
-    public function setLegalStatus(string $legalStatus): self
+    public function setLegalStatus(array $legalStatus): self
     {
         $this->legalStatus = $legalStatus;
 
