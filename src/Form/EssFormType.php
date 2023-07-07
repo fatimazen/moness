@@ -207,7 +207,6 @@ class EssFormType extends AbstractType
                     'class' => 'form-label mt-4',
                 ],
                 'label' => "Adresse complète",
-                // 'mapped' => false,
             ])
             ->add('phoneNumber', TelType::class, [
                 'attr' => [
