@@ -1,4 +1,5 @@
-<div class="custom-form" style="margin: 0 auto; display: flex; justify-content: center;">	{{ form_start(essForm) }}
+<div class="custom-form" style="margin: 0 auto; display: flex; justify-content: center;">
+	{{ form_start(essForm) }}
 	{{ form_row(essForm.nameStructure, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
 	{{ form_row(essForm.sectorActivity, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
 	{{ form_row(essForm.activity, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
@@ -6,51 +7,63 @@
 	{{ form_row(essForm.siretNumber, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
 	{{ form_row(essForm.label, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
 	{{ form_row(essForm.legalStatus, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-	{{ form_row(essForm.city, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-	{{ form_row(essForm.zip_code, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-	{{ form_row(essForm.adress, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
 	{{ form_row(essForm.imageFile, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.city, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'},'id':'ville'}) }}
+	{{ form_row(essForm.zipCode, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'},'id':'cp'}) }}
+	{{ form_row(essForm.adress, {'attr': {'style': 'width: 90%; background-color: #f2f2f2;'},'id':'adresse'}) }}
 
-<h3>Carte</h3>
+	<h3>Carte</h3>
 
-<button type="submit" class="btn btn-primary" style="background-color: #25CCBF; border: none; border-radius: 15px;">Localier</button>
+	<div id="detailsMap"></div>
+	<!-- Les champs ci-dessous afficheront la latitude et la longitude -->
+	<div class="latitude">
+		<i class="fas fa-map-marker-alt"></i>
+		<label for="lat"></label>
+		<input type="text" name="lat" id="lat" readonly>
+	</div>
 
-<br><br>
-<h1 class="titre" style="font-family: Futura Md-Bt; text-align: center;">Coordonnées publiques</h1>
-<br><br>
-{{ form_row(essForm.email,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	<div class="longitude">
+		<i class="fas fa-map-marker-alt"></i>
+		<label for="lon"></label>
+		<input type="text" name="lon" id="lon" readonly>
+	</div>
+	<div class="btn">
+		<button type="submit" class="btn btn-primary" style="background-color: #25CCBF; border: none; border-radius: 15px;">Localier</button>
+	</div>
 
-{{ form_row(essForm.phoneNumber,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	<br><br>
+	<h1 class="titre" style="font-family: Futura Md-Bt; text-align: center;">Coordonnées publiques</h1>
+	<br><br>
+	{{ form_row(essForm.email,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
 
-{{ form_row(essForm.socialNetworks,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.webSite,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-<br><br>
-<h1 class="titre" style="font-family: Futura Md-Bt; text-align: center;">Contact interne à la structure</h1>
-<br><br>
-{{ form_row(essForm.lastName,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.firstName,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-<br><b>
-<h1 class="titre" style="font-family: Futura Md-Bt; text-align: center;">Horaires d'ouverture (si ouvert au public)</h1>
-<br><br>
-{{ form_row(essForm.openingHoursMonday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.closingHoursMonday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.openingHoursTuesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.closingHoursTuesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.openingHoursWednesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.closingHoursWednesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.openingHoursThursday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.closingHoursThursday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.openingHoursFriday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.closingHoursFriday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.openingHoursSaturday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.closingHoursSaturday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-{{ form_row(essForm.openingHoursSunday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}})}}
-{{ form_row(essForm.closingHoursSunday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
-<br><br>
-{# <div style="text-align: center;">
-    <button type="submit" class="btn btn-primary" style="background-color: #25CCBF; border: none; border-radius: 15px;width: 300px;">Envoyer</button>
-</div> #}
+	{{ form_row(essForm.phoneNumber,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
 
+	{{ form_row(essForm.socialNetworks,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.webSite,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	<br><br>
+	<h1 class="titre" style="font-family: Futura Md-Bt; text-align: center;">Contact interne à la structure</h1>
+	<br><br>
+	{{ form_row(essForm.lastName,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	{{ form_row(essForm.firstName,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+	<br><b>
+		<h1 class="titre" style="font-family: Futura Md-Bt; text-align: center;">Horaires d'ouverture (si ouvert au public)</h1>
+		<br><br>
+		{{ form_row(essForm.openingHoursMonday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.closingHoursMonday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.openingHoursTuesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.closingHoursTuesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.openingHoursWednesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.closingHoursWednesday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.openingHoursThursday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.closingHoursThursday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.openingHoursFriday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.closingHoursFriday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.openingHoursSaturday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.closingHoursSaturday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		{{ form_row(essForm.openingHoursSunday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}})}}
+		{{ form_row(essForm.closingHoursSunday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
+		<br><br>
+	
 
-{{ form_end(essForm) }}
-</div>
+		{{ form_end(essForm) }}
+	</div>

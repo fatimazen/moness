@@ -21,7 +21,6 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 
 
@@ -40,9 +39,6 @@ class EssFormType extends AbstractType
                 ],
             ])
             ->add('sectorActivity', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
                 'choices' => [
                     'Agriculture, sylviculture et pêche' => 'Agriculture, sylviculture et pêche',
                     'Industries extractives' => 'Industries extractives',
@@ -65,12 +61,8 @@ class EssFormType extends AbstractType
                     ' Autres activités de services' => 'Autres activités de services',
                     'Activités des ménages en tant qu\'employeurs ; activités indifférenciées des ménages en tant que producteurs de biens et services pour usage propre' => 'Activités des ménages en tant qu\'employeurs ;activités indifférenciées des ménages en tant que producteurs de biens et services pour usage propre',
                     ' Activités extra-territoriales' => 'Activités extra-territoriales',
-
                 ],
                 'label' => 'Secteur d\'activité',
-                'label_attr' => [
-                    'class' => 'form-label mt-4',
-                ],
                 'expanded' => true,
                 'multiple' => true,
             ])
@@ -89,8 +81,6 @@ class EssFormType extends AbstractType
                     'class' => 'form-label mt-4',
                 ],
             ])
-
-
             ->add('description', TextareaType::class, [
                 'attr' => [
                     'class' => 'form-label mt-4',
@@ -98,7 +88,6 @@ class EssFormType extends AbstractType
                 'constraints' => [
                     new Assert\NotBlank(),
                 ],
-
                 'label' => 'Description',
             ])
             ->add('siretNumber', TextType::class, [
@@ -114,16 +103,13 @@ class EssFormType extends AbstractType
                     new length([
                         'min' => 14,
                         'max' => 14,
-
                     ]),
                     new Regex([
                         'pattern' => '/^[0-9]{14}$/',
                         'message' => 'Le numéro SIRET doit être composé de 14 chiffres.'
                     ]),
                 ]
-
             ])
-
             ->add('email', EmailType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -140,11 +126,7 @@ class EssFormType extends AbstractType
                     new Assert\Length(['min' => 2, 'max' => 180]),
                 ],
             ])
-
             ->add('label', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
                 'choices' => [
                     'L\'agrément ESUS' => 'ESUS',
                     'ISR' => 'ISR',
@@ -155,19 +137,11 @@ class EssFormType extends AbstractType
                     'Relations Fournisseurs et Achat Responsable (RFAR)' => 'Relations Fournisseurs et Achat Responsable (RFAR)',
                     'aucun' => 'Aucun',
                 ],
-
                 'label' => 'Label',
-                'label_attr' => [
-                    'class' => 'form-label mt-4',
-                ],
-
                 'expanded' => true,
                 'multiple' => true,
             ])
             ->add('legalStatus', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'form-control',
-                ],
                 'choices' => [
                     'Entreprise individuelle (EI)' => 'Entreprise individuelle (EI)',
                     'Entreprise unipersonnelle à responsabilité limitée (EURL)' => 'Entreprise unipersonnelle à responsabilité limitée (EURL)',
@@ -181,13 +155,9 @@ class EssFormType extends AbstractType
                     'Entreprise à mission' => 'Entreprise à mission',
                 ],
                 'label' => 'Statut juridique',
-                'label_attr' => [
-                    'class' => 'form-label mt-4',
-                ],
                 'expanded' => true,
                 'multiple' => true,
             ])
-
             ->add('imageFile', VichFileType::class, [
                 'attr' => [
                     'class' => 'form-control',
@@ -203,19 +173,17 @@ class EssFormType extends AbstractType
                 'allow_delete' => true,
                 'asset_helper' => true,
             ])
-
-
             ->add('city', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
-
                 ],
                 'label' => 'Ville',
                 'label_attr' => [
                     'class' => 'form-label mt-4',
+                    'mapped' => false, // Indique que ce champ ne doit pas être mappé à l'entité
                 ],
             ])
-            ->add('zip_code', TextType::class, [
+            ->add('zipCode', TextType::class, [
                 'attr' => [
                     'class' => 'form-control',
                     'minlength' => 5,
@@ -224,6 +192,7 @@ class EssFormType extends AbstractType
                 'label' => "Code postale",
                 'label_attr' => [
                     'class' => 'form-label mt-4',
+                    'mapped' => false,
                 ],
                 'constraints' => [
                     new Length([
@@ -239,17 +208,14 @@ class EssFormType extends AbstractType
                 ],
                 'label' => "Adresse complète",
             ])
-
             ->add('phoneNumber', TelType::class, [
                 'attr' => [
                     'class' => 'form-label mt-4',
                 ],
-
                 'label' => "Numéros de téléphone",
                 'label_attr' => [
                     'class' => 'form-label mt-4',
                 ],
-
                 'constraints' => [
                     new NotBlank(),
                     new Length([
@@ -268,10 +234,8 @@ class EssFormType extends AbstractType
                 'label' => 'facebook',
                 'label_attr' => [],
             ])
-
             ->add('webSite', TextType::class, [
                 'label' => 'site-web',
-
             ])
             ->add('lastName', TextType::class, [
                 'attr' => [
@@ -293,67 +257,43 @@ class EssFormType extends AbstractType
                 ],
                 'required' => true,
             ])
-
             ->add('openingHoursMonday', TimeType::class, [
                 'label' => "ouvert le lundi à",
-                'input'=>'datetime',
-
+                'input' => 'datetime',
             ])
             ->add('closingHoursMonday', TimeType::class, [
-
                 'label' => "fermé lundi de  à",
             ])
-
             ->add('openingHoursTuesday', TimeType::class, [
-
                 'label' => "ouvert le mardi de à ",
-
             ])
             ->add('closingHoursTuesday', TimeType::class, [
-
                 'label' => "fermé mardi de  à",
             ])
-
             ->add('openingHoursWednesday', TimeType::class, [
-
                 'label' => "ouvert le mercredi de   à",
-
             ])
             ->add('closingHoursWednesday', TimeType::class, [
-
                 'label' => "fermé mercredi de   à",
             ])
-
             ->add('openingHoursThursday', TimeType::class, [
-
                 'label' => "ouvert le jeudi de   à",
-
             ])
             ->add('closingHoursThursday', TimeType::class, [
-
                 'label' => "fermé jeudi de   à",
             ])
-
             ->add('openingHoursFriday', TimeType::class, [
-
                 'label' => "ouvert le vendredi de   à",
-
             ])
             ->add('closingHoursFriday', TimeType::class, [
-
                 'label' => "fermé vendredi de   à",
             ])
-
             ->add('openingHoursSaturday', TimeType::class, [
-
                 'label' => "ouvert le samedi de   à",
-
             ])
             ->add('closingHoursSaturday', TimeType::class, [
                 'label' => "fermé samedi de   à",
             ])
-
-
             ->add('openingHoursSunday', TimeType::class, [
                 'label' => "ouvert le dimanche de   à",
             ])
@@ -366,7 +306,6 @@ class EssFormType extends AbstractType
                     'style' => 'background-color: #25CCBF; border: none; border-radius: 15px;width: 300px;'
                 ],
                 'label' => 'Envoyer',
-
             ]);
     }
 
@@ -374,13 +313,6 @@ class EssFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Ess::class,
-            // 'constraints' => [
-            //     new UniqueEntity([
-            //         'fields' => ['email'],
-
-            //         'message' => 'cette adresse e-mail est déjà utilisée'
-            //         ])
-            //     ],
         ]);
     }
 }
