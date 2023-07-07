@@ -8,9 +8,7 @@ use App\Repository\EssRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\HttpFoundation\File\File;
 use Doctrine\Common\Collections\ArrayCollection;
-use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints\Json;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -23,8 +21,8 @@ class Ess
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type:'integer')]
-    private ?int $id  ;
+    #[ORM\Column(type: 'integer')]
+    private ?int $id;
 
     #[ORM\Column(length: 255, unique: true)]
     private ?string $email = null;
@@ -47,18 +45,18 @@ class Ess
     #[ORM\Column(length: 5)]
     private ?string $zipCode = null;
 
-    #[ORM\Column(length: 255, type:'json')]
+    #[ORM\Column(length: 255, type: 'json')]
     private ?array $sectorActivity = null;
 
-    #[ORM\Column(length: 255, type:'json')]
+    #[ORM\Column(length: 255, type: 'json')]
     private ?array $legalStatus = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     #[Assert\Length(
-        min:10,
-        max:13,
+        min: 10,
+        max: 13,
     )]
     #[ORM\Column(length: 20)]
     private ?string $phoneNumber = null;
@@ -66,7 +64,7 @@ class Ess
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
-    
+
     #[Vich\UploadableField(mapping: "ess", fileNameProperty: "image")]
     private ?File $imageFile = null;
 
@@ -125,7 +123,7 @@ class Ess
     #[ORM\Column(type: Types::TIME_MUTABLE)]
     private ?\DateTimeInterface $closingHoursSunday = null;
 
-    #[ORM\Column(length: 255,nullable:true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $region = null;
 
     #[ORM\Column(type: 'json', nullable: true)]
@@ -134,7 +132,7 @@ class Ess
     #[ORM\Column(length: 14)]
     private ?string $siretNumber = null;
 
-    #[ORM\ManyToOne(inversedBy: 'ess', cascade:['persist'])]
+    #[ORM\ManyToOne(inversedBy: 'ess', cascade: ['persist'])]
     private ?Users $users = null;
 
     #[ORM\OneToMany(mappedBy: 'ess', targetEntity: Comments::class)]
@@ -144,7 +142,7 @@ class Ess
     private Collection $favoris;
 
 
-  
+
 
     #[ORM\OneToOne(mappedBy: 'ess', cascade: ['persist', 'remove'])]
     private ?GeoLocalisationEss $geoLocalisationEss = null;
@@ -154,15 +152,12 @@ class Ess
     private ?Activity $activity = null;
 
 
- 
-
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->favoris = new ArrayCollection();
         $this->updated_At = new \DateTimeImmutable();
         $this->created_At = new \DateTimeImmutable();
-        
     }
 
     public function getId(): ?int
@@ -589,7 +584,7 @@ class Ess
         return $this;
     }
 
-    public function getUsers():?Users
+    public function getUsers(): ?Users
     {
         return $this->users;
     }
@@ -690,6 +685,4 @@ class Ess
 
         return $this;
     }
-
-
 }

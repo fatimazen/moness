@@ -1,0 +1,47 @@
+
+  
+  #detailsMap{
+    width: 100%; 
+    height: 400px;
+  }
+  .latitude
+ {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 10px;
+}
+.longitude{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: flex-end;
+  margin-top: -45px;
+}
+.latitude i,
+.longitude i {
+  /* Styles de l'icône */
+  color: #555; /* Couleur de l'icône */
+  font-size: 16px; /* Taille de l'icône */
+}
+
+.latitude label,
+.longitude label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.latitude input[type="text"]
+.longitude input[type="text"] {  
+  width: 100%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f2f2f2;
+}
+.btn{
+display: flex;
+  margin-top: 10px;
+}
+
+ 

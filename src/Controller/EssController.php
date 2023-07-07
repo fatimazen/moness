@@ -32,7 +32,7 @@ class EssController extends AbstractController
         $ess = $user->getEss();
 
         $essS = $repository->findBy(['users' => $user]);
-        
+
 
         return $this->render('ess/index.html.twig', [
             'user' => $user,
@@ -93,6 +93,15 @@ class EssController extends AbstractController
         $essForm = $this->createForm(EssFormType::class, $ess);
         $essForm->handleRequest($request);
         if ($essForm->isSubmitted() && $essForm->isValid()) {
+            // Récupérer les valeurs des nouveaux champs "Ville", "Adresse" et "Code postal"sont récupérées à partir du formulaire et ensuite affectées à l'entité Ess.
+            $city = $essForm->get('city')->getData();
+            $adress = $essForm->get('adress')->getData();
+            $zipCode = $essForm->get('zipCode')->getData();
+
+            // Faites ce que vous souhaitez avec ces valeurs (par exemple, mettez à jour l'entité Ess)
+            $ess->setCity($city);
+            $ess->setAdress($adress);
+            $ess->setZipCode($zipCode);
 
             $essRepository->save($ess, true);
 

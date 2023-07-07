@@ -66,7 +66,7 @@ class MapController extends AbstractController
             'essData' => $essData
         ]);
     }
-    // permet de calculer la distance entre deux point(d un point A vers un point B) latitude et longitude
+    // permet de calculer la distance entre deux point(d'un point A vers un point B) latitude et longitude
     public function distance($lat1, $lon1, $lat2, $lon2)
     {
 
