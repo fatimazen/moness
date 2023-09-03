@@ -62,7 +62,6 @@ class MapController extends AbstractController
 
         // Répondre avec les données 
         return $this->render('home/index.html.twig', [
-            // 'bldgData' => json_encode($bldgData[]),
             'essData' => $essData
         ]);
     }

@@ -1,3 +1,4 @@
+
 let distance;
 let carte;
 let recherche;
@@ -7,10 +8,20 @@ var markers = [];
 var essData = { latitude: 0, longitude: 0, nameStructure: "" };
 
 
-
 carte = L.map("Carte", {
   zoomControl: false,
 });
+
+for (let index = 0; index < companies.length; index++) {
+  //  on utilise la propriété display_name du premier résultat de la recherche (bldgData[0]) pour afficher le nom complet de la ville dans le popup.
+  //  on affiche l icones de la variable essData
+  var marker = L.marker([companies[index].latitude, companies[index].longitude]).addTo(carte);
+  marker.bindPopup(`
+    <h3>${companies[index].name}</h3>
+    <p>${companies[index].adress}</p>
+    <p>${companies[index].description}</p>
+  `);
+}
 
 var carteTiles = L.tileLayer(
   "https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png",

@@ -71,6 +71,9 @@
     "knplabs/knp-paginator-bundle": {
         "version": "v6.2.0"
     },
+    "liip/test-fixtures-bundle": {
+        "version": "2.6.0"
+    },
     "phpunit/phpunit": {
         "version": "9.6",
         "recipe": {

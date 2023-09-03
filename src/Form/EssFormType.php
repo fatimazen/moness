@@ -257,6 +257,9 @@ class EssFormType extends AbstractType
                 ],
                 'required' => true,
             ])
+            ->add('geoLocalisationEss', GeolocalisationType::class, [
+                'label' => false
+            ])
             ->add('openingHoursMonday', TimeType::class, [
                 'label' => "ouvert le lundi à",
                 'input' => 'datetime',

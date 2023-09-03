@@ -29,15 +29,15 @@ class EssController extends AbstractController
         $user = $this->getUser();
 
         // Récupérer la collection d'ess associés à l'utilisateur
-        $ess = $user->getEss();
+        // $ess = $user->getEss();
 
-        $essS = $repository->findBy(['users' => $user]);
+        // $essS = $repository->findBy(['users' => $user]);
 
 
         return $this->render('ess/index.html.twig', [
             'user' => $user,
-            'ess' => $ess,
-            'essS' => $essS
+            // 'ess' => $ess,
+            // 'essS' => $essS
         ]);
     }
     /**
@@ -86,12 +86,13 @@ class EssController extends AbstractController
     public function edit(EssRepository $essRepository, int $id, UsersRepository $usersRepository, Request $request): Response
     {
         $user = $this->getUser();
-        $user = $usersRepository->findAll($essRepository);
+        // $user = $usersRepository->findAll($essRepository);
         $ess = $essRepository->findOneBy(["id" => $id]);
 
 
         $essForm = $this->createForm(EssFormType::class, $ess);
         $essForm->handleRequest($request);
+        
         if ($essForm->isSubmitted() && $essForm->isValid()) {
             // Récupérer les valeurs des nouveaux champs "Ville", "Adresse" et "Code postal"sont récupérées à partir du formulaire et ensuite affectées à l'entité Ess.
             $city = $essForm->get('city')->getData();

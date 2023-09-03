@@ -6,9 +6,7 @@ use Faker\Factory;
 use App\Entity\Activity;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use App\DataFixtures\AppFixtures;
 
 class ActivityFixtures extends Fixture 
 {

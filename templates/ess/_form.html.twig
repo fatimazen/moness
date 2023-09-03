@@ -19,13 +19,13 @@
 	<div class="latitude">
 		<i class="fas fa-map-marker-alt"></i>
 		<label for="lat"></label>
-		<input type="text" name="lat" id="lat" readonly>
+		{{ form_widget(essForm.geoLocalisationEss.latitude) }}
 	</div>
 
 	<div class="longitude">
 		<i class="fas fa-map-marker-alt"></i>
 		<label for="lon"></label>
-		<input type="text" name="lon" id="lon" readonly>
+		{{ form_widget(essForm.geoLocalisationEss.longitude) }}
 	</div>
 	<div class="btn">
 		<button type="submit" class="btn btn-primary" style="background-color: #25CCBF; border: none; border-radius: 15px;">Localier</button>
@@ -63,7 +63,7 @@
 		{{ form_row(essForm.openingHoursSunday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}})}}
 		{{ form_row(essForm.closingHoursSunday,{'attr': {'style': 'width: 90%; background-color: #f2f2f2;'}}) }}
 		<br><br>
-	
+
 
 		{{ form_end(essForm) }}
 	</div>
